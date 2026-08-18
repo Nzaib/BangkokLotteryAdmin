@@ -1,0 +1,546 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="return_orderModelStoreContainer" CdmEntityContainer="return_orderEntities1">
+    <FunctionImportMapping FunctionImportName="GetNumberInfo" FunctionName="return_orderModel.Store.GetNumberInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.GetNumberInfo_Result">
+          <ScalarProperty Name="opc_number_id" ColumnName="opc_number_id" />
+          <ScalarProperty Name="opc_date" ColumnName="opc_date" />
+          <ScalarProperty Name="op_number" ColumnName="op_number" />
+          <ScalarProperty Name="op_time" ColumnName="op_time" />
+          <ScalarProperty Name="cn_number" ColumnName="cn_number" />
+          <ScalarProperty Name="cn_time" ColumnName="cn_time" />
+          <ScalarProperty Name="numeber_status" ColumnName="numeber_status" />
+          <ScalarProperty Name="entrydatetime" ColumnName="entrydatetime" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Rpt_PubGetNumberInfo" FunctionName="return_orderModel.Store.Rpt_PubGetNumberInfo" />
+    <FunctionImportMapping FunctionImportName="GetSearchNumberHistory" FunctionName="return_orderModel.Store.GetSearchNumberHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.GetSearchNumberHistory_Result">
+          <ScalarProperty Name="opc_number_id" ColumnName="opc_number_id" />
+          <ScalarProperty Name="opc_date" ColumnName="opc_date" />
+          <ScalarProperty Name="op_number" ColumnName="op_number" />
+          <ScalarProperty Name="op_time" ColumnName="op_time" />
+          <ScalarProperty Name="cn_number" ColumnName="cn_number" />
+          <ScalarProperty Name="cn_time" ColumnName="cn_time" />
+          <ScalarProperty Name="numeber_status" ColumnName="numeber_status" />
+          <ScalarProperty Name="entrydatetime" ColumnName="entrydatetime" />
+          <ScalarProperty Name="open_total" ColumnName="open_total" />
+          <ScalarProperty Name="close_total" ColumnName="close_total" />
+          <ScalarProperty Name="create_by" ColumnName="create_by" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="modify_by" ColumnName="modify_by" />
+          <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+          <ScalarProperty Name="m_entrydatetime" ColumnName="m_entrydatetime" />
+          <ScalarProperty Name="game_status" ColumnName="game_status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Rpt_GetResultNumberInfo" FunctionName="return_orderModel.Store.Rpt_GetResultNumberInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.Rpt_GetResultNumberInfo_Result">
+          <ScalarProperty Name="result_main_id" ColumnName="result_main_id" />
+          <ScalarProperty Name="result_main_date" ColumnName="result_main_date" />
+          <ScalarProperty Name="sub_total" ColumnName="sub_total" />
+          <ScalarProperty Name="commision" ColumnName="commision" />
+          <ScalarProperty Name="grand_total" ColumnName="grand_total" />
+          <ScalarProperty Name="total_withdraw" ColumnName="total_withdraw" />
+          <ScalarProperty Name="total_net" ColumnName="total_net" />
+          <ScalarProperty Name="result_main_description" ColumnName="result_main_description" />
+          <ScalarProperty Name="entrydatetime" ColumnName="entrydatetime" />
+          <ScalarProperty Name="create_by" ColumnName="create_by" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="modify_by" ColumnName="modify_by" />
+          <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+          <ScalarProperty Name="m_entrydatetime" ColumnName="m_entrydatetime" />
+          <ScalarProperty Name="result_main_status" ColumnName="result_main_status" />
+          <ScalarProperty Name="username" ColumnName="username" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Rpt_GetDayWiseResultNumberInfo" FunctionName="return_orderModel.Store.Rpt_GetDayWiseResultNumberInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.Rpt_GetDayWiseResultNumberInfo_Result">
+          <ScalarProperty Name="result_main_date" ColumnName="result_main_date" />
+          <ScalarProperty Name="Total_L" ColumnName="Total_L" />
+          <ScalarProperty Name="Total_D" ColumnName="Total_D" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Rpt_GetSingleDateResultDetail" FunctionName="return_orderModel.Store.Rpt_GetSingleDateResultDetail">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.Rpt_GetSingleDateResultDetail_Result">
+          <ScalarProperty Name="result_main_id" ColumnName="result_main_id" />
+          <ScalarProperty Name="result_main_date" ColumnName="result_main_date" />
+          <ScalarProperty Name="sub_total" ColumnName="sub_total" />
+          <ScalarProperty Name="commision" ColumnName="commision" />
+          <ScalarProperty Name="grand_total" ColumnName="grand_total" />
+          <ScalarProperty Name="total_withdraw" ColumnName="total_withdraw" />
+          <ScalarProperty Name="total_net" ColumnName="total_net" />
+          <ScalarProperty Name="result_main_description" ColumnName="result_main_description" />
+          <ScalarProperty Name="entrydatetime" ColumnName="entrydatetime" />
+          <ScalarProperty Name="create_by" ColumnName="create_by" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="modify_by" ColumnName="modify_by" />
+          <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+          <ScalarProperty Name="m_entrydatetime" ColumnName="m_entrydatetime" />
+          <ScalarProperty Name="result_main_status" ColumnName="result_main_status" />
+          <ScalarProperty Name="result_type" ColumnName="result_type" />
+          <ScalarProperty Name="result_customer_name" ColumnName="result_customer_name" />
+          <ScalarProperty Name="commision_percentage" ColumnName="commision_percentage" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Rpt_PubJodiGetNumberInfo" FunctionName="return_orderModel.Store.Rpt_PubJodiGetNumberInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.Rpt_PubJodiGetNumberInfo_Result">
+          <ScalarProperty Name="dayname" ColumnName="dayname" />
+          <ScalarProperty Name="total_numer" ColumnName="total_numer" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Rpt_PubPanelGetNumberInfo" FunctionName="return_orderModel.Store.Rpt_PubPanelGetNumberInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.Rpt_PubPanelGetNumberInfo_Result">
+          <ScalarProperty Name="opc_date" ColumnName="opc_date" />
+          <ScalarProperty Name="op_number" ColumnName="op_number" />
+          <ScalarProperty Name="cn_number" ColumnName="cn_number" />
+          <ScalarProperty Name="total_number" ColumnName="total_number" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Rpt_GetDayWiseSumaryReport" FunctionName="return_orderModel.Store.Rpt_GetDayWiseSumaryReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.Rpt_GetDayWiseSumaryReport_Result">
+          <ScalarProperty Name="result_main_date" ColumnName="result_main_date" />
+          <ScalarProperty Name="game_id" ColumnName="game_id" />
+          <ScalarProperty Name="Total_L" ColumnName="Total_L" />
+          <ScalarProperty Name="Total_D" ColumnName="Total_D" />
+          <ScalarProperty Name="game_name" ColumnName="game_name" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="account_type">
+      <EntityTypeMapping TypeName="return_orderModel.account_type">
+        <MappingFragment StoreEntitySet="account_type">
+          <ScalarProperty Name="account_type_code" ColumnName="account_type_code" />
+          <ScalarProperty Name="account_type_name" ColumnName="account_type_name" />
+          <ScalarProperty Name="account_type_id" ColumnName="account_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="addcustomers">
+      <EntityTypeMapping TypeName="return_orderModel.addcustomer">
+        <MappingFragment StoreEntitySet="addcustomer">
+          <ScalarProperty Name="active_status" ColumnName="active_status" />
+          <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+          <ScalarProperty Name="modify_by" ColumnName="modify_by" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="create_by" ColumnName="create_by" />
+          <ScalarProperty Name="customer_orderby" ColumnName="customer_orderby" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="addgames">
+      <EntityTypeMapping TypeName="return_orderModel.addgame">
+        <MappingFragment StoreEntitySet="addgames">
+          <ScalarProperty Name="game_run_days" ColumnName="game_run_days" />
+          <ScalarProperty Name="game_close_time" ColumnName="game_close_time" />
+          <ScalarProperty Name="game_open_time" ColumnName="game_open_time" />
+          <ScalarProperty Name="game_text_description" ColumnName="game_text_description" />
+          <ScalarProperty Name="game_color" ColumnName="game_color" />
+          <ScalarProperty Name="game_orderby" ColumnName="game_orderby" />
+          <ScalarProperty Name="game_status" ColumnName="game_status" />
+          <ScalarProperty Name="game_enter_date" ColumnName="game_enter_date" />
+          <ScalarProperty Name="game_name" ColumnName="game_name" />
+          <ScalarProperty Name="game_id" ColumnName="game_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cat1">
+      <EntityTypeMapping TypeName="return_orderModel.cat1">
+        <MappingFragment StoreEntitySet="cat1">
+          <ScalarProperty Name="account_type_id" ColumnName="account_type_id" />
+          <ScalarProperty Name="cat1_code" ColumnName="cat1_code" />
+          <ScalarProperty Name="cat1_name" ColumnName="cat1_name" />
+          <ScalarProperty Name="cat1_id" ColumnName="cat1_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="chart_of_account">
+      <EntityTypeMapping TypeName="return_orderModel.chart_of_account">
+        <MappingFragment StoreEntitySet="chart_of_account">
+          <ScalarProperty Name="add_club_id" ColumnName="add_club_id" />
+          <ScalarProperty Name="account_description" ColumnName="account_description" />
+          <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+          <ScalarProperty Name="modify_by" ColumnName="modify_by" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="create_by" ColumnName="create_by" />
+          <ScalarProperty Name="opening_balance_amount" ColumnName="opening_balance_amount" />
+          <ScalarProperty Name="opening_balance_type" ColumnName="opening_balance_type" />
+          <ScalarProperty Name="cat1_id" ColumnName="cat1_id" />
+          <ScalarProperty Name="account_type_id" ColumnName="account_type_id" />
+          <ScalarProperty Name="account_code" ColumnName="account_code" />
+          <ScalarProperty Name="account_name" ColumnName="account_name" />
+          <ScalarProperty Name="chart_id" ColumnName="chart_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="credit_entires">
+      <EntityTypeMapping TypeName="return_orderModel.credit_entires">
+        <MappingFragment StoreEntitySet="credit_entires">
+          <ScalarProperty Name="entry_define_type" ColumnName="entry_define_type" />
+          <ScalarProperty Name="before_current_balance" ColumnName="before_current_balance" />
+          <ScalarProperty Name="total_pay_amount" ColumnName="total_pay_amount" />
+          <ScalarProperty Name="total_game_amount" ColumnName="total_game_amount" />
+          <ScalarProperty Name="entire_type" ColumnName="entire_type" />
+          <ScalarProperty Name="credit_type" ColumnName="credit_type" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="create_by" ColumnName="create_by" />
+          <ScalarProperty Name="credit" ColumnName="credit" />
+          <ScalarProperty Name="debit" ColumnName="debit" />
+          <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="credit_entires_id" ColumnName="credit_entires_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="logins">
+      <EntityTypeMapping TypeName="return_orderModel.login">
+        <MappingFragment StoreEntitySet="login">
+          <ScalarProperty Name="add_club_id" ColumnName="add_club_id" />
+          <ScalarProperty Name="withouthashpassword" ColumnName="withouthashpassword" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="forgot_key" ColumnName="forgot_key" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="login_id" ColumnName="login_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manaual_journal_entry">
+      <EntityTypeMapping TypeName="return_orderModel.manaual_journal_entry">
+        <MappingFragment StoreEntitySet="manaual_journal_entry">
+          <ScalarProperty Name="entrydatetime" ColumnName="entrydatetime" />
+          <ScalarProperty Name="manaual_journal_info_id" ColumnName="manaual_journal_info_id" />
+          <ScalarProperty Name="credit" ColumnName="credit" />
+          <ScalarProperty Name="debit" ColumnName="debit" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="chart_id" ColumnName="chart_id" />
+          <ScalarProperty Name="manaual_journal_entry_id" ColumnName="manaual_journal_entry_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manaual_journal_info">
+      <EntityTypeMapping TypeName="return_orderModel.manaual_journal_info">
+        <MappingFragment StoreEntitySet="manaual_journal_info">
+          <ScalarProperty Name="second_chart_id" ColumnName="second_chart_id" />
+          <ScalarProperty Name="main_chat_id" ColumnName="main_chat_id" />
+          <ScalarProperty Name="verfication_no" ColumnName="verfication_no" />
+          <ScalarProperty Name="bluk_through" ColumnName="bluk_through" />
+          <ScalarProperty Name="approved_datetime" ColumnName="approved_datetime" />
+          <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+          <ScalarProperty Name="cancle" ColumnName="cancle" />
+          <ScalarProperty Name="approve" ColumnName="approve" />
+          <ScalarProperty Name="attachment" ColumnName="attachment" />
+          <ScalarProperty Name="voucher_type_id" ColumnName="voucher_type_id" />
+          <ScalarProperty Name="trade_type" ColumnName="trade_type" />
+          <ScalarProperty Name="m_entrydatetime" ColumnName="m_entrydatetime" />
+          <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+          <ScalarProperty Name="modify_by" ColumnName="modify_by" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="create_by" ColumnName="create_by" />
+          <ScalarProperty Name="remarkes_description" ColumnName="remarkes_description" />
+          <ScalarProperty Name="digital_receipt_id" ColumnName="digital_receipt_id" />
+          <ScalarProperty Name="add_club_id" ColumnName="add_club_id" />
+          <ScalarProperty Name="trans_date" ColumnName="trans_date" />
+          <ScalarProperty Name="voucher_no" ColumnName="voucher_no" />
+          <ScalarProperty Name="manaual_journal_info_id" ColumnName="manaual_journal_info_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="master_touch">
+      <EntityTypeMapping TypeName="return_orderModel.master_touch">
+        <MappingFragment StoreEntitySet="master_touch">
+          <ScalarProperty Name="master_touch_status" ColumnName="master_touch_status" />
+          <ScalarProperty Name="master_touch_date" ColumnName="master_touch_date" />
+          <ScalarProperty Name="master_touch_type" ColumnName="master_touch_type" />
+          <ScalarProperty Name="master_touch_number" ColumnName="master_touch_number" />
+          <ScalarProperty Name="master_touch_id" ColumnName="master_touch_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Module_info">
+      <EntityTypeMapping TypeName="return_orderModel.Module_info">
+        <MappingFragment StoreEntitySet="Module_info">
+          <ScalarProperty Name="orderby" ColumnName="orderby" />
+          <ScalarProperty Name="module_nestted_list" ColumnName="module_nestted_list" />
+          <ScalarProperty Name="module_URL" ColumnName="module_URL" />
+          <ScalarProperty Name="module_icon" ColumnName="module_icon" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="notificatios">
+      <EntityTypeMapping TypeName="return_orderModel.notificatio">
+        <MappingFragment StoreEntitySet="notificatios">
+          <ScalarProperty Name="datetime" ColumnName="datetime" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="data" ColumnName="data" />
+          <ScalarProperty Name="notification_id" ColumnName="notification_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="number_tariff">
+      <EntityTypeMapping TypeName="return_orderModel.number_tariff">
+        <MappingFragment StoreEntitySet="number_tariff">
+          <ScalarProperty Name="game_id" ColumnName="game_id" />
+          <ScalarProperty Name="game_result_number" ColumnName="game_result_number" />
+          <ScalarProperty Name="number_tariff_id" ColumnName="number_tariff_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="opc_number">
+      <EntityTypeMapping TypeName="return_orderModel.opc_number">
+        <MappingFragment StoreEntitySet="opc_number">
+          <ScalarProperty Name="game_id" ColumnName="game_id" />
+          <ScalarProperty Name="holiday_status" ColumnName="holiday_status" />
+          <ScalarProperty Name="game_status" ColumnName="game_status" />
+          <ScalarProperty Name="m_entrydatetime" ColumnName="m_entrydatetime" />
+          <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+          <ScalarProperty Name="modify_by" ColumnName="modify_by" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="create_by" ColumnName="create_by" />
+          <ScalarProperty Name="close_total" ColumnName="close_total" />
+          <ScalarProperty Name="open_total" ColumnName="open_total" />
+          <ScalarProperty Name="entrydatetime" ColumnName="entrydatetime" />
+          <ScalarProperty Name="numeber_status" ColumnName="numeber_status" />
+          <ScalarProperty Name="cn_time" ColumnName="cn_time" />
+          <ScalarProperty Name="cn_number" ColumnName="cn_number" />
+          <ScalarProperty Name="op_time" ColumnName="op_time" />
+          <ScalarProperty Name="op_number" ColumnName="op_number" />
+          <ScalarProperty Name="opc_date" ColumnName="opc_date" />
+          <ScalarProperty Name="opc_number_id" ColumnName="opc_number_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="page_info">
+      <EntityTypeMapping TypeName="return_orderModel.page_info">
+        <MappingFragment StoreEntitySet="page_info">
+          <ScalarProperty Name="orderby" ColumnName="orderby" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+          <ScalarProperty Name="page_url" ColumnName="page_url" />
+          <ScalarProperty Name="page_icon" ColumnName="page_icon" />
+          <ScalarProperty Name="page_name" ColumnName="page_name" />
+          <ScalarProperty Name="page_id" ColumnName="page_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="result_main">
+      <EntityTypeMapping TypeName="return_orderModel.result_main">
+        <MappingFragment StoreEntitySet="result_main">
+          <ScalarProperty Name="extra_detection" ColumnName="extra_detection" />
+          <ScalarProperty Name="credit_added_status" ColumnName="credit_added_status" />
+          <ScalarProperty Name="approved_date" ColumnName="approved_date" />
+          <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+          <ScalarProperty Name="cancel_date" ColumnName="cancel_date" />
+          <ScalarProperty Name="cancel_by" ColumnName="cancel_by" />
+          <ScalarProperty Name="game_id" ColumnName="game_id" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="extra_commision" ColumnName="extra_commision" />
+          <ScalarProperty Name="commision_percentage" ColumnName="commision_percentage" />
+          <ScalarProperty Name="result_type" ColumnName="result_type" />
+          <ScalarProperty Name="result_main_status" ColumnName="result_main_status" />
+          <ScalarProperty Name="m_entrydatetime" ColumnName="m_entrydatetime" />
+          <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+          <ScalarProperty Name="modify_by" ColumnName="modify_by" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="create_by" ColumnName="create_by" />
+          <ScalarProperty Name="entrydatetime" ColumnName="entrydatetime" />
+          <ScalarProperty Name="result_main_description" ColumnName="result_main_description" />
+          <ScalarProperty Name="total_net" ColumnName="total_net" />
+          <ScalarProperty Name="total_withdraw" ColumnName="total_withdraw" />
+          <ScalarProperty Name="grand_total" ColumnName="grand_total" />
+          <ScalarProperty Name="commision" ColumnName="commision" />
+          <ScalarProperty Name="sub_total" ColumnName="sub_total" />
+          <ScalarProperty Name="result_main_date" ColumnName="result_main_date" />
+          <ScalarProperty Name="result_main_id" ColumnName="result_main_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="result_sub">
+      <EntityTypeMapping TypeName="return_orderModel.result_sub">
+        <MappingFragment StoreEntitySet="result_sub">
+          <ScalarProperty Name="final_type" ColumnName="final_type" />
+          <ScalarProperty Name="final_amount" ColumnName="final_amount" />
+          <ScalarProperty Name="game_name" ColumnName="game_name" />
+          <ScalarProperty Name="special_status" ColumnName="special_status" />
+          <ScalarProperty Name="result_sub_joker" ColumnName="result_sub_joker" />
+          <ScalarProperty Name="result_sub_poker" ColumnName="result_sub_poker" />
+          <ScalarProperty Name="result_sub_single" ColumnName="result_sub_single" />
+          <ScalarProperty Name="result_sub_game_amount" ColumnName="result_sub_game_amount" />
+          <ScalarProperty Name="game_result_number" ColumnName="game_result_number" />
+          <ScalarProperty Name="result_main_id" ColumnName="result_main_id" />
+          <ScalarProperty Name="result_sub_id" ColumnName="result_sub_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="setups">
+      <EntityTypeMapping TypeName="return_orderModel.setup">
+        <MappingFragment StoreEntitySet="setup">
+          <ScalarProperty Name="Golden_Ank" ColumnName="Golden_Ank" />
+          <ScalarProperty Name="tip_number" ColumnName="tip_number" />
+          <ScalarProperty Name="setup_id" ColumnName="setup_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tip_number">
+      <EntityTypeMapping TypeName="return_orderModel.tip_number">
+        <MappingFragment StoreEntitySet="tip_number">
+          <ScalarProperty Name="Final_Ankra_status" ColumnName="Final_Ankra_status" />
+          <ScalarProperty Name="Final_Ankra_Position" ColumnName="Final_Ankra_Position" />
+          <ScalarProperty Name="Final_Ankra" ColumnName="Final_Ankra" />
+          <ScalarProperty Name="tip_position" ColumnName="tip_position" />
+          <ScalarProperty Name="game_id" ColumnName="game_id" />
+          <ScalarProperty Name="entrydatetime" ColumnName="entrydatetime" />
+          <ScalarProperty Name="tip_status" ColumnName="tip_status" />
+          <ScalarProperty Name="tip_jodi" ColumnName="tip_jodi" />
+          <ScalarProperty Name="tip_panel" ColumnName="tip_panel" />
+          <ScalarProperty Name="tip_total" ColumnName="tip_total" />
+          <ScalarProperty Name="tip_number_id" ColumnName="tip_number_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="translations">
+      <EntityTypeMapping TypeName="return_orderModel.translation">
+        <MappingFragment StoreEntitySet="translation">
+          <ScalarProperty Name="translation_id" ColumnName="translation_id" />
+          <ScalarProperty Name="swidish" ColumnName="swidish" />
+          <ScalarProperty Name="eng" ColumnName="eng" />
+          <ScalarProperty Name="class_name" ColumnName="class_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user_comments">
+      <EntityTypeMapping TypeName="return_orderModel.user_comments">
+        <MappingFragment StoreEntitySet="user_comments">
+          <ScalarProperty Name="comment_status" ColumnName="comment_status" />
+          <ScalarProperty Name="datetime" ColumnName="datetime" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="game_id" ColumnName="game_id" />
+          <ScalarProperty Name="comment_text" ColumnName="comment_text" />
+          <ScalarProperty Name="comment_id" ColumnName="comment_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user_permission">
+      <EntityTypeMapping TypeName="return_orderModel.user_permission">
+        <MappingFragment StoreEntitySet="user_permission">
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="login_id" ColumnName="login_id" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+          <ScalarProperty Name="page_id" ColumnName="page_id" />
+          <ScalarProperty Name="user_permission_id" ColumnName="user_permission_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="userroles">
+      <EntityTypeMapping TypeName="return_orderModel.userrole">
+        <MappingFragment StoreEntitySet="userroles">
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="role_name" ColumnName="role_name" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="voucher_type">
+      <EntityTypeMapping TypeName="return_orderModel.voucher_type">
+        <MappingFragment StoreEntitySet="voucher_type">
+          <ScalarProperty Name="autotime" ColumnName="autotime" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="abbreviation" ColumnName="abbreviation" />
+          <ScalarProperty Name="type_name" ColumnName="type_name" />
+          <ScalarProperty Name="voucher_type_id" ColumnName="voucher_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_GetCreditForCustomer">
+      <EntityTypeMapping TypeName="return_orderModel.View_GetCreditForCustomer">
+        <MappingFragment StoreEntitySet="View_GetCreditForCustomer">
+          <ScalarProperty Name="Pending_Game_Amount" ColumnName="Pending_Game_Amount" />
+          <ScalarProperty Name="Current_Balance" ColumnName="Current_Balance" />
+          <ScalarProperty Name="Last_Amount" ColumnName="Last_Amount" />
+          <ScalarProperty Name="credit_type" ColumnName="credit_type" />
+          <ScalarProperty Name="Last_Date" ColumnName="Last_Date" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="customer_orderby" ColumnName="customer_orderby" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_GetPages">
+      <EntityTypeMapping TypeName="return_orderModel.View_GetPages">
+        <MappingFragment StoreEntitySet="View_GetPages">
+          <ScalarProperty Name="page_name" ColumnName="page_name" />
+          <ScalarProperty Name="page_id" ColumnName="page_id" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_GetUserPermissionModule">
+      <EntityTypeMapping TypeName="return_orderModel.View_GetUserPermissionModule">
+        <MappingFragment StoreEntitySet="View_GetUserPermissionModule">
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="module_nestted_list" ColumnName="module_nestted_list" />
+          <ScalarProperty Name="module_icon" ColumnName="module_icon" />
+          <ScalarProperty Name="module_URL" ColumnName="module_URL" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_GetUserPermissions">
+      <EntityTypeMapping TypeName="return_orderModel.View_GetUserPermissions">
+        <MappingFragment StoreEntitySet="View_GetUserPermissions">
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="page_name" ColumnName="page_name" />
+          <ScalarProperty Name="page_id" ColumnName="page_id" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+          <ScalarProperty Name="login_id" ColumnName="login_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AssignGamesToUsers">
+      <EntityTypeMapping TypeName="return_orderModel.AssignGamesToUser">
+        <MappingFragment StoreEntitySet="AssignGamesToUser">
+          <ScalarProperty Name="staus" ColumnName="staus" />
+          <ScalarProperty Name="login_id" ColumnName="login_id" />
+          <ScalarProperty Name="game_id" ColumnName="game_id" />
+          <ScalarProperty Name="Assign_id" ColumnName="Assign_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Rpt_GetAssignGamesToUser" FunctionName="return_orderModel.Store.Rpt_GetAssignGamesToUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.Rpt_GetAssignGamesToUser_Result">
+          <ScalarProperty Name="game_id" ColumnName="game_id" />
+          <ScalarProperty Name="game_name" ColumnName="game_name" />
+          <ScalarProperty Name="staus" ColumnName="staus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

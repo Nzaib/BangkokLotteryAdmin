@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="return_orderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="account_type">
+    <Key>
+      <PropertyRef Name="account_type_id" />
+    </Key>
+    <Property Name="account_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_type_name" Type="varchar(max)" />
+    <Property Name="account_type_code" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="addcustomer">
+    <Key>
+      <PropertyRef Name="customer_id" />
+    </Key>
+    <Property Name="customer_name" Type="varchar(max)" />
+    <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="customer_orderby" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="create_by" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="modify_by" Type="int" />
+    <Property Name="modify_date" Type="datetime" />
+    <Property Name="active_status" Type="bit" />
+  </EntityType>
+  <EntityType Name="addgames">
+    <Key>
+      <PropertyRef Name="game_id" />
+    </Key>
+    <Property Name="game_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="game_name" Type="varchar(max)" />
+    <Property Name="game_enter_date" Type="date" />
+    <Property Name="game_status" Type="bit" />
+    <Property Name="game_orderby" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="game_color" Type="varchar(max)" />
+    <Property Name="game_text_description" Type="nvarchar(max)" />
+    <Property Name="game_open_time" Type="varchar(max)" />
+    <Property Name="game_close_time" Type="varchar(max)" />
+    <Property Name="game_run_days" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="AssignGamesToUser">
+    <Key>
+      <PropertyRef Name="Assign_id" />
+    </Key>
+    <Property Name="Assign_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="game_id" Type="int" Nullable="false" />
+    <Property Name="login_id" Type="int" Nullable="false" />
+    <Property Name="staus" Type="bit" />
+  </EntityType>
+  <EntityType Name="cat1">
+    <Key>
+      <PropertyRef Name="cat1_id" />
+    </Key>
+    <Property Name="cat1_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cat1_name" Type="varchar(max)" />
+    <Property Name="cat1_code" Type="varchar(max)" />
+    <Property Name="account_type_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="chart_of_account">
+    <Key>
+      <PropertyRef Name="chart_id" />
+    </Key>
+    <Property Name="chart_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_name" Type="varchar(max)" />
+    <Property Name="account_code" Type="varchar(max)" />
+    <Property Name="account_type_id" Type="int" Nullable="false" />
+    <Property Name="cat1_id" Type="int" />
+    <Property Name="opening_balance_type" Type="varchar" MaxLength="50" />
+    <Property Name="opening_balance_amount" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="create_by" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="modify_by" Type="int" />
+    <Property Name="modify_date" Type="datetime" />
+    <Property Name="account_description" Type="varchar(max)" />
+    <Property Name="add_club_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="credit_entires">
+    <Key>
+      <PropertyRef Name="credit_entires_id" />
+    </Key>
+    <Property Name="credit_entires_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="customer_id" Type="int" Nullable="false" />
+    <Property Name="trans_date" Type="date" />
+    <Property Name="debit" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="credit" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="create_by" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="credit_type" Type="varchar" MaxLength="50" />
+    <Property Name="entire_type" Type="varchar" MaxLength="50" />
+    <Property Name="total_game_amount" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="total_pay_amount" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="before_current_balance" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="entry_define_type" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="login">
+    <Key>
+      <PropertyRef Name="login_id" />
+    </Key>
+    <Property Name="login_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar(max)" />
+    <Property Name="password" Type="varchar(max)" />
+    <Property Name="email" Type="varchar(max)" />
+    <Property Name="role_id" Type="int" />
+    <Property Name="date" Type="date" />
+    <Property Name="forgot_key" Type="varchar(max)" />
+    <Property Name="status" Type="varchar(max)" />
+    <Property Name="withouthashpassword" Type="varchar(max)" />
+    <Property Name="add_club_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="manaual_journal_entry">
+    <Key>
+      <PropertyRef Name="manaual_journal_entry_id" />
+    </Key>
+    <Property Name="manaual_journal_entry_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="chart_id" Type="int" Nullable="false" />
+    <Property Name="description" Type="varchar(max)" />
+    <Property Name="debit" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="credit" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="manaual_journal_info_id" Type="int" Nullable="false" />
+    <Property Name="entrydatetime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="manaual_journal_info">
+    <Key>
+      <PropertyRef Name="manaual_journal_info_id" />
+    </Key>
+    <Property Name="manaual_journal_info_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="voucher_no" Type="varchar(max)" />
+    <Property Name="trans_date" Type="date" />
+    <Property Name="add_club_id" Type="int" Nullable="false" />
+    <Property Name="digital_receipt_id" Type="int" />
+    <Property Name="remarkes_description" Type="varchar(max)" />
+    <Property Name="create_by" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="modify_by" Type="int" />
+    <Property Name="modify_date" Type="datetime" />
+    <Property Name="m_entrydatetime" Type="datetime" />
+    <Property Name="trade_type" Type="varchar(max)" />
+    <Property Name="voucher_type_id" Type="int" />
+    <Property Name="attachment" Type="varchar(max)" />
+    <Property Name="approve" Type="bit" />
+    <Property Name="cancle" Type="bit" />
+    <Property Name="approved_by" Type="int" />
+    <Property Name="approved_datetime" Type="datetime" />
+    <Property Name="bluk_through" Type="bit" />
+    <Property Name="verfication_no" Type="varchar(max)" />
+    <Property Name="main_chat_id" Type="int" />
+    <Property Name="second_chart_id" Type="int" />
+  </EntityType>
+  <EntityType Name="master_touch">
+    <Key>
+      <PropertyRef Name="master_touch_id" />
+    </Key>
+    <Property Name="master_touch_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="master_touch_number" Type="varchar" MaxLength="50" />
+    <Property Name="master_touch_type" Type="varchar" MaxLength="50" />
+    <Property Name="master_touch_date" Type="date" />
+    <Property Name="master_touch_status" Type="bit" />
+  </EntityType>
+  <EntityType Name="Module_info">
+    <Key>
+      <PropertyRef Name="module_id" />
+    </Key>
+    <Property Name="module_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="module_name" Type="varchar(max)" />
+    <Property Name="module_icon" Type="varchar(max)" />
+    <Property Name="module_URL" Type="varchar(max)" />
+    <Property Name="module_nestted_list" Type="bit" />
+    <Property Name="orderby" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="notificatios">
+    <Key>
+      <PropertyRef Name="notification_id" />
+    </Key>
+    <Property Name="notification_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="data" Type="varchar(max)" />
+    <Property Name="email" Type="varchar(max)" />
+    <Property Name="status" Type="varchar(max)" />
+    <Property Name="datetime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="number_tariff">
+    <Key>
+      <PropertyRef Name="number_tariff_id" />
+    </Key>
+    <Property Name="number_tariff_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="game_result_number" Type="varchar" MaxLength="50" />
+    <Property Name="game_id" Type="int" />
+  </EntityType>
+  <EntityType Name="opc_number">
+    <Key>
+      <PropertyRef Name="opc_number_id" />
+    </Key>
+    <Property Name="opc_number_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="opc_date" Type="date" />
+    <Property Name="op_number" Type="varchar" MaxLength="50" />
+    <Property Name="op_time" Type="datetime" />
+    <Property Name="cn_number" Type="varchar" MaxLength="50" />
+    <Property Name="cn_time" Type="datetime" />
+    <Property Name="numeber_status" Type="bit" />
+    <Property Name="entrydatetime" Type="datetime" />
+    <Property Name="open_total" Type="varchar" MaxLength="50" />
+    <Property Name="close_total" Type="varchar" MaxLength="50" />
+    <Property Name="create_by" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="modify_by" Type="int" />
+    <Property Name="modify_date" Type="datetime" />
+    <Property Name="m_entrydatetime" Type="datetime" />
+    <Property Name="game_status" Type="varchar" MaxLength="50" />
+    <Property Name="holiday_status" Type="bit" />
+    <Property Name="game_id" Type="int" />
+  </EntityType>
+  <EntityType Name="page_info">
+    <Key>
+      <PropertyRef Name="page_id" />
+    </Key>
+    <Property Name="page_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="page_name" Type="varchar(max)" />
+    <Property Name="page_icon" Type="varchar(max)" />
+    <Property Name="page_url" Type="varchar(max)" />
+    <Property Name="module_id" Type="int" Nullable="false" />
+    <Property Name="orderby" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="result_main">
+    <Key>
+      <PropertyRef Name="result_main_id" />
+    </Key>
+    <Property Name="result_main_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="result_main_date" Type="date" />
+    <Property Name="sub_total" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="commision" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="grand_total" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="total_withdraw" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="total_net" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="result_main_description" Type="varchar(max)" />
+    <Property Name="entrydatetime" Type="datetime" />
+    <Property Name="create_by" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="modify_by" Type="int" />
+    <Property Name="modify_date" Type="datetime" />
+    <Property Name="m_entrydatetime" Type="datetime" />
+    <Property Name="result_main_status" Type="varchar(max)" />
+    <Property Name="result_type" Type="varchar(max)" />
+    <Property Name="commision_percentage" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="extra_commision" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="customer_id" Type="int" />
+    <Property Name="game_id" Type="int" />
+    <Property Name="cancel_by" Type="int" />
+    <Property Name="cancel_date" Type="datetime" />
+    <Property Name="approved_by" Type="int" />
+    <Property Name="approved_date" Type="datetime" />
+    <Property Name="credit_added_status" Type="bit" />
+    <Property Name="extra_detection" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="result_sub">
+    <Key>
+      <PropertyRef Name="result_sub_id" />
+    </Key>
+    <Property Name="result_sub_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="result_main_id" Type="int" Nullable="false" />
+    <Property Name="game_result_number" Type="varchar" MaxLength="50" />
+    <Property Name="result_sub_game_amount" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="result_sub_single" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="result_sub_poker" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="result_sub_joker" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="special_status" Type="bit" />
+    <Property Name="game_name" Type="varchar" MaxLength="50" />
+    <Property Name="final_amount" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="final_type" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="setup">
+    <Key>
+      <PropertyRef Name="setup_id" />
+    </Key>
+    <Property Name="setup_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tip_number" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Golden_Ank" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tip_number">
+    <Key>
+      <PropertyRef Name="tip_number_id" />
+    </Key>
+    <Property Name="tip_number_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tip_total" Type="varchar(max)" />
+    <Property Name="tip_panel" Type="varchar(max)" />
+    <Property Name="tip_jodi" Type="varchar(max)" />
+    <Property Name="tip_status" Type="bit" />
+    <Property Name="entrydatetime" Type="datetime" />
+    <Property Name="game_id" Type="int" />
+    <Property Name="tip_position" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Final_Ankra" Type="varchar(max)" />
+    <Property Name="Final_Ankra_Position" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Final_Ankra_status" Type="bit" />
+  </EntityType>
+  <EntityType Name="translation">
+    <Key>
+      <PropertyRef Name="translation_id" />
+    </Key>
+    <Property Name="class_name" Type="varchar(max)" />
+    <Property Name="eng" Type="varchar(max)" />
+    <Property Name="swidish" Type="varchar(max)" />
+    <Property Name="translation_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="user_comments">
+    <Key>
+      <PropertyRef Name="comment_id" />
+    </Key>
+    <Property Name="comment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="comment_text" Type="varchar(max)" />
+    <Property Name="game_id" Type="int" Nullable="false" />
+    <Property Name="date" Type="date" />
+    <Property Name="datetime" Type="datetime" />
+    <Property Name="comment_status" Type="bit" />
+  </EntityType>
+  <EntityType Name="user_permission">
+    <Key>
+      <PropertyRef Name="user_permission_id" />
+    </Key>
+    <Property Name="user_permission_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="page_id" Type="int" Nullable="false" />
+    <Property Name="module_id" Type="int" Nullable="false" />
+    <Property Name="login_id" Type="int" />
+    <Property Name="status" Type="bit" />
+    <Property Name="role_id" Type="int" />
+  </EntityType>
+  <EntityType Name="userroles">
+    <Key>
+      <PropertyRef Name="role_id" />
+    </Key>
+    <Property Name="role_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="role_name" Type="varchar(max)" />
+    <Property Name="date" Type="date" />
+  </EntityType>
+  <EntityType Name="voucher_type">
+    <Key>
+      <PropertyRef Name="voucher_type_id" />
+    </Key>
+    <Property Name="voucher_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="type_name" Type="varchar(max)" />
+    <Property Name="abbreviation" Type="varchar(max)" />
+    <Property Name="status" Type="varchar(max)" />
+    <Property Name="autotime" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'db_a96c28_umairadminnew.dbo.View_GetCreditForCustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="View_GetCreditForCustomer">
+    <Key>
+      <PropertyRef Name="customer_id" />
+    </Key>
+    <Property Name="customer_orderby" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="customer_name" Type="varchar(max)" />
+    <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Last_Date" Type="date" />
+    <Property Name="credit_type" Type="varchar" MaxLength="50" />
+    <Property Name="Last_Amount" Type="float" />
+    <Property Name="Current_Balance" Type="float" />
+    <Property Name="Pending_Game_Amount" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'db_a96c28_umairadminnew.dbo.View_GetPages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="View_GetPages">
+    <Key>
+      <PropertyRef Name="module_id" />
+      <PropertyRef Name="page_id" />
+    </Key>
+    <Property Name="module_id" Type="int" Nullable="false" />
+    <Property Name="module_name" Type="varchar(max)" />
+    <Property Name="page_id" Type="int" Nullable="false" />
+    <Property Name="page_name" Type="varchar(max)" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'db_a96c28_umairadminnew.dbo.View_GetUserPermissionModule' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="View_GetUserPermissionModule">
+    <Key>
+      <PropertyRef Name="module_id" />
+    </Key>
+    <Property Name="module_id" Type="int" Nullable="false" />
+    <Property Name="module_name" Type="varchar(max)" />
+    <Property Name="module_URL" Type="varchar(max)" />
+    <Property Name="module_icon" Type="varchar(max)" />
+    <Property Name="module_nestted_list" Type="bit" />
+    <Property Name="role_id" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'db_a96c28_umairadminnew.dbo.View_GetUserPermissions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="View_GetUserPermissions">
+    <Key>
+      <PropertyRef Name="module_id" />
+      <PropertyRef Name="page_id" />
+    </Key>
+    <Property Name="login_id" Type="int" />
+    <Property Name="module_id" Type="int" Nullable="false" />
+    <Property Name="module_name" Type="varchar(max)" />
+    <Property Name="page_id" Type="int" Nullable="false" />
+    <Property Name="page_name" Type="varchar(max)" />
+    <Property Name="status" Type="bit" />
+    <Property Name="role_id" Type="int" />
+  </EntityType>
+  <Function Name="FindTotalNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+    <Parameter Name="numberlength" Type="int" Mode="In" />
+    <Parameter Name="number" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GetNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="from_date" Type="date" Mode="In" />
+    <Parameter Name="to_date" Type="date" Mode="In" />
+    <Parameter Name="game_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetSearchNumberHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="from_date" Type="date" Mode="In" />
+    <Parameter Name="to_date" Type="date" Mode="In" />
+    <Parameter Name="searchnumber" Type="varchar(max)" Mode="In" />
+    <Parameter Name="game_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Rpt_GetAssignGamesToUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="login_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Rpt_GetDayWiseResultNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="from_date" Type="date" Mode="In" />
+    <Parameter Name="to_date" Type="date" Mode="In" />
+    <Parameter Name="login_id" Type="int" Mode="In" />
+    <Parameter Name="game_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Rpt_GetDayWiseSumaryReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="from_date" Type="date" Mode="In" />
+    <Parameter Name="to_date" Type="date" Mode="In" />
+    <Parameter Name="login_id" Type="int" Mode="In" />
+    <Parameter Name="game_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Rpt_GetResultNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="from_date" Type="date" Mode="In" />
+    <Parameter Name="to_date" Type="date" Mode="In" />
+    <Parameter Name="result_main_status" Type="varchar(max)" Mode="In" />
+    <Parameter Name="login_id" Type="int" Mode="In" />
+    <Parameter Name="game_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Rpt_GetSingleDateResultDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="from_date" Type="date" Mode="In" />
+    <Parameter Name="login_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Rpt_PubGetNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="from_date" Type="date" Mode="In" />
+    <Parameter Name="to_date" Type="date" Mode="In" />
+    <Parameter Name="game_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Rpt_PubJodiGetNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="game_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Rpt_PubPanelGetNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="game_id" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="return_orderModelStoreContainer">
+    <EntitySet Name="account_type" EntityType="Self.account_type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="addcustomer" EntityType="Self.addcustomer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="addgames" EntityType="Self.addgames" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AssignGamesToUser" EntityType="Self.AssignGamesToUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cat1" EntityType="Self.cat1" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="chart_of_account" EntityType="Self.chart_of_account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="credit_entires" EntityType="Self.credit_entires" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="manaual_journal_entry" EntityType="Self.manaual_journal_entry" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="manaual_journal_info" EntityType="Self.manaual_journal_info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="master_touch" EntityType="Self.master_touch" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Module_info" EntityType="Self.Module_info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="notificatios" EntityType="Self.notificatios" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="number_tariff" EntityType="Self.number_tariff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="opc_number" EntityType="Self.opc_number" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="page_info" EntityType="Self.page_info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="result_main" EntityType="Self.result_main" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="result_sub" EntityType="Self.result_sub" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="setup" EntityType="Self.setup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tip_number" EntityType="Self.tip_number" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="translation" EntityType="Self.translation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user_comments" EntityType="Self.user_comments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user_permission" EntityType="Self.user_permission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="userroles" EntityType="Self.userroles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="voucher_type" EntityType="Self.voucher_type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="View_GetCreditForCustomer" EntityType="Self.View_GetCreditForCustomer" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [View_GetCreditForCustomer].[customer_orderby] AS [customer_orderby], 
+    [View_GetCreditForCustomer].[customer_name] AS [customer_name], 
+    [View_GetCreditForCustomer].[customer_id] AS [customer_id], 
+    [View_GetCreditForCustomer].[Last_Date] AS [Last_Date], 
+    [View_GetCreditForCustomer].[credit_type] AS [credit_type], 
+    [View_GetCreditForCustomer].[Last_Amount] AS [Last_Amount], 
+    [View_GetCreditForCustomer].[Current_Balance] AS [Current_Balance], 
+    [View_GetCreditForCustomer].[Pending_Game_Amount] AS [Pending_Game_Amount]
+    FROM [dbo].[View_GetCreditForCustomer] AS [View_GetCreditForCustomer]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="View_GetPages" EntityType="Self.View_GetPages" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [View_GetPages].[module_id] AS [module_id], 
+    [View_GetPages].[module_name] AS [module_name], 
+    [View_GetPages].[page_id] AS [page_id], 
+    [View_GetPages].[page_name] AS [page_name]
+    FROM [dbo].[View_GetPages] AS [View_GetPages]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="View_GetUserPermissionModule" EntityType="Self.View_GetUserPermissionModule" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [View_GetUserPermissionModule].[module_id] AS [module_id], 
+    [View_GetUserPermissionModule].[module_name] AS [module_name], 
+    [View_GetUserPermissionModule].[module_URL] AS [module_URL], 
+    [View_GetUserPermissionModule].[module_icon] AS [module_icon], 
+    [View_GetUserPermissionModule].[module_nestted_list] AS [module_nestted_list], 
+    [View_GetUserPermissionModule].[role_id] AS [role_id]
+    FROM [dbo].[View_GetUserPermissionModule] AS [View_GetUserPermissionModule]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="View_GetUserPermissions" EntityType="Self.View_GetUserPermissions" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [View_GetUserPermissions].[login_id] AS [login_id], 
+    [View_GetUserPermissions].[module_id] AS [module_id], 
+    [View_GetUserPermissions].[module_name] AS [module_name], 
+    [View_GetUserPermissions].[page_id] AS [page_id], 
+    [View_GetUserPermissions].[page_name] AS [page_name], 
+    [View_GetUserPermissions].[status] AS [status], 
+    [View_GetUserPermissions].[role_id] AS [role_id]
+    FROM [dbo].[View_GetUserPermissions] AS [View_GetUserPermissions]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

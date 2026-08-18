@@ -1,0 +1,597 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="return_orderModelStoreContainer" CdmEntityContainer="return_orderEntities1">
+    <EntitySetMapping Name="BangkokDraws">
+      <EntityTypeMapping TypeName="return_orderModel.BangkokDraw">
+        <MappingFragment StoreEntitySet="BangkokDraw">
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="ActualEndUTC" ColumnName="ActualEndUTC" />
+          <ScalarProperty Name="ActualStartUTC" ColumnName="ActualStartUTC" />
+          <ScalarProperty Name="ActiveDrawKey" ColumnName="ActiveDrawKey" />
+          <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+          <ScalarProperty Name="DeletedDateUTC" ColumnName="DeletedDateUTC" />
+          <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="ModifiedDateUTC" ColumnName="ModifiedDateUTC" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="CreatedDateUTC" ColumnName="CreatedDateUTC" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CompletedBy" ColumnName="CompletedBy" />
+          <ScalarProperty Name="CompletedDateUTC" ColumnName="CompletedDateUTC" />
+          <ScalarProperty Name="CancellationReason" ColumnName="CancellationReason" />
+          <ScalarProperty Name="CancelledBy" ColumnName="CancelledBy" />
+          <ScalarProperty Name="CancelledDateUTC" ColumnName="CancelledDateUTC" />
+          <ScalarProperty Name="PostponementReason" ColumnName="PostponementReason" />
+          <ScalarProperty Name="PostponedBy" ColumnName="PostponedBy" />
+          <ScalarProperty Name="PostponedDateUTC" ColumnName="PostponedDateUTC" />
+          <ScalarProperty Name="OriginalScheduledStartUTC" ColumnName="OriginalScheduledStartUTC" />
+          <ScalarProperty Name="PublishedBy" ColumnName="PublishedBy" />
+          <ScalarProperty Name="PublishedDateUTC" ColumnName="PublishedDateUTC" />
+          <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="NextDrawDate" ColumnName="NextDrawDate" />
+          <ScalarProperty Name="RepeatEveryDays" ColumnName="RepeatEveryDays" />
+          <ScalarProperty Name="CountdownMinutes" ColumnName="CountdownMinutes" />
+          <ScalarProperty Name="TimeZoneID" ColumnName="TimeZoneID" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="DrawDate" ColumnName="DrawDate" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BangkokDrawGames">
+      <EntityTypeMapping TypeName="return_orderModel.BangkokDrawGame">
+        <MappingFragment StoreEntitySet="BangkokDrawGame">
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="ActualEndUTC" ColumnName="ActualEndUTC" />
+          <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+          <ScalarProperty Name="ModifiedDateUTC" ColumnName="ModifiedDateUTC" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="CreatedDateUTC" ColumnName="CreatedDateUTC" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CompletedDateUTC" ColumnName="CompletedDateUTC" />
+          <ScalarProperty Name="RevealCompletedUTC" ColumnName="RevealCompletedUTC" />
+          <ScalarProperty Name="RevealStartedUTC" ColumnName="RevealStartedUTC" />
+          <ScalarProperty Name="ActualStartUTC" ColumnName="ActualStartUTC" />
+          <ScalarProperty Name="GameStatus" ColumnName="GameStatus" />
+          <ScalarProperty Name="MachineRunSeconds" ColumnName="MachineRunSeconds" />
+          <ScalarProperty Name="BallFlightSeconds" ColumnName="BallFlightSeconds" />
+          <ScalarProperty Name="HostPickupSeconds" ColumnName="HostPickupSeconds" />
+          <ScalarProperty Name="DigitRevealIntervalSeconds" ColumnName="DigitRevealIntervalSeconds" />
+          <ScalarProperty Name="StartOffsetSeconds" ColumnName="StartOffsetSeconds" />
+          <ScalarProperty Name="DigitCount" ColumnName="DigitCount" />
+          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+          <ScalarProperty Name="GameNameThai" ColumnName="GameNameThai" />
+          <ScalarProperty Name="GameName" ColumnName="GameName" />
+          <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BangkokDrawPauseHistories">
+      <EntityTypeMapping TypeName="return_orderModel.BangkokDrawPauseHistory">
+        <MappingFragment StoreEntitySet="BangkokDrawPauseHistory">
+          <ScalarProperty Name="OpenPauseKey" ColumnName="OpenPauseKey" />
+          <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+          <ScalarProperty Name="CreatedDateUTC" ColumnName="CreatedDateUTC" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="IsResumed" ColumnName="IsResumed" />
+          <ScalarProperty Name="PauseDurationSeconds" ColumnName="PauseDurationSeconds" />
+          <ScalarProperty Name="ResumedBy" ColumnName="ResumedBy" />
+          <ScalarProperty Name="ResumeReason" ColumnName="ResumeReason" />
+          <ScalarProperty Name="ResumeDateUTC" ColumnName="ResumeDateUTC" />
+          <ScalarProperty Name="PausedBy" ColumnName="PausedBy" />
+          <ScalarProperty Name="PauseReason" ColumnName="PauseReason" />
+          <ScalarProperty Name="PauseStartedUTC" ColumnName="PauseStartedUTC" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="PauseHistoryID" ColumnName="PauseHistoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BangkokDrawResults">
+      <EntityTypeMapping TypeName="return_orderModel.BangkokDrawResult">
+        <MappingFragment StoreEntitySet="BangkokDrawResult">
+          <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+          <ScalarProperty Name="ModifiedDateUTC" ColumnName="ModifiedDateUTC" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="CreatedDateUTC" ColumnName="CreatedDateUTC" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CorrectionReason" ColumnName="CorrectionReason" />
+          <ScalarProperty Name="CorrectedBy" ColumnName="CorrectedBy" />
+          <ScalarProperty Name="CorrectedDateUTC" ColumnName="CorrectedDateUTC" />
+          <ScalarProperty Name="IsCorrected" ColumnName="IsCorrected" />
+          <ScalarProperty Name="ResultVersion" ColumnName="ResultVersion" />
+          <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+          <ScalarProperty Name="LockedDateUTC" ColumnName="LockedDateUTC" />
+          <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+          <ScalarProperty Name="RevealedDigitCount" ColumnName="RevealedDigitCount" />
+          <ScalarProperty Name="RevealCompletedUTC" ColumnName="RevealCompletedUTC" />
+          <ScalarProperty Name="RevealStartedUTC" ColumnName="RevealStartedUTC" />
+          <ScalarProperty Name="EntryDelaySeconds" ColumnName="EntryDelaySeconds" />
+          <ScalarProperty Name="ScheduledGameStartUTC" ColumnName="ScheduledGameStartUTC" />
+          <ScalarProperty Name="IsLateEntry" ColumnName="IsLateEntry" />
+          <ScalarProperty Name="ConfirmedBy" ColumnName="ConfirmedBy" />
+          <ScalarProperty Name="ConfirmedDateUTC" ColumnName="ConfirmedDateUTC" />
+          <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+          <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+          <ScalarProperty Name="EnteredDateUTC" ColumnName="EnteredDateUTC" />
+          <ScalarProperty Name="ResultSource" ColumnName="ResultSource" />
+          <ScalarProperty Name="ResultStatus" ColumnName="ResultStatus" />
+          <ScalarProperty Name="ResultNumber" ColumnName="ResultNumber" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+          <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BangkokDrawResultHistories">
+      <EntityTypeMapping TypeName="return_orderModel.BangkokDrawResultHistory">
+        <MappingFragment StoreEntitySet="BangkokDrawResultHistory">
+          <ScalarProperty Name="UserAgent" ColumnName="UserAgent" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+          <ScalarProperty Name="ActionDateUTC" ColumnName="ActionDateUTC" />
+          <ScalarProperty Name="ActionBy" ColumnName="ActionBy" />
+          <ScalarProperty Name="ActionReason" ColumnName="ActionReason" />
+          <ScalarProperty Name="NewRevealedDigitCount" ColumnName="NewRevealedDigitCount" />
+          <ScalarProperty Name="PreviousRevealedDigitCount" ColumnName="PreviousRevealedDigitCount" />
+          <ScalarProperty Name="NewResultStatus" ColumnName="NewResultStatus" />
+          <ScalarProperty Name="PreviousResultStatus" ColumnName="PreviousResultStatus" />
+          <ScalarProperty Name="PreviousResultNumber" ColumnName="PreviousResultNumber" />
+          <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+          <ScalarProperty Name="ResultVersion" ColumnName="ResultVersion" />
+          <ScalarProperty Name="ResultNumber" ColumnName="ResultNumber" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+          <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+          <ScalarProperty Name="ResultHistoryID" ColumnName="ResultHistoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="logins">
+      <EntityTypeMapping TypeName="return_orderModel.login">
+        <MappingFragment StoreEntitySet="login">
+          <ScalarProperty Name="add_club_id" ColumnName="add_club_id" />
+          <ScalarProperty Name="withouthashpassword" ColumnName="withouthashpassword" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="forgot_key" ColumnName="forgot_key" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="login_id" ColumnName="login_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Module_info">
+      <EntityTypeMapping TypeName="return_orderModel.Module_info">
+        <MappingFragment StoreEntitySet="Module_info">
+          <ScalarProperty Name="orderby" ColumnName="orderby" />
+          <ScalarProperty Name="module_nestted_list" ColumnName="module_nestted_list" />
+          <ScalarProperty Name="module_URL" ColumnName="module_URL" />
+          <ScalarProperty Name="module_icon" ColumnName="module_icon" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="page_info">
+      <EntityTypeMapping TypeName="return_orderModel.page_info">
+        <MappingFragment StoreEntitySet="page_info">
+          <ScalarProperty Name="orderby" ColumnName="orderby" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+          <ScalarProperty Name="page_url" ColumnName="page_url" />
+          <ScalarProperty Name="page_icon" ColumnName="page_icon" />
+          <ScalarProperty Name="page_name" ColumnName="page_name" />
+          <ScalarProperty Name="page_id" ColumnName="page_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user_permission">
+      <EntityTypeMapping TypeName="return_orderModel.user_permission">
+        <MappingFragment StoreEntitySet="user_permission">
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="login_id" ColumnName="login_id" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+          <ScalarProperty Name="page_id" ColumnName="page_id" />
+          <ScalarProperty Name="user_permission_id" ColumnName="user_permission_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="userroles">
+      <EntityTypeMapping TypeName="return_orderModel.userrole">
+        <MappingFragment StoreEntitySet="userroles">
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="role_name" ColumnName="role_name" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_GetPages">
+      <EntityTypeMapping TypeName="return_orderModel.View_GetPages">
+        <MappingFragment StoreEntitySet="View_GetPages">
+          <ScalarProperty Name="page_name" ColumnName="page_name" />
+          <ScalarProperty Name="page_id" ColumnName="page_id" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_GetUserPermissionModule">
+      <EntityTypeMapping TypeName="return_orderModel.View_GetUserPermissionModule">
+        <MappingFragment StoreEntitySet="View_GetUserPermissionModule">
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="module_nestted_list" ColumnName="module_nestted_list" />
+          <ScalarProperty Name="module_icon" ColumnName="module_icon" />
+          <ScalarProperty Name="module_URL" ColumnName="module_URL" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_GetUserPermissions">
+      <EntityTypeMapping TypeName="return_orderModel.View_GetUserPermissions">
+        <MappingFragment StoreEntitySet="View_GetUserPermissions">
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="page_name" ColumnName="page_name" />
+          <ScalarProperty Name="page_id" ColumnName="page_id" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+          <ScalarProperty Name="login_id" ColumnName="login_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="fn_PubPanelGetNumberInfo" FunctionName="return_orderModel.Store.fn_PubPanelGetNumberInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.fn_PubPanelGetNumberInfo_Result">
+          <ScalarProperty Name="opc_date" ColumnName="opc_date" />
+          <ScalarProperty Name="op_number" ColumnName="op_number" />
+          <ScalarProperty Name="cn_number" ColumnName="cn_number" />
+          <ScalarProperty Name="total_number" ColumnName="total_number" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="fn_SplitString" FunctionName="return_orderModel.Store.fn_SplitString" />
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_AutoProcess" FunctionName="return_orderModel.Store.sproc_BangkokDraw_AutoProcess">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_AutoProcess_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="ActiveDrawKey" ColumnName="ActiveDrawKey" />
+          <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="ActualStartUTC" ColumnName="ActualStartUTC" />
+          <ScalarProperty Name="TimeZoneID" ColumnName="TimeZoneID" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="ModifiedDateUTC" ColumnName="ModifiedDateUTC" />
+          <ScalarProperty Name="ServerDateUTC" ColumnName="ServerDateUTC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_Cancel" FunctionName="return_orderModel.Store.sproc_BangkokDraw_Cancel">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_Cancel_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="ActualStartUTC" ColumnName="ActualStartUTC" />
+          <ScalarProperty Name="ActualEndUTC" ColumnName="ActualEndUTC" />
+          <ScalarProperty Name="CancelledDateUTC" ColumnName="CancelledDateUTC" />
+          <ScalarProperty Name="CancelledBy" ColumnName="CancelledBy" />
+          <ScalarProperty Name="CancellationReason" ColumnName="CancellationReason" />
+          <ScalarProperty Name="TotalActiveGames" ColumnName="TotalActiveGames" />
+          <ScalarProperty Name="CancelledGames" ColumnName="CancelledGames" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_Complete" FunctionName="return_orderModel.Store.sproc_BangkokDraw_Complete">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_Complete_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="ActualStartUTC" ColumnName="ActualStartUTC" />
+          <ScalarProperty Name="ActualEndUTC" ColumnName="ActualEndUTC" />
+          <ScalarProperty Name="CompletedBy" ColumnName="CompletedBy" />
+          <ScalarProperty Name="CompletedDateUTC" ColumnName="CompletedDateUTC" />
+          <ScalarProperty Name="TotalActiveGames" ColumnName="TotalActiveGames" />
+          <ScalarProperty Name="CompletedGames" ColumnName="CompletedGames" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_ConfirmResult" FunctionName="return_orderModel.Store.sproc_BangkokDraw_ConfirmResult">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_ConfirmResult_Result">
+          <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+          <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+          <ScalarProperty Name="GameName" ColumnName="GameName" />
+          <ScalarProperty Name="GameStatus" ColumnName="GameStatus" />
+          <ScalarProperty Name="DigitCount" ColumnName="DigitCount" />
+          <ScalarProperty Name="ResultNumber" ColumnName="ResultNumber" />
+          <ScalarProperty Name="ResultStatus" ColumnName="ResultStatus" />
+          <ScalarProperty Name="ResultSource" ColumnName="ResultSource" />
+          <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+          <ScalarProperty Name="ConfirmedDateUTC" ColumnName="ConfirmedDateUTC" />
+          <ScalarProperty Name="ConfirmedBy" ColumnName="ConfirmedBy" />
+          <ScalarProperty Name="IsLateEntry" ColumnName="IsLateEntry" />
+          <ScalarProperty Name="EntryDelaySeconds" ColumnName="EntryDelaySeconds" />
+          <ScalarProperty Name="RevealedDigitCount" ColumnName="RevealedDigitCount" />
+          <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+          <ScalarProperty Name="ResultVersion" ColumnName="ResultVersion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_Create" FunctionName="return_orderModel.Store.sproc_BangkokDraw_Create">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_Create_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="DrawDate" ColumnName="DrawDate" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="TimeZoneID" ColumnName="TimeZoneID" />
+          <ScalarProperty Name="CountdownMinutes" ColumnName="CountdownMinutes" />
+          <ScalarProperty Name="RepeatEveryDays" ColumnName="RepeatEveryDays" />
+          <ScalarProperty Name="NextDrawDate" ColumnName="NextDrawDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDateUTC" ColumnName="CreatedDateUTC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_Delete" FunctionName="return_orderModel.Store.sproc_BangkokDraw_Delete">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_Delete_Result">
+          <ScalarProperty Name="Success" ColumnName="Success" />
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="PreviousDrawStatus" ColumnName="PreviousDrawStatus" />
+          <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+          <ScalarProperty Name="DeletedHistoryCount" ColumnName="DeletedHistoryCount" />
+          <ScalarProperty Name="DeletedPauseCount" ColumnName="DeletedPauseCount" />
+          <ScalarProperty Name="DeletedResultCount" ColumnName="DeletedResultCount" />
+          <ScalarProperty Name="DeletedGameCount" ColumnName="DeletedGameCount" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="DeletedDateUTC" ColumnName="DeletedDateUTC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_EnterResult" FunctionName="return_orderModel.Store.sproc_BangkokDraw_EnterResult">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_EnterResult_Result">
+          <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+          <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+          <ScalarProperty Name="GameName" ColumnName="GameName" />
+          <ScalarProperty Name="DigitCount" ColumnName="DigitCount" />
+          <ScalarProperty Name="GameStatus" ColumnName="GameStatus" />
+          <ScalarProperty Name="ResultNumber" ColumnName="ResultNumber" />
+          <ScalarProperty Name="ResultStatus" ColumnName="ResultStatus" />
+          <ScalarProperty Name="ResultSource" ColumnName="ResultSource" />
+          <ScalarProperty Name="EnteredDateUTC" ColumnName="EnteredDateUTC" />
+          <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+          <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+          <ScalarProperty Name="IsLateEntry" ColumnName="IsLateEntry" />
+          <ScalarProperty Name="ScheduledGameStartUTC" ColumnName="ScheduledGameStartUTC" />
+          <ScalarProperty Name="EntryDelaySeconds" ColumnName="EntryDelaySeconds" />
+          <ScalarProperty Name="RevealedDigitCount" ColumnName="RevealedDigitCount" />
+          <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+          <ScalarProperty Name="ResultVersion" ColumnName="ResultVersion" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_GetAdminControl" FunctionName="return_orderModel.Store.sproc_BangkokDraw_GetAdminControl">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_GetAdminControl_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="ActualStartUTC" ColumnName="ActualStartUTC" />
+          <ScalarProperty Name="ActualEndUTC" ColumnName="ActualEndUTC" />
+          <ScalarProperty Name="CompletedDateUTC" ColumnName="CompletedDateUTC" />
+          <ScalarProperty Name="CompletedBy" ColumnName="CompletedBy" />
+          <ScalarProperty Name="IsPaused" ColumnName="IsPaused" />
+          <ScalarProperty Name="TotalGames" ColumnName="TotalGames" />
+          <ScalarProperty Name="CompletedGames" ColumnName="CompletedGames" />
+          <ScalarProperty Name="CanPauseDraw" ColumnName="CanPauseDraw" />
+          <ScalarProperty Name="CanResumeDraw" ColumnName="CanResumeDraw" />
+          <ScalarProperty Name="CanCompleteDraw" ColumnName="CanCompleteDraw" />
+          <ScalarProperty Name="ServerDateUTC" ColumnName="ServerDateUTC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_GetList" FunctionName="return_orderModel.Store.sproc_BangkokDraw_GetList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_GetList_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="ActualStartUTC" ColumnName="ActualStartUTC" />
+          <ScalarProperty Name="ActualEndUTC" ColumnName="ActualEndUTC" />
+          <ScalarProperty Name="CompletedDateUTC" ColumnName="CompletedDateUTC" />
+          <ScalarProperty Name="CompletedBy" ColumnName="CompletedBy" />
+          <ScalarProperty Name="TotalGames" ColumnName="TotalGames" />
+          <ScalarProperty Name="CompletedGames" ColumnName="CompletedGames" />
+          <ScalarProperty Name="CompletionPercentage" ColumnName="CompletionPercentage" />
+          <ScalarProperty Name="IsPaused" ColumnName="IsPaused" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDateUTC" ColumnName="CreatedDateUTC" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="ModifiedDateUTC" ColumnName="ModifiedDateUTC" />
+          <ScalarProperty Name="TotalRecords" ColumnName="TotalRecords" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_GetLiveStatus" FunctionName="return_orderModel.Store.sproc_BangkokDraw_GetLiveStatus">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_GetLiveStatus_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="ActualStartUTC" ColumnName="ActualStartUTC" />
+          <ScalarProperty Name="ActualEndUTC" ColumnName="ActualEndUTC" />
+          <ScalarProperty Name="IsPaused" ColumnName="IsPaused" />
+          <ScalarProperty Name="TotalGames" ColumnName="TotalGames" />
+          <ScalarProperty Name="CompletedGames" ColumnName="CompletedGames" />
+          <ScalarProperty Name="ServerDateUTC" ColumnName="ServerDateUTC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_MarkReady" FunctionName="return_orderModel.Store.sproc_BangkokDraw_MarkReady">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_MarkReady_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="DrawDate" ColumnName="DrawDate" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="CountdownStartUTC" ColumnName="CountdownStartUTC" />
+          <ScalarProperty Name="CountdownMinutes" ColumnName="CountdownMinutes" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="ModifiedDateUTC" ColumnName="ModifiedDateUTC" />
+          <ScalarProperty Name="ServerDateUTC" ColumnName="ServerDateUTC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_Pause" FunctionName="return_orderModel.Store.sproc_BangkokDraw_Pause">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_Pause_Result">
+          <ScalarProperty Name="PauseHistoryID" ColumnName="PauseHistoryID" />
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+          <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+          <ScalarProperty Name="PauseStartedUTC" ColumnName="PauseStartedUTC" />
+          <ScalarProperty Name="PauseReason" ColumnName="PauseReason" />
+          <ScalarProperty Name="PausedBy" ColumnName="PausedBy" />
+          <ScalarProperty Name="IsResumed" ColumnName="IsResumed" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_Publish" FunctionName="return_orderModel.Store.sproc_BangkokDraw_Publish">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_Publish_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="DrawDate" ColumnName="DrawDate" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+          <ScalarProperty Name="PublishedDateUTC" ColumnName="PublishedDateUTC" />
+          <ScalarProperty Name="PublishedBy" ColumnName="PublishedBy" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="CountdownStartUTC" ColumnName="CountdownStartUTC" />
+          <ScalarProperty Name="TimeZoneID" ColumnName="TimeZoneID" />
+          <ScalarProperty Name="CountdownMinutes" ColumnName="CountdownMinutes" />
+          <ScalarProperty Name="NextDrawDate" ColumnName="NextDrawDate" />
+          <ScalarProperty Name="ServerDateUTC" ColumnName="ServerDateUTC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_Resume" FunctionName="return_orderModel.Store.sproc_BangkokDraw_Resume">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_Resume_Result">
+          <ScalarProperty Name="PauseHistoryID" ColumnName="PauseHistoryID" />
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+          <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+          <ScalarProperty Name="PauseStartedUTC" ColumnName="PauseStartedUTC" />
+          <ScalarProperty Name="PauseReason" ColumnName="PauseReason" />
+          <ScalarProperty Name="PausedBy" ColumnName="PausedBy" />
+          <ScalarProperty Name="ResumeDateUTC" ColumnName="ResumeDateUTC" />
+          <ScalarProperty Name="ResumeReason" ColumnName="ResumeReason" />
+          <ScalarProperty Name="ResumedBy" ColumnName="ResumedBy" />
+          <ScalarProperty Name="PauseDurationSeconds" ColumnName="PauseDurationSeconds" />
+          <ScalarProperty Name="IsResumed" ColumnName="IsResumed" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_RevealNextDigit" FunctionName="return_orderModel.Store.sproc_BangkokDraw_RevealNextDigit">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_RevealNextDigit_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+          <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+          <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+          <ScalarProperty Name="RevealedDigit" ColumnName="RevealedDigit" />
+          <ScalarProperty Name="RevealedDigitPosition" ColumnName="RevealedDigitPosition" />
+          <ScalarProperty Name="TotalDigitCount" ColumnName="TotalDigitCount" />
+          <ScalarProperty Name="RevealedNumber" ColumnName="RevealedNumber" />
+          <ScalarProperty Name="ResultStatus" ColumnName="ResultStatus" />
+          <ScalarProperty Name="IsGameRevealCompleted" ColumnName="IsGameRevealCompleted" />
+          <ScalarProperty Name="RevealedDateUTC" ColumnName="RevealedDateUTC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_SaveResult" FunctionName="return_orderModel.Store.sproc_BangkokDraw_SaveResult">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_SaveResult_Result">
+          <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+          <ScalarProperty Name="DrawGameID" ColumnName="DrawGameID" />
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+          <ScalarProperty Name="GameName" ColumnName="GameName" />
+          <ScalarProperty Name="ResultNumber" ColumnName="ResultNumber" />
+          <ScalarProperty Name="ResultStatus" ColumnName="ResultStatus" />
+          <ScalarProperty Name="ResultSource" ColumnName="ResultSource" />
+          <ScalarProperty Name="EnteredDateUTC" ColumnName="EnteredDateUTC" />
+          <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+          <ScalarProperty Name="IsLateEntry" ColumnName="IsLateEntry" />
+          <ScalarProperty Name="EntryDelaySeconds" ColumnName="EntryDelaySeconds" />
+          <ScalarProperty Name="ScheduledGameStartUTC" ColumnName="ScheduledGameStartUTC" />
+          <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+          <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+          <ScalarProperty Name="ResultVersion" ColumnName="ResultVersion" />
+          <ScalarProperty Name="ActionPerformed" ColumnName="ActionPerformed" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sproc_BangkokDraw_StartBroadcast" FunctionName="return_orderModel.Store.sproc_BangkokDraw_StartBroadcast">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="return_orderModel.sproc_BangkokDraw_StartBroadcast_Result">
+          <ScalarProperty Name="DrawID" ColumnName="DrawID" />
+          <ScalarProperty Name="DrawCode" ColumnName="DrawCode" />
+          <ScalarProperty Name="DrawName" ColumnName="DrawName" />
+          <ScalarProperty Name="DrawStatus" ColumnName="DrawStatus" />
+          <ScalarProperty Name="ActiveDrawKey" ColumnName="ActiveDrawKey" />
+          <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+          <ScalarProperty Name="ScheduledStartUTC" ColumnName="ScheduledStartUTC" />
+          <ScalarProperty Name="ActualStartUTC" ColumnName="ActualStartUTC" />
+          <ScalarProperty Name="TimeZoneID" ColumnName="TimeZoneID" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="ModifiedDateUTC" ColumnName="ModifiedDateUTC" />
+          <ScalarProperty Name="ServerDateUTC" ColumnName="ServerDateUTC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

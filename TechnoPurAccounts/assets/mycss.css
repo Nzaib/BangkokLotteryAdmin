@@ -1,0 +1,133 @@
+﻿.pagination {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #f58f7c;
+    border-color: #f58f7c;
+}
+
+table {
+    table-layout: auto;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+    table thead {
+        background-color: #2c2b30;
+    }
+
+        table thead th {
+            color: white;
+        }
+
+input {
+    height: 34px;
+}
+
+.form-control {
+    height: 34px;
+}
+
+
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2c2b30;
+    // border-radius: 10px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #f58f7c;
+        border-radius: 10px;
+    }
+
+#sidebar-menu > ul > li > a.active {
+    color: #f58f7c;
+    background: #4f4f51;
+}
+
+.nav-second-level li a, .nav-thrid-level li a {
+    padding: 8px 20px;
+    color: #d6d6d6;
+    display: block;
+    position: relative;
+    -webkit-transition: all .4s;
+    transition: all .4s;
+}
+
+.nav-second-level li.mm-active > a, .nav-third-level li.mm-active > a {
+    color: #f58f7c;
+}
+
+.left-side-menu {
+    width: 240px;
+    background: #000000;
+    bottom: 0;
+    position: fixed;
+    padding: 14px 0;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+    top: 70px;
+}
+
+#sidebar-menu > ul > li > a:hover {
+    color: #f58f7c;
+    display: block;
+    padding: 13px 20px;
+    position: relative;
+    -webkit-transition: all .4s;
+    transition: all .4s;
+    font-size: 15px;
+}
+
+.logo-box {
+    background-color: #ffffff;
+    height: 70px;
+    width: 240px;
+    float: left;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+#sidebar-menu > ul > li > a {
+    color: #d6d6d6;
+    display: block;
+    padding: 13px 20px;
+    position: relative;
+    -webkit-transition: all .4s;
+    transition: all .4s;
+    font-size: 15px;
+}
+
+.enlarged .left-side-menu #sidebar-menu > ul > li:hover > a {
+    position: relative;
+    width: calc(190px + 70px);
+    background: #2c2b30;
+    color: #f58f7c;
+    -webkit-transition: none;
+    transition: none;
+}
+
+.enlarged .left-side-menu #sidebar-menu > ul > li:hover > ul a:hover {
+    color: #f58f7c;
+}
+
+element.style {
+    color: #f58f7c;
+    font-size: 12px;
+    padding-top: 2px;
+}
+
+.nav-second-level li a:focus, .nav-second-level li a:hover, .nav-thrid-level li a:focus, .nav-thrid-level li a:hover {
+    color: #f58f7c;
+}
+
+/*.divPOLiAs {
+            display: none;
+        }*/

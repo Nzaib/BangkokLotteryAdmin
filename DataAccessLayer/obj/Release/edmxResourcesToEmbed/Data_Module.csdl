@@ -1,0 +1,662 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="return_orderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="return_orderEntities1" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="GetPLAmount" ReturnType="Collection(Double)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="add_club_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="gettrialbalance" ReturnType="Collection(return_orderModel.gettrialbalance_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="add_club_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetBLAccounts" ReturnType="Collection(return_orderModel.GetBLAccounts_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="add_club_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetPLAccounts" ReturnType="Collection(return_orderModel.GetPLAccounts_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="add_club_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(return_orderModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(return_orderModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="GetFinalReport" ReturnType="Collection(return_orderModel.GetFinalReport_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="add_club_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetNumberInfo" ReturnType="Collection(return_orderModel.GetNumberInfo_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="game_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Rpt_PubGetNumberInfo">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="game_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetSearchNumberHistory" ReturnType="Collection(return_orderModel.GetSearchNumberHistory_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="searchnumber" Mode="In" Type="String" />
+      <Parameter Name="game_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Rpt_GetResultNumberInfo" ReturnType="Collection(return_orderModel.Rpt_GetResultNumberInfo_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="result_main_status" Mode="In" Type="String" />
+      <Parameter Name="login_id" Mode="In" Type="Int32" />
+      <Parameter Name="game_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Rpt_GetDayWiseResultNumberInfo" ReturnType="Collection(return_orderModel.Rpt_GetDayWiseResultNumberInfo_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="login_id" Mode="In" Type="Int32" />
+      <Parameter Name="game_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Rpt_GetSingleDateResultDetail" ReturnType="Collection(return_orderModel.Rpt_GetSingleDateResultDetail_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="login_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Rpt_PubJodiGetNumberInfo" ReturnType="Collection(return_orderModel.Rpt_PubJodiGetNumberInfo_Result)">
+      <Parameter Name="game_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Rpt_PubPanelGetNumberInfo" ReturnType="Collection(return_orderModel.Rpt_PubPanelGetNumberInfo_Result)">
+      <Parameter Name="game_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Rpt_GetDayWiseSumaryReport" ReturnType="Collection(return_orderModel.Rpt_GetDayWiseSumaryReport_Result)">
+      <Parameter Name="from_date" Mode="In" Type="DateTime" />
+      <Parameter Name="to_date" Mode="In" Type="DateTime" />
+      <Parameter Name="login_id" Mode="In" Type="Int32" />
+      <Parameter Name="game_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="account_type" EntityType="return_orderModel.account_type" />
+    <EntitySet Name="addcustomers" EntityType="return_orderModel.addcustomer" />
+    <EntitySet Name="addgames" EntityType="return_orderModel.addgame" />
+    <EntitySet Name="cat1" EntityType="return_orderModel.cat1" />
+    <EntitySet Name="chart_of_account" EntityType="return_orderModel.chart_of_account" />
+    <EntitySet Name="credit_entires" EntityType="return_orderModel.credit_entires" />
+    <EntitySet Name="logins" EntityType="return_orderModel.login" />
+    <EntitySet Name="manaual_journal_entry" EntityType="return_orderModel.manaual_journal_entry" />
+    <EntitySet Name="manaual_journal_info" EntityType="return_orderModel.manaual_journal_info" />
+    <EntitySet Name="master_touch" EntityType="return_orderModel.master_touch" />
+    <EntitySet Name="Module_info" EntityType="return_orderModel.Module_info" />
+    <EntitySet Name="notificatios" EntityType="return_orderModel.notificatio" />
+    <EntitySet Name="number_tariff" EntityType="return_orderModel.number_tariff" />
+    <EntitySet Name="opc_number" EntityType="return_orderModel.opc_number" />
+    <EntitySet Name="page_info" EntityType="return_orderModel.page_info" />
+    <EntitySet Name="result_main" EntityType="return_orderModel.result_main" />
+    <EntitySet Name="result_sub" EntityType="return_orderModel.result_sub" />
+    <EntitySet Name="setups" EntityType="return_orderModel.setup" />
+    <EntitySet Name="tip_number" EntityType="return_orderModel.tip_number" />
+    <EntitySet Name="translations" EntityType="return_orderModel.translation" />
+    <EntitySet Name="user_comments" EntityType="return_orderModel.user_comments" />
+    <EntitySet Name="user_permission" EntityType="return_orderModel.user_permission" />
+    <EntitySet Name="userroles" EntityType="return_orderModel.userrole" />
+    <EntitySet Name="voucher_type" EntityType="return_orderModel.voucher_type" />
+    <EntitySet Name="View_GetCreditForCustomer" EntityType="return_orderModel.View_GetCreditForCustomer" />
+    <EntitySet Name="View_GetPages" EntityType="return_orderModel.View_GetPages" />
+    <EntitySet Name="View_GetUserPermissionModule" EntityType="return_orderModel.View_GetUserPermissionModule" />
+    <EntitySet Name="View_GetUserPermissions" EntityType="return_orderModel.View_GetUserPermissions" />
+    <EntitySet Name="AssignGamesToUsers" EntityType="return_orderModel.AssignGamesToUser" />
+    <FunctionImport Name="Rpt_GetAssignGamesToUser" ReturnType="Collection(return_orderModel.Rpt_GetAssignGamesToUser_Result)">
+      <Parameter Name="login_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="gettrialbalance_Result">
+    <Property Type="Int32" Name="account_type_id" Nullable="false" />
+    <Property Type="Int32" Name="cat1_id" Nullable="true" />
+    <Property Type="Int32" Name="chart_id" Nullable="false" />
+    <Property Type="String" Name="account_name" Nullable="true" />
+    <Property Type="String" Name="account_code" Nullable="true" />
+    <Property Type="Double" Name="account_opening_balance_debit" Nullable="true" />
+    <Property Type="Double" Name="account_opening_balance_credit" Nullable="true" />
+    <Property Type="Double" Name="opening_balance_debit" Nullable="true" />
+    <Property Type="Double" Name="opening_balance_credit" Nullable="true" />
+    <Property Type="Double" Name="current_balance_debit" Nullable="true" />
+    <Property Type="Double" Name="current_balance_credit" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetBLAccounts_Result">
+    <Property Type="Int32" Name="account_type_id" Nullable="false" />
+    <Property Type="Int32" Name="cat1_id" Nullable="true" />
+    <Property Type="Int32" Name="chart_id" Nullable="false" />
+    <Property Type="String" Name="account_name" Nullable="true" />
+    <Property Type="String" Name="account_code" Nullable="true" />
+    <Property Type="Double" Name="current_balance" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetPLAccounts_Result">
+    <Property Type="Int32" Name="account_type_id" Nullable="false" />
+    <Property Type="Int32" Name="cat1_id" Nullable="true" />
+    <Property Type="Int32" Name="chart_id" Nullable="false" />
+    <Property Type="String" Name="account_name" Nullable="true" />
+    <Property Type="String" Name="account_code" Nullable="true" />
+    <Property Type="Double" Name="current_balance" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="GetFinalReport_Result">
+    <Property Type="Int32" Name="account_type_id" Nullable="false" />
+    <Property Type="Int32" Name="cat1_id" Nullable="true" />
+    <Property Type="Int32" Name="chart_id" Nullable="false" />
+    <Property Type="String" Name="account_name" Nullable="true" />
+    <Property Type="String" Name="account_code" Nullable="true" />
+    <Property Type="Double" Name="opening_balance" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetNumberInfo_Result">
+    <Property Type="Int32" Name="opc_number_id" Nullable="false" />
+    <Property Type="DateTime" Name="opc_date" Nullable="true" />
+    <Property Type="Decimal" Name="op_number" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="DateTime" Name="op_time" Nullable="true" Precision="23" />
+    <Property Type="Decimal" Name="cn_number" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="DateTime" Name="cn_time" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="numeber_status" Nullable="true" />
+    <Property Type="DateTime" Name="entrydatetime" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GetSearchNumberHistory_Result">
+    <Property Type="Int32" Name="opc_number_id" Nullable="false" />
+    <Property Type="DateTime" Name="opc_date" Nullable="true" />
+    <Property Type="String" Name="op_number" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="op_time" Nullable="true" Precision="23" />
+    <Property Type="String" Name="cn_number" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="cn_time" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="numeber_status" Nullable="true" />
+    <Property Type="DateTime" Name="entrydatetime" Nullable="true" Precision="23" />
+    <Property Type="String" Name="open_total" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="close_total" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="create_by" Nullable="true" />
+    <Property Type="DateTime" Name="created_date" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="modify_by" Nullable="true" />
+    <Property Type="DateTime" Name="modify_date" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="m_entrydatetime" Nullable="true" Precision="23" />
+    <Property Type="String" Name="game_status" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="Rpt_GetResultNumberInfo_Result">
+    <Property Type="Int32" Name="result_main_id" Nullable="false" />
+    <Property Type="DateTime" Name="result_main_date" Nullable="true" />
+    <Property Type="Decimal" Name="sub_total" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="commision" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="grand_total" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="total_withdraw" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="total_net" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="String" Name="result_main_description" Nullable="true" />
+    <Property Type="DateTime" Name="entrydatetime" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="create_by" Nullable="true" />
+    <Property Type="DateTime" Name="created_date" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="modify_by" Nullable="true" />
+    <Property Type="DateTime" Name="modify_date" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="m_entrydatetime" Nullable="true" Precision="23" />
+    <Property Type="String" Name="result_main_status" Nullable="true" />
+    <Property Type="String" Name="username" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Rpt_GetDayWiseResultNumberInfo_Result">
+    <Property Type="DateTime" Name="result_main_date" Nullable="true" />
+    <Property Type="Double" Name="Total_L" Nullable="true" />
+    <Property Type="Double" Name="Total_D" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Rpt_GetSingleDateResultDetail_Result">
+    <Property Type="Int32" Name="result_main_id" Nullable="false" />
+    <Property Type="DateTime" Name="result_main_date" Nullable="true" />
+    <Property Type="Decimal" Name="sub_total" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="commision" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="grand_total" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="total_withdraw" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="total_net" Nullable="true" Precision="18" Scale="3" />
+    <Property Type="String" Name="result_main_description" Nullable="true" />
+    <Property Type="DateTime" Name="entrydatetime" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="create_by" Nullable="true" />
+    <Property Type="DateTime" Name="created_date" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="modify_by" Nullable="true" />
+    <Property Type="DateTime" Name="modify_date" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="m_entrydatetime" Nullable="true" Precision="23" />
+    <Property Type="String" Name="result_main_status" Nullable="true" />
+    <Property Type="String" Name="result_type" Nullable="true" />
+    <Property Type="String" Name="result_customer_name" Nullable="true" />
+    <Property Type="Decimal" Name="commision_percentage" Nullable="true" Precision="18" Scale="3" />
+  </ComplexType>
+  <ComplexType Name="Rpt_PubJodiGetNumberInfo_Result">
+    <Property Type="String" Name="dayname" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="total_numer" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="Rpt_PubPanelGetNumberInfo_Result">
+    <Property Type="DateTime" Name="opc_date" Nullable="true" />
+    <Property Type="String" Name="op_number" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="cn_number" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="total_number" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="Rpt_GetDayWiseSumaryReport_Result">
+    <Property Type="DateTime" Name="result_main_date" Nullable="true" />
+    <Property Type="Int32" Name="game_id" Nullable="true" />
+    <Property Type="Double" Name="Total_L" Nullable="true" />
+    <Property Type="Double" Name="Total_D" Nullable="true" />
+    <Property Type="String" Name="game_name" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="account_type">
+    <Key>
+      <PropertyRef Name="account_type_id" />
+    </Key>
+    <Property Name="account_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="account_type_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="account_type_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="addcustomer">
+    <Key>
+      <PropertyRef Name="customer_id" />
+    </Key>
+    <Property Name="customer_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customer_orderby" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="create_by" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="modify_by" Type="Int32" />
+    <Property Name="modify_date" Type="DateTime" Precision="3" />
+    <Property Name="active_status" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="addgame">
+    <Key>
+      <PropertyRef Name="game_id" />
+    </Key>
+    <Property Name="game_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="game_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="game_enter_date" Type="DateTime" Precision="0" />
+    <Property Name="game_status" Type="Boolean" />
+    <Property Name="game_orderby" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="game_color" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="game_text_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="game_open_time" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="game_close_time" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="game_run_days" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="cat1">
+    <Key>
+      <PropertyRef Name="cat1_id" />
+    </Key>
+    <Property Name="cat1_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="cat1_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="cat1_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="account_type_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="chart_of_account">
+    <Key>
+      <PropertyRef Name="chart_id" />
+    </Key>
+    <Property Name="chart_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="account_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="account_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="account_type_id" Type="Int32" Nullable="false" />
+    <Property Name="cat1_id" Type="Int32" />
+    <Property Name="opening_balance_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="opening_balance_amount" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="create_by" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="modify_by" Type="Int32" />
+    <Property Name="modify_date" Type="DateTime" Precision="3" />
+    <Property Name="account_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="add_club_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="credit_entires">
+    <Key>
+      <PropertyRef Name="credit_entires_id" />
+    </Key>
+    <Property Name="credit_entires_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customer_id" Type="Int32" Nullable="false" />
+    <Property Name="trans_date" Type="DateTime" Precision="0" />
+    <Property Name="debit" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="credit" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="create_by" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="credit_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="entire_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="total_game_amount" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="total_pay_amount" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="before_current_balance" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="entry_define_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="login">
+    <Key>
+      <PropertyRef Name="login_id" />
+    </Key>
+    <Property Name="login_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="role_id" Type="Int32" />
+    <Property Name="date" Type="DateTime" Precision="0" />
+    <Property Name="forgot_key" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="withouthashpassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="add_club_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="manaual_journal_entry">
+    <Key>
+      <PropertyRef Name="manaual_journal_entry_id" />
+    </Key>
+    <Property Name="manaual_journal_entry_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="chart_id" Type="Int32" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="debit" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="credit" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="manaual_journal_info_id" Type="Int32" Nullable="false" />
+    <Property Name="entrydatetime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="manaual_journal_info">
+    <Key>
+      <PropertyRef Name="manaual_journal_info_id" />
+    </Key>
+    <Property Name="manaual_journal_info_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="voucher_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="trans_date" Type="DateTime" Precision="0" />
+    <Property Name="add_club_id" Type="Int32" Nullable="false" />
+    <Property Name="digital_receipt_id" Type="Int32" />
+    <Property Name="remarkes_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="create_by" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="modify_by" Type="Int32" />
+    <Property Name="modify_date" Type="DateTime" Precision="3" />
+    <Property Name="m_entrydatetime" Type="DateTime" Precision="3" />
+    <Property Name="trade_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="voucher_type_id" Type="Int32" />
+    <Property Name="attachment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="approve" Type="Boolean" />
+    <Property Name="cancle" Type="Boolean" />
+    <Property Name="approved_by" Type="Int32" />
+    <Property Name="approved_datetime" Type="DateTime" Precision="3" />
+    <Property Name="bluk_through" Type="Boolean" />
+    <Property Name="verfication_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="main_chat_id" Type="Int32" />
+    <Property Name="second_chart_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="master_touch">
+    <Key>
+      <PropertyRef Name="master_touch_id" />
+    </Key>
+    <Property Name="master_touch_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="master_touch_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="master_touch_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="master_touch_date" Type="DateTime" Precision="0" />
+    <Property Name="master_touch_status" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Module_info">
+    <Key>
+      <PropertyRef Name="module_id" />
+    </Key>
+    <Property Name="module_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="module_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="module_icon" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="module_URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="module_nestted_list" Type="Boolean" />
+    <Property Name="orderby" Type="Decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="notificatio">
+    <Key>
+      <PropertyRef Name="notification_id" />
+    </Key>
+    <Property Name="notification_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="data" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="datetime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="number_tariff">
+    <Key>
+      <PropertyRef Name="number_tariff_id" />
+    </Key>
+    <Property Name="number_tariff_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="game_result_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="game_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="opc_number">
+    <Key>
+      <PropertyRef Name="opc_number_id" />
+    </Key>
+    <Property Name="opc_number_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="opc_date" Type="DateTime" Precision="0" />
+    <Property Name="op_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="op_time" Type="DateTime" Precision="3" />
+    <Property Name="cn_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cn_time" Type="DateTime" Precision="3" />
+    <Property Name="numeber_status" Type="Boolean" />
+    <Property Name="entrydatetime" Type="DateTime" Precision="3" />
+    <Property Name="open_total" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="close_total" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="create_by" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="modify_by" Type="Int32" />
+    <Property Name="modify_date" Type="DateTime" Precision="3" />
+    <Property Name="m_entrydatetime" Type="DateTime" Precision="3" />
+    <Property Name="game_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="holiday_status" Type="Boolean" />
+    <Property Name="game_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="page_info">
+    <Key>
+      <PropertyRef Name="page_id" />
+    </Key>
+    <Property Name="page_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="page_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="page_icon" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="page_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="module_id" Type="Int32" Nullable="false" />
+    <Property Name="orderby" Type="Decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="result_main">
+    <Key>
+      <PropertyRef Name="result_main_id" />
+    </Key>
+    <Property Name="result_main_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="result_main_date" Type="DateTime" Precision="0" />
+    <Property Name="sub_total" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="commision" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="grand_total" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="total_withdraw" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="total_net" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="result_main_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="entrydatetime" Type="DateTime" Precision="3" />
+    <Property Name="create_by" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="modify_by" Type="Int32" />
+    <Property Name="modify_date" Type="DateTime" Precision="3" />
+    <Property Name="m_entrydatetime" Type="DateTime" Precision="3" />
+    <Property Name="result_main_status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="result_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="commision_percentage" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="extra_commision" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="customer_id" Type="Int32" />
+    <Property Name="game_id" Type="Int32" />
+    <Property Name="cancel_by" Type="Int32" />
+    <Property Name="cancel_date" Type="DateTime" Precision="3" />
+    <Property Name="approved_by" Type="Int32" />
+    <Property Name="approved_date" Type="DateTime" Precision="3" />
+    <Property Name="credit_added_status" Type="Boolean" />
+    <Property Name="extra_detection" Type="Decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="result_sub">
+    <Key>
+      <PropertyRef Name="result_sub_id" />
+    </Key>
+    <Property Name="result_sub_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="result_main_id" Type="Int32" Nullable="false" />
+    <Property Name="game_result_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="result_sub_game_amount" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="result_sub_single" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="result_sub_poker" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="result_sub_joker" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="special_status" Type="Boolean" />
+    <Property Name="game_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="final_amount" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="final_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="setup">
+    <Key>
+      <PropertyRef Name="setup_id" />
+    </Key>
+    <Property Name="setup_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tip_number" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Golden_Ank" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tip_number">
+    <Key>
+      <PropertyRef Name="tip_number_id" />
+    </Key>
+    <Property Name="tip_number_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tip_total" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="tip_panel" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="tip_jodi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="tip_status" Type="Boolean" />
+    <Property Name="entrydatetime" Type="DateTime" Precision="3" />
+    <Property Name="game_id" Type="Int32" />
+    <Property Name="tip_position" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Final_Ankra" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Final_Ankra_Position" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Final_Ankra_status" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="translation">
+    <Key>
+      <PropertyRef Name="translation_id" />
+    </Key>
+    <Property Name="class_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="eng" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="swidish" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="translation_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="user_comments">
+    <Key>
+      <PropertyRef Name="comment_id" />
+    </Key>
+    <Property Name="comment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="comment_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="game_id" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Precision="0" />
+    <Property Name="datetime" Type="DateTime" Precision="3" />
+    <Property Name="comment_status" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="user_permission">
+    <Key>
+      <PropertyRef Name="user_permission_id" />
+    </Key>
+    <Property Name="user_permission_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="page_id" Type="Int32" Nullable="false" />
+    <Property Name="module_id" Type="Int32" Nullable="false" />
+    <Property Name="login_id" Type="Int32" />
+    <Property Name="status" Type="Boolean" />
+    <Property Name="role_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="userrole">
+    <Key>
+      <PropertyRef Name="role_id" />
+    </Key>
+    <Property Name="role_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="role_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="date" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="voucher_type">
+    <Key>
+      <PropertyRef Name="voucher_type_id" />
+    </Key>
+    <Property Name="voucher_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="type_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="abbreviation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="autotime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="View_GetCreditForCustomer">
+    <Key>
+      <PropertyRef Name="customer_id" />
+    </Key>
+    <Property Name="customer_orderby" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="customer_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Last_Date" Type="DateTime" Precision="0" />
+    <Property Name="credit_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Last_Amount" Type="Double" />
+    <Property Name="Current_Balance" Type="Double" />
+    <Property Name="Pending_Game_Amount" Type="Double" />
+  </EntityType>
+  <EntityType Name="View_GetPages">
+    <Key>
+      <PropertyRef Name="module_id" />
+      <PropertyRef Name="page_id" />
+    </Key>
+    <Property Name="module_id" Type="Int32" Nullable="false" />
+    <Property Name="module_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="page_id" Type="Int32" Nullable="false" />
+    <Property Name="page_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="View_GetUserPermissionModule">
+    <Key>
+      <PropertyRef Name="module_id" />
+    </Key>
+    <Property Name="module_id" Type="Int32" Nullable="false" />
+    <Property Name="module_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="module_URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="module_icon" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="module_nestted_list" Type="Boolean" />
+    <Property Name="role_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="View_GetUserPermissions">
+    <Key>
+      <PropertyRef Name="module_id" />
+      <PropertyRef Name="page_id" />
+    </Key>
+    <Property Name="login_id" Type="Int32" />
+    <Property Name="module_id" Type="Int32" Nullable="false" />
+    <Property Name="module_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="page_id" Type="Int32" Nullable="false" />
+    <Property Name="page_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Boolean" />
+    <Property Name="role_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="AssignGamesToUser">
+    <Key>
+      <PropertyRef Name="Assign_id" />
+    </Key>
+    <Property Name="Assign_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="game_id" Type="Int32" Nullable="false" />
+    <Property Name="login_id" Type="Int32" Nullable="false" />
+    <Property Name="staus" Type="Boolean" />
+  </EntityType>
+  <ComplexType Name="Rpt_GetAssignGamesToUser_Result">
+    <Property Type="Int32" Name="game_id" Nullable="false" />
+    <Property Type="String" Name="game_name" Nullable="true" />
+    <Property Type="Boolean" Name="staus" Nullable="true" />
+  </ComplexType>
+</Schema>

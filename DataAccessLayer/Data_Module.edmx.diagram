@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="43c2fb3d8e2248268ae71093415cc52f" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="return_orderModel.BangkokDraw" Width="1.5" PointX="0.75" PointY="3.5" />
+        <EntityTypeShape EntityType="return_orderModel.BangkokDrawGame" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="return_orderModel.BangkokDrawPauseHistory" Width="1.5" PointX="5.25" PointY="3.25" />
+        <EntityTypeShape EntityType="return_orderModel.BangkokDrawResult" Width="1.5" PointX="5.25" PointY="9" />
+        <EntityTypeShape EntityType="return_orderModel.BangkokDrawResultHistory" Width="1.5" PointX="7.5" PointY="7.75" />
+        <EntityTypeShape EntityType="return_orderModel.login" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="return_orderModel.Module_info" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="return_orderModel.page_info" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="return_orderModel.user_permission" Width="1.5" PointX="9.75" PointY="3.75" />
+        <EntityTypeShape EntityType="return_orderModel.userrole" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="return_orderModel.View_GetPages" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="return_orderModel.View_GetUserPermissionModule" Width="1.5" PointX="9.75" PointY="6.75" />
+        <EntityTypeShape EntityType="return_orderModel.View_GetUserPermissions" Width="1.5" PointX="9.75" PointY="9.75" />
+        <AssociationConnector Association="return_orderModel.FK_BangkokDrawGame_BangkokDraw" />
+        <AssociationConnector Association="return_orderModel.FK_BangkokDrawPauseHistory_Draw" />
+        <AssociationConnector Association="return_orderModel.FK_BangkokDrawPauseHistory_Game" />
+        <AssociationConnector Association="return_orderModel.FK_BangkokDrawResult_BangkokDrawGame" />
+        <AssociationConnector Association="return_orderModel.FK_BangkokDrawResultHistory_Game" />
+        <AssociationConnector Association="return_orderModel.FK_BangkokDrawResultHistory_Result" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

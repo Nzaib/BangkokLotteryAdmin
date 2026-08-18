@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E97E9C1D-7544-430D-A220-C1D04DD9F108}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataAccessLayer</RootNamespace>
+    <AssemblyName>DataAccessLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Cors, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Cors.4.1.1\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.1.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.1.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.1.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BangkokDraw.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BangkokDrawGame.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BangkokDrawPauseHistory.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BangkokDrawResult.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BangkokDrawResultHistory.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_Module.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Data_Module.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_Module.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_Module.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Data_Module.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="fn_PubPanelGetNumberInfo_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetBLAccounts_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetFinalReport_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetNumberInfo_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetPLAccounts_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetSearchNumberHistory_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="gettrialbalance_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="login.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Module_info.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="page_info.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rpt_GetAssignGamesToUser_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rpt_GetDayWiseResultNumberInfo_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rpt_GetDayWiseSumaryReport_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rpt_GetResultNumberInfo_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rpt_GetSingleDateResultDetail_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rpt_PubJodiGetNumberInfo_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rpt_PubPanelGetNumberInfo_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_AutoProcess_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_Cancel_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_Complete_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_ConfirmResult_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_Create_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_Delete_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_EnterResult_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_GetAdminControl_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_GetList_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_GetLiveStatus_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_MarkReady_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_Pause_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_Publish_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_Resume_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_RevealNextDigit_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_SaveResult_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sproc_BangkokDraw_StartBroadcast_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="userrole.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user_permission.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="View_GetPages.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="View_GetUserPermissionModule.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+    <Compile Include="View_GetUserPermissions.cs">
+      <DependentUpon>Data_Module.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="Data_Module.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Data_Module.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Data_Module.edmx.diagram">
+      <DependentUpon>Data_Module.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data_Module.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Data_Module.edmx</DependentUpon>
+      <LastGenOutput>Data_Module.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data_Module.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Data_Module.edmx</DependentUpon>
+      <LastGenOutput>Data_Module.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
