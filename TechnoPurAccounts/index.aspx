@@ -108,7 +108,7 @@
                                             showConfirmButton: false,
                                             timer: 2000
                                         });
-                                        window.location.href = "../Game/GamesResultUpdatesScreen.aspx";
+                                        window.location.href = "../Game/BangkokDrawAdmin.aspx";
 
                                       
 

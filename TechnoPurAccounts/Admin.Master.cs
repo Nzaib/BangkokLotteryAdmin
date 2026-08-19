@@ -13,7 +13,7 @@ namespace suitespk
         {
             //if (Session["username"] == "" || Session["username"] ==null)
             //{
-            //    Response.Redirect("/Default.aspx");
+            //    Response.Redirect("/index.aspx");
             //}
         }
     }
