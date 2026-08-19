@@ -69,7 +69,7 @@ function convertdefulatnumber(date) {
 function signOut() {
     localStorage.clear();
     sessionStorage.clear();
-    window.location.href = "/Default.aspx";
+    window.location.href = "/index.aspx";
 }
 
 

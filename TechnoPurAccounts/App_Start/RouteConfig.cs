@@ -15,7 +15,7 @@ namespace TechnoPurAccounts
 
             routes.MapRoute(
                 name: "Default",
-                url: "Default.aspx",
+                url: "index.aspx",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
