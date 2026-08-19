@@ -1,111 +1,7 @@
-<%@ Page Title="Bangkok Lottery Admin" Language="C#" MasterPageFile="~/Admin.Master" AutoEventWireup="true" CodeBehind="BangkokDrawAdmin.aspx.cs" Inherits="TechnoPurAccounts.Game.BangkokDrawAdmin" %>
+﻿<%@ Page Title="Bangkok Lottery Admin" Language="C#" MasterPageFile="~/Admin.Master" AutoEventWireup="true" CodeBehind="BangkokDrawAdmin.aspx.cs" Inherits="TechnoPurAccounts.Game.BangkokDrawAdmin" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>
-        .bkk-admin, .bkk-admin input, .bkk-admin select, .bkk-admin textarea, .bkk-admin button, .bkk-admin table {
-            font-size: 12px;
-        }
-
-            .bkk-admin .card {
-                border-radius: 0;
-                box-shadow: 0 2px 10px rgba(0,0,0,.06);
-            }
-
-            .bkk-admin .btn, .bkk-admin .form-control, .bkk-admin .modal-content {
-                border-radius: 0;
-            }
-
-        .bkk-stat {
-            border-left: 4px solid #2c2b30;
-            padding: 13px 15px;
-            min-height: 72px;
-        }
-
-            .bkk-stat small {
-                color: #7b7b7b;
-                display: block;
-            }
-
-            .bkk-stat strong {
-                display: block;
-                font-size: 16px;
-                margin-top: 4px;
-            }
-
-        .bkk-status {
-            display: inline-block;
-            padding: 4px 9px;
-            color: #fff;
-            background: #6c757d;
-            min-width: 72px;
-            text-align: center;
-        }
-
-            .bkk-status.Draft, .bkk-status.Pending {
-                background: #6c757d;
-            }
-
-            .bkk-status.Scheduled {
-                background: #17a2b8;
-            }
-
-            .bkk-status.Ready {
-                background: #0069d9;
-            }
-
-            .bkk-status.Live, .bkk-status.Revealing {
-                background: #dc3545;
-            }
-
-            .bkk-status.Paused {
-                background: #f0ad4e;
-                color: #222;
-            }
-
-            .bkk-status.Completed, .bkk-status.Revealed, .bkk-status.Confirmed {
-                background: #28a745;
-            }
-
-        .bkk-action-group .btn {
-            margin: 0 4px 5px 0;
-        }
-
-        .bkk-selected-row {
-            background: #fff8db !important;
-        }
-
-        .bkk-empty {
-            padding: 26px;
-            text-align: center;
-            color: #777;
-        }
-
-        .bkk-result-input {
-            max-width: 150px;
-            letter-spacing: 3px;
-            font-weight: 700;
-        }
-
-        .bkk-admin .table td, .bkk-admin .table th {
-            vertical-align: middle;
-            white-space: nowrap;
-        }
-
-        @media(max-width:767px) {
-            .bkk-admin .content-page {
-                padding-top: 10px
-            }
-
-            .bkk-action-group .btn {
-                width: 100%;
-                margin-right: 0
-            }
-
-            .bkk-stat {
-                margin-bottom: 8px
-            }
-        }
-    </style>
+    <style>.bkk-admin,.bkk-admin input,.bkk-admin select,.bkk-admin textarea,.bkk-admin button,.bkk-admin table{font-size:12px}.bkk-stat small,.bkk-stat strong{display:block}.bkk-status{display:inline-block;text-align:center}.bkk-admin .table td,.bkk-admin .table th{vertical-align:middle;white-space:nowrap}</style>
     <script>
         var selectedDrawId = 0;
         var selectedDrawStatus = '';
@@ -345,7 +241,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box">
-                                <h4 class="page-title"></h4>
+                                <div><div class="bkk-page-kicker">Draw Management</div><h4 class="page-title"></h4><div class="bkk-page-subtitle">Schedule, publish and manage Bangkok Lottery draws and results.</div></div>
                                 <div style="float: right; margin-top: 10px">
                                     <button id="btnRefreshDraws" type="button" class="btn btn-light"><i class="fa fa-refresh"></i>Refresh</button>
                                     <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createDrawModal"><i class="fa fa-plus"></i>Create Draw</button>
