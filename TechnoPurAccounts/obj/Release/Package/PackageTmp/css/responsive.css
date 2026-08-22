@@ -1,0 +1,273 @@
+/*Extra large devices (large desktops, 1200px and up)*/
+
+@media (max-width: 991px) {
+	#menu {
+		position: fixed;
+		height: 100%;
+		width: 100%;
+		left: 0;
+		top: 0;
+		padding: 120px 0 0 0;
+		background-color: #fff;
+		z-index: -1;
+		-webkit-transform: translateX(-100%);
+		-ms-transform: translateX(-100%);
+		transform: translateX(-100%);
+		-webkit-transition: 0.4s;
+		-o-transition: 0.4s;
+		transition: 0.4s;
+	}
+	.header_container {
+		position: relative;
+	}
+	#menu.open {
+		-webkit-transform: translateX(0);
+		-ms-transform: translateX(0);
+		transform: translateX(0);
+	}
+	#menu li {
+		display: block;
+		text-align: center;
+		max-width: 720px;
+		margin: 0 auto;
+		line-height: 40px;
+	}
+	#menu li a.nav-link {
+		padding: 0;
+		display: -webkit-inline-box;
+		display: -ms-inline-flexbox;
+		display: inline-flex;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+	}
+	.hamburger-menu {
+		display: block;
+	}
+	.try_btn {
+		display: none;
+	}
+	.home_box {
+		margin-top: 60px;
+	}
+	.home_img {
+		margin-top: 30px;
+	}
+	.round2 {
+		left: 22px;
+	}
+	.section_padd {
+		padding: 15px 0 45px 0;
+	}
+	.appfeature_head p,
+	.app_item,
+	.footer_box img,
+	.footer_box ul li a,
+	.footer_icon a {
+		margin-bottom: 30px;
+	}
+	.smartjack_subhead p {
+		height: auto;
+		padding-left: 0px;
+		border: none;
+	}
+	.smartjact_item,
+	.ultimate_btn,
+	.download_box a img,
+	.friendcustomize_box,
+	.meet_man {
+		margin-top: 30px;
+	}
+	.chooseourapp_head p,
+	.getfe_head p,
+	.frequently_head p {
+		padding-bottom: 0;
+	}
+	.ultimate_ab,
+	.meetimg_ab {
+		position: relative;
+		right: auto;
+		top: 0;
+		-webkit-transform: translateY(0);
+		-ms-transform: translateY(0);
+		transform: translateY(0);
+		text-align: center;
+	}
+	.download_ab {
+		position: relative;
+		margin-top: 30px;
+		right: auto;
+	}
+	.smartjack_head h2 {
+		max-width: 560px;
+	}
+	.smartjack_subhead p,
+	.ultimate_box h2 {
+		max-width: 571px;
+	}
+	.ultimate_box p {
+		max-width: 489px;
+	}
+}
+
+
+/*Medium devices (tablets, 767px and down)*/
+
+@media (max-width: 767px) {
+	body {
+		font-size: 15px;
+	}
+	.home_box h2 {
+		font-size: 50px;
+	}
+	.smartjack_wrapper .sub_title {
+		line-height: 30px;
+	}
+	.title_head {
+		font-size: 32px;
+	}
+	.getfe_head h2 {
+		max-width: 386px;
+	}
+	.meet_head h2 {
+		max-width: 394px;
+	}
+	.frequently_head h2 {
+		max-width: 470px;
+		margin: 0 auto;
+		padding-bottom: 30px;
+	}
+	.frequently_head p {
+		max-width: 474px;
+	}
+	.accordion .card button {
+		padding: 12px 25px 12px 25px;
+		line-height: 28px;
+		font-size: 18px;
+	}
+	.appfeature_head h2 {
+		max-width: 412px;
+	}
+	.designbuild_box h2 {
+		max-width: 400px;
+	}
+	.ultimate_box h2 {
+		max-width: 511px;
+	}
+	.ultimate_box p {
+		max-width: 458px;
+	}
+}
+
+
+/*Small devices (landscape phones, 575px and down)*/
+
+@media (max-width: 575px) {
+	body {
+		font-size: 14px;
+	}
+	.homefirst_txt img {
+		padding: 7px;
+	}
+	.homefirst_txt p {
+		font-size: 13px !important;
+		padding: 0 50px 0 10px;
+	}
+	.home_box h2 {
+		font-size: 32px;
+		line-height: 45px;
+		max-width: 285px;
+	}
+	.home_box p {
+		font-size: 15px;
+		max-width: 287px;
+	}
+	.round1 {
+		top: 87px;
+		right: 259px;
+	}
+	.round2 {
+		left: 4px;
+	}
+	.round3 {
+		right: 27px;
+	}
+	.round_4 {
+		left: 30px;
+	}
+	.round_5 {
+		left: 246px;
+	}
+	.watch_btn {
+		font-size: 14px;
+		margin-left: 10px;
+	}
+	.button {
+		font-size: 14px;
+		width: 140px;
+		height: 50px;
+	}
+	.watch_btn {
+		font-size: 14px;
+		margin-left: 10px;
+	}
+	.frequently_wrapper .sub_title {
+		font-size: 11px;
+	}
+	.app_subitem {
+		margin-left: 15px;
+	}
+	.accordion .card button {
+		padding: 15px;
+		font-size: 17px;
+	}
+	.accordion .card button br {
+		display: block;
+	}
+	.accordion .card-body {
+		padding: 0 15px 15px 15px;
+		font-size: 14px;
+		line-height: 22px;
+	}
+	.testi_slide .owl-nav .owl-prev {
+		right: 45px !important;
+	}
+	.testi_slide .owl-nav .owl-prev,
+	.testi_slide .owl-nav .owl-next {
+		height: 35px;
+		width: 35px;
+		font-size: 14px;
+	}
+	.testi_slide .owl-nav .owl-prev,
+	.testi_slide .owl-nav .owl-next {
+		bottom: -34px;
+	}
+	.download_box .mr_30 {
+		margin-right: 10px;
+	}
+	.footer_box ul li {
+		margin: 0 3px;
+	}
+	.footer_box ul li a {
+		font-size: 12px;
+	}
+	.title_head {
+		font-size: 28px;
+		line-height: 38px;
+	}
+	.getbtn a,
+	.getbtn a.active {
+		font-size: 14px;
+		min-width: 122px;
+	}
+}
+
+@media (max-width: 374px) {
+	.accordion .card button {
+		font-size: 14px;
+		line-height: 20px;
+	}
+}

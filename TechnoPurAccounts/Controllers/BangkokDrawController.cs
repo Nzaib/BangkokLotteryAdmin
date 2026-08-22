@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -27,7 +27,7 @@ namespace TechnoPurAccounts.Controllers
                 var data = db.Database.SqlQuery<NextBroadcastDto>(@"
 SELECT TOP (1) D.DrawID,D.DrawCode,D.DrawStatus,
        MIN(G.ScheduledStartUTC) ScheduledStartUTC,
-       COUNT(*) GameCount
+       CAST(COUNT(*) AS int) GameCount
 FROM dbo.BangkokDraw D
 JOIN dbo.BangkokDrawGame G ON G.DrawID=D.DrawID AND G.IsActive=1
 WHERE D.IsDeleted=0 AND D.DrawStatus IN ('Scheduled','Ready','Live','Paused')
@@ -83,7 +83,7 @@ ORDER BY ActualEndUTC DESC,DrawID DESC;").FirstOrDefault();
                 if (draw == null) return ApiError(HttpStatusCode.NotFound, "No completed draw was found.");
 
                 var results = db.Database.SqlQuery<ResultDto>(@"
-SELECT G.GameCode,G.GameName,G.DisplayOrder,R.ResultNumber,R.RevealCompletedUTC
+SELECT G.GameCode,G.GameName,CAST(G.DisplayOrder AS int) DisplayOrder,R.ResultNumber,R.RevealCompletedUTC
 FROM dbo.BangkokDrawGame G
 JOIN dbo.BangkokDrawResult R ON R.DrawGameID=G.DrawGameID
 WHERE G.DrawID=@p0 AND G.IsActive=1 AND R.IsConfirmed=1 AND R.ResultStatus='Revealed'
@@ -131,6 +131,170 @@ ORDER BY G.DisplayOrder;", draw.DrawID).ToList();
     {
         private readonly return_orderEntities1 db = new return_orderEntities1();
 
+
+        [HttpGet, Route("dashboard")]
+        public HttpResponseMessage Dashboard()
+        {
+            try
+            {
+                var nowUtc = DateTime.UtcNow;
+                var saudiTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Arab Standard Time");
+                var nowKsa = TimeZoneInfo.ConvertTimeFromUtc(nowUtc, saudiTimeZone);
+                var monthStartKsa = new DateTime(nowKsa.Year, nowKsa.Month, 1);
+                var nextMonthKsa = monthStartKsa.AddMonths(1);
+                var monthStartUtc = TimeZoneInfo.ConvertTimeToUtc(
+                    DateTime.SpecifyKind(monthStartKsa, DateTimeKind.Unspecified), saudiTimeZone);
+                var nextMonthUtc = TimeZoneInfo.ConvertTimeToUtc(
+                    DateTime.SpecifyKind(nextMonthKsa, DateTimeKind.Unspecified), saudiTimeZone);
+
+                var summary = db.Database.SqlQuery<DashboardSummaryDto>(@"
+SELECT
+    CAST(COUNT(*) AS int) TotalDraws,
+    CAST(ISNULL(SUM(CASE WHEN DrawStatus='Completed' THEN 1 ELSE 0 END),0) AS int) CompletedDraws,
+    CAST(ISNULL(SUM(CASE WHEN ScheduledStartUTC>@p0
+                  AND DrawStatus IN ('Scheduled','Ready') THEN 1 ELSE 0 END),0) AS int) UpcomingDraws,
+    CAST(ISNULL(SUM(CASE WHEN DrawStatus IN ('Live','Paused') THEN 1 ELSE 0 END),0) AS int) LiveDraws
+FROM dbo.BangkokDraw
+WHERE IsDeleted=0
+  AND ScheduledStartUTC>=@p1
+  AND ScheduledStartUTC<@p2;",
+                    nowUtc, monthStartUtc, nextMonthUtc).FirstOrDefault()
+                    ?? new DashboardSummaryDto();
+
+                var next = db.Database.SqlQuery<DashboardDrawDto>(@"
+SELECT TOP (1)
+       D.DrawID,D.DrawCode,D.DrawName,D.DrawStatus,D.IsPublished,
+       D.ScheduledStartUTC,D.ActualStartUTC,D.ActualEndUTC,
+       CAST(COUNT(CASE WHEN G.IsActive=1 THEN 1 END) AS int) GameCount
+FROM dbo.BangkokDraw D
+LEFT JOIN dbo.BangkokDrawGame G ON G.DrawID=D.DrawID
+WHERE D.IsDeleted=0
+  AND D.DrawStatus IN ('Scheduled','Ready','Live','Paused')
+GROUP BY D.DrawID,D.DrawCode,D.DrawName,D.DrawStatus,D.IsPublished,
+         D.ScheduledStartUTC,D.ActualStartUTC,D.ActualEndUTC
+ORDER BY CASE WHEN D.DrawStatus IN ('Live','Paused') THEN 0 ELSE 1 END,
+         D.ScheduledStartUTC,D.DrawID;").FirstOrDefault();
+
+                var upcoming = db.Database.SqlQuery<DashboardDrawDto>(@"
+SELECT TOP (5)
+       D.DrawID,D.DrawCode,D.DrawName,D.DrawStatus,D.IsPublished,
+       D.ScheduledStartUTC,D.ActualStartUTC,D.ActualEndUTC,
+       CAST(COUNT(CASE WHEN G.IsActive=1 THEN 1 END) AS int) GameCount
+FROM dbo.BangkokDraw D
+LEFT JOIN dbo.BangkokDrawGame G ON G.DrawID=D.DrawID
+WHERE D.IsDeleted=0
+  AND D.ScheduledStartUTC>@p0
+  AND D.DrawStatus IN ('Scheduled','Ready')
+GROUP BY D.DrawID,D.DrawCode,D.DrawName,D.DrawStatus,D.IsPublished,
+         D.ScheduledStartUTC,D.ActualStartUTC,D.ActualEndUTC
+ORDER BY D.ScheduledStartUTC,D.DrawID;", nowUtc).ToList();
+
+                var lastDraw = db.Database.SqlQuery<DashboardDrawDto>(@"
+SELECT TOP (1)
+       D.DrawID,D.DrawCode,D.DrawName,D.DrawStatus,D.IsPublished,
+       D.ScheduledStartUTC,D.ActualStartUTC,D.ActualEndUTC,
+       CAST(COUNT(CASE WHEN G.IsActive=1 THEN 1 END) AS int) GameCount
+FROM dbo.BangkokDraw D
+LEFT JOIN dbo.BangkokDrawGame G ON G.DrawID=D.DrawID
+WHERE D.IsDeleted=0 AND D.DrawStatus='Completed'
+GROUP BY D.DrawID,D.DrawCode,D.DrawName,D.DrawStatus,D.IsPublished,
+         D.ScheduledStartUTC,D.ActualStartUTC,D.ActualEndUTC
+ORDER BY D.ActualEndUTC DESC,D.DrawID DESC;").FirstOrDefault();
+
+                var latestResults = new List<DashboardResultDto>();
+                object calculated = null;
+                if (lastDraw != null)
+                {
+                    latestResults = db.Database.SqlQuery<DashboardResultDto>(@"
+SELECT G.GameCode,G.GameName,CAST(G.DisplayOrder AS int) DisplayOrder,R.ResultNumber,R.RevealCompletedUTC
+FROM dbo.BangkokDrawGame G
+JOIN dbo.BangkokDrawResult R ON R.DrawGameID=G.DrawGameID
+WHERE G.DrawID=@p0
+  AND G.IsActive=1
+  AND R.IsConfirmed=1
+  AND R.ResultStatus='Revealed'
+  AND R.ResultVersion=(
+      SELECT MAX(R2.ResultVersion)
+      FROM dbo.BangkokDrawResult R2
+      WHERE R2.DrawGameID=R.DrawGameID
+  )
+ORDER BY G.DisplayOrder,G.DrawGameID;", lastDraw.DrawID).ToList();
+
+                    var first = latestResults.FirstOrDefault(x => x.GameCode == "FIRST");
+                    var number = first == null ? null : first.ResultNumber;
+                    if (!String.IsNullOrWhiteSpace(number) && number.Length >= 6)
+                    {
+                        calculated = new
+                        {
+                            threeUpStraight = number.Substring(number.Length - 3, 3),
+                            threeUpOpenPair = number.Substring(3, 2),
+                            threeUpClosePair = number.Substring(number.Length - 2, 2)
+                        };
+                    }
+                }
+
+                // SQL Server returns DateTime values with Kind=Unspecified.
+                // These columns are UTC columns, so explicitly mark them as UTC before
+                // Web API / Json.NET serializes them. The JSON will then contain "Z".
+                NormalizeDashboardUtc(next);
+                foreach (var item in upcoming)
+                    NormalizeDashboardUtc(item);
+                NormalizeDashboardUtc(lastDraw);
+
+                var total = summary.TotalDraws;
+                var completedPercent = total == 0 ? 0 :
+                    (int)Math.Round(summary.CompletedDraws * 100.0 / total);
+                var upcomingPercent = total == 0 ? 0 :
+                    (int)Math.Round(summary.UpcomingDraws * 100.0 / total);
+                var otherDraws = Math.Max(0, total - summary.CompletedDraws - summary.UpcomingDraws);
+                var otherPercent = total == 0 ? 0 :
+                    Math.Max(0, 100 - completedPercent - upcomingPercent);
+
+                return Request.CreateResponse(HttpStatusCode.OK, new
+                {
+                    success = true,
+                    // Canonical time used by the browser countdown.
+                    serverUtc = nowUtc,
+                    // Display/reference value with an explicit Saudi Arabia offset.
+                    serverKsa = new DateTimeOffset(
+                        DateTime.SpecifyKind(nowKsa, DateTimeKind.Unspecified),
+                        TimeSpan.FromHours(3)),
+                    data = new
+                    {
+                        summary = new
+                        {
+                            totalDraws = summary.TotalDraws,
+                            completedDraws = summary.CompletedDraws,
+                            upcomingDraws = summary.UpcomingDraws,
+                            liveDraws = summary.LiveDraws,
+                            completedPercent,
+                            upcomingPercent,
+                            otherDraws,
+                            otherPercent
+                        },
+                        nextBroadcast = next,
+                        upcomingDraws = upcoming,
+                        lastDraw,
+                        latestResults,
+                        calculated,
+                        systemStatus = new
+                        {
+                            database = "Online",
+                            apiService = "Online",
+                            broadcastService = next != null &&
+                                (next.DrawStatus == "Live" || next.DrawStatus == "Paused")
+                                    ? next.DrawStatus : "Ready"
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return Error(HttpStatusCode.InternalServerError,
+                    "Dashboard request failed: " + ex.GetBaseException().Message);
+            }
+        }
+
         [HttpGet, Route("")]
         public HttpResponseMessage List()
         {
@@ -139,7 +303,7 @@ ORDER BY G.DisplayOrder;", draw.DrawID).ToList();
                 var rows = db.Database.SqlQuery<AdminDrawListDto>(@"
 SELECT D.DrawID,D.DrawCode,D.DrawName,D.DrawDate,D.DrawStatus,D.IsPublished,
        D.ScheduledStartUTC,D.ActualStartUTC,D.ActualEndUTC,
-       COUNT(CASE WHEN G.IsActive=1 THEN 1 END) GameCount
+       CAST(COUNT(CASE WHEN G.IsActive=1 THEN 1 END) AS int) GameCount
 FROM dbo.BangkokDraw D
 LEFT JOIN dbo.BangkokDrawGame G ON G.DrawID=D.DrawID
 WHERE D.IsDeleted=0
@@ -367,6 +531,53 @@ WHERE DrawGameID=@p0 AND DrawID=@p1 AND IsActive=1;", model.DrawGameID, drawId).
             public int DigitRevealIntervalSeconds { get; set; }
             public string Remarks { get; set; }
         }
+
+        private static void NormalizeDashboardUtc(DashboardDrawDto item)
+        {
+            if (item == null) return;
+
+            item.ScheduledStartUTC = DateTime.SpecifyKind(
+                item.ScheduledStartUTC, DateTimeKind.Utc);
+
+            if (item.ActualStartUTC.HasValue)
+                item.ActualStartUTC = DateTime.SpecifyKind(
+                    item.ActualStartUTC.Value, DateTimeKind.Utc);
+
+            if (item.ActualEndUTC.HasValue)
+                item.ActualEndUTC = DateTime.SpecifyKind(
+                    item.ActualEndUTC.Value, DateTimeKind.Utc);
+        }
+
+        public class DashboardSummaryDto
+        {
+            public int TotalDraws { get; set; }
+            public int CompletedDraws { get; set; }
+            public int UpcomingDraws { get; set; }
+            public int LiveDraws { get; set; }
+        }
+
+        public class DashboardDrawDto
+        {
+            public int DrawID { get; set; }
+            public string DrawCode { get; set; }
+            public string DrawName { get; set; }
+            public string DrawStatus { get; set; }
+            public bool IsPublished { get; set; }
+            public DateTime ScheduledStartUTC { get; set; }
+            public DateTime? ActualStartUTC { get; set; }
+            public DateTime? ActualEndUTC { get; set; }
+            public int GameCount { get; set; }
+        }
+
+        public class DashboardResultDto
+        {
+            public string GameCode { get; set; }
+            public string GameName { get; set; }
+            public int DisplayOrder { get; set; }
+            public string ResultNumber { get; set; }
+            public DateTime? RevealCompletedUTC { get; set; }
+        }
+
         public class AdminDrawListDto
         {
             public int DrawID { get; set; }

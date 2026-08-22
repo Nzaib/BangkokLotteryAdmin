@@ -1,94 +1,149 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="return_orderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityType Name="account_type">
+  <EntityType Name="BangkokDraw">
     <Key>
-      <PropertyRef Name="account_type_id" />
+      <PropertyRef Name="DrawID" />
     </Key>
-    <Property Name="account_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="account_type_name" Type="varchar(max)" />
-    <Property Name="account_type_code" Type="varchar(max)" />
+    <Property Name="DrawID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DrawCode" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="DrawDate" Type="date" Nullable="false" />
+    <Property Name="ScheduledStartUTC" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="TimeZoneID" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CountdownMinutes" Type="smallint" Nullable="false" />
+    <Property Name="RepeatEveryDays" Type="smallint" Nullable="false" />
+    <Property Name="NextDrawDate" Type="date" />
+    <Property Name="DrawStatus" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="IsPublished" Type="bit" Nullable="false" />
+    <Property Name="PublishedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="PublishedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="OriginalScheduledStartUTC" Type="datetime2" Precision="0" />
+    <Property Name="PostponedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="PostponedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="PostponementReason" Type="nvarchar" MaxLength="500" />
+    <Property Name="CancelledDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="CancelledBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="CancellationReason" Type="nvarchar" MaxLength="500" />
+    <Property Name="CompletedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="CompletedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="1000" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="CreatedDateUTC" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="ModifiedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="DeletedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="DeletedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="ActiveDrawKey" Type="int" StoreGeneratedPattern="Computed" />
+    <Property Name="ActualStartUTC" Type="datetime2" Precision="0" />
+    <Property Name="ActualEndUTC" Type="datetime2" Precision="0" />
+    <Property Name="DrawName" Type="nvarchar" MaxLength="200" />
   </EntityType>
-  <EntityType Name="addcustomer">
+  <EntityType Name="BangkokDrawGame">
     <Key>
-      <PropertyRef Name="customer_id" />
+      <PropertyRef Name="DrawGameID" />
     </Key>
-    <Property Name="customer_name" Type="varchar(max)" />
-    <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="customer_orderby" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="create_by" Type="int" />
-    <Property Name="created_date" Type="datetime" />
-    <Property Name="modify_by" Type="int" />
-    <Property Name="modify_date" Type="datetime" />
-    <Property Name="active_status" Type="bit" />
+    <Property Name="DrawGameID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DrawID" Type="int" Nullable="false" />
+    <Property Name="GameCode" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="GameName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="GameNameThai" Type="nvarchar" MaxLength="150" />
+    <Property Name="DisplayOrder" Type="tinyint" Nullable="false" />
+    <Property Name="DigitCount" Type="tinyint" Nullable="false" />
+    <Property Name="StartOffsetSeconds" Type="int" Nullable="false" />
+    <Property Name="DigitRevealIntervalSeconds" Type="smallint" Nullable="false" />
+    <Property Name="HostPickupSeconds" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+    <Property Name="BallFlightSeconds" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+    <Property Name="MachineRunSeconds" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+    <Property Name="GameStatus" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="ActualStartUTC" Type="datetime2" Precision="0" />
+    <Property Name="RevealStartedUTC" Type="datetime2" Precision="0" />
+    <Property Name="RevealCompletedUTC" Type="datetime2" Precision="0" />
+    <Property Name="CompletedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="CreatedDateUTC" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="ModifiedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="ActualEndUTC" Type="datetime2" Precision="0" />
+    <Property Name="ScheduledStartUTC" Type="datetime2" Precision="0" />
   </EntityType>
-  <EntityType Name="addgames">
+  <EntityType Name="BangkokDrawPauseHistory">
     <Key>
-      <PropertyRef Name="game_id" />
+      <PropertyRef Name="PauseHistoryID" />
     </Key>
-    <Property Name="game_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="game_name" Type="varchar(max)" />
-    <Property Name="game_enter_date" Type="date" />
-    <Property Name="game_status" Type="bit" />
-    <Property Name="game_orderby" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="game_color" Type="varchar(max)" />
-    <Property Name="game_text_description" Type="nvarchar(max)" />
-    <Property Name="game_open_time" Type="varchar(max)" />
-    <Property Name="game_close_time" Type="varchar(max)" />
-    <Property Name="game_run_days" Type="varchar(max)" />
+    <Property Name="PauseHistoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DrawID" Type="int" Nullable="false" />
+    <Property Name="DrawGameID" Type="int" />
+    <Property Name="PauseStartedUTC" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="PauseReason" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="PausedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ResumeDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="ResumeReason" Type="nvarchar" MaxLength="500" />
+    <Property Name="ResumedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="PauseDurationSeconds" Type="int" StoreGeneratedPattern="Computed" />
+    <Property Name="IsResumed" Type="bit" StoreGeneratedPattern="Computed" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+    <Property Name="CreatedDateUTC" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="OpenPauseKey" Type="int" StoreGeneratedPattern="Computed" />
   </EntityType>
-  <EntityType Name="AssignGamesToUser">
+  <EntityType Name="BangkokDrawResult">
     <Key>
-      <PropertyRef Name="Assign_id" />
+      <PropertyRef Name="ResultID" />
     </Key>
-    <Property Name="Assign_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="game_id" Type="int" Nullable="false" />
-    <Property Name="login_id" Type="int" Nullable="false" />
-    <Property Name="staus" Type="bit" />
+    <Property Name="ResultID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DrawGameID" Type="int" Nullable="false" />
+    <Property Name="ResultNumber" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ResultStatus" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="ResultSource" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="EnteredDateUTC" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="EnteredBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="IsConfirmed" Type="bit" Nullable="false" />
+    <Property Name="ConfirmedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="ConfirmedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsLateEntry" Type="bit" Nullable="false" />
+    <Property Name="ScheduledGameStartUTC" Type="datetime2" Precision="0" />
+    <Property Name="EntryDelaySeconds" Type="int" />
+    <Property Name="RevealStartedUTC" Type="datetime2" Precision="0" />
+    <Property Name="RevealCompletedUTC" Type="datetime2" Precision="0" />
+    <Property Name="RevealedDigitCount" Type="tinyint" Nullable="false" />
+    <Property Name="IsLocked" Type="bit" Nullable="false" />
+    <Property Name="LockedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="LockedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="ResultVersion" Type="int" Nullable="false" />
+    <Property Name="IsCorrected" Type="bit" Nullable="false" />
+    <Property Name="CorrectedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="CorrectedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="CorrectionReason" Type="nvarchar" MaxLength="500" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+    <Property Name="CreatedDateUTC" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="ModifiedDateUTC" Type="datetime2" Precision="0" />
+    <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
   </EntityType>
-  <EntityType Name="cat1">
+  <EntityType Name="BangkokDrawResultHistory">
     <Key>
-      <PropertyRef Name="cat1_id" />
+      <PropertyRef Name="ResultHistoryID" />
     </Key>
-    <Property Name="cat1_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="cat1_name" Type="varchar(max)" />
-    <Property Name="cat1_code" Type="varchar(max)" />
-    <Property Name="account_type_id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="chart_of_account">
-    <Key>
-      <PropertyRef Name="chart_id" />
-    </Key>
-    <Property Name="chart_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="account_name" Type="varchar(max)" />
-    <Property Name="account_code" Type="varchar(max)" />
-    <Property Name="account_type_id" Type="int" Nullable="false" />
-    <Property Name="cat1_id" Type="int" />
-    <Property Name="opening_balance_type" Type="varchar" MaxLength="50" />
-    <Property Name="opening_balance_amount" Type="decimal" Precision="18" Scale="3" />
-    <Property Name="create_by" Type="int" />
-    <Property Name="created_date" Type="datetime" />
-    <Property Name="modify_by" Type="int" />
-    <Property Name="modify_date" Type="datetime" />
-    <Property Name="account_description" Type="varchar(max)" />
-    <Property Name="add_club_id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="credit_entires">
-    <Key>
-      <PropertyRef Name="credit_entires_id" />
-    </Key>
-    <Property Name="credit_entires_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="customer_id" Type="int" Nullable="false" />
-    <Property Name="trans_date" Type="date" />
-    <Property Name="debit" Type="decimal" Precision="18" Scale="3" />
-    <Property Name="credit" Type="decimal" Precision="18" Scale="3" />
-    <Property Name="create_by" Type="int" />
-    <Property Name="created_date" Type="datetime" />
-    <Property Name="credit_type" Type="varchar" MaxLength="50" />
-    <Property Name="entire_type" Type="varchar" MaxLength="50" />
-    <Property Name="total_game_amount" Type="decimal" Precision="18" Scale="3" />
-    <Property Name="total_pay_amount" Type="decimal" Precision="18" Scale="3" />
-    <Property Name="before_current_balance" Type="decimal" Precision="18" Scale="3" />
-    <Property Name="entry_define_type" Type="varchar" MaxLength="50" />
+    <Property Name="ResultHistoryID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ResultID" Type="int" Nullable="false" />
+    <Property Name="DrawGameID" Type="int" Nullable="false" />
+    <Property Name="ResultNumber" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ResultVersion" Type="int" Nullable="false" />
+    <Property Name="ActionType" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="PreviousResultNumber" Type="varchar" MaxLength="20" />
+    <Property Name="PreviousResultStatus" Type="varchar" MaxLength="30" />
+    <Property Name="NewResultStatus" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="PreviousRevealedDigitCount" Type="tinyint" />
+    <Property Name="NewRevealedDigitCount" Type="tinyint" Nullable="false" />
+    <Property Name="ActionReason" Type="nvarchar" MaxLength="500" />
+    <Property Name="ActionBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ActionDateUTC" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="IPAddress" Type="varchar" MaxLength="45" />
+    <Property Name="UserAgent" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="login">
     <Key>
@@ -105,55 +160,6 @@
     <Property Name="withouthashpassword" Type="varchar(max)" />
     <Property Name="add_club_id" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="manaual_journal_entry">
-    <Key>
-      <PropertyRef Name="manaual_journal_entry_id" />
-    </Key>
-    <Property Name="manaual_journal_entry_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="chart_id" Type="int" Nullable="false" />
-    <Property Name="description" Type="varchar(max)" />
-    <Property Name="debit" Type="decimal" Precision="18" Scale="3" />
-    <Property Name="credit" Type="decimal" Precision="18" Scale="3" />
-    <Property Name="manaual_journal_info_id" Type="int" Nullable="false" />
-    <Property Name="entrydatetime" Type="datetime" />
-  </EntityType>
-  <EntityType Name="manaual_journal_info">
-    <Key>
-      <PropertyRef Name="manaual_journal_info_id" />
-    </Key>
-    <Property Name="manaual_journal_info_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="voucher_no" Type="varchar(max)" />
-    <Property Name="trans_date" Type="date" />
-    <Property Name="add_club_id" Type="int" Nullable="false" />
-    <Property Name="digital_receipt_id" Type="int" />
-    <Property Name="remarkes_description" Type="varchar(max)" />
-    <Property Name="create_by" Type="int" />
-    <Property Name="created_date" Type="datetime" />
-    <Property Name="modify_by" Type="int" />
-    <Property Name="modify_date" Type="datetime" />
-    <Property Name="m_entrydatetime" Type="datetime" />
-    <Property Name="trade_type" Type="varchar(max)" />
-    <Property Name="voucher_type_id" Type="int" />
-    <Property Name="attachment" Type="varchar(max)" />
-    <Property Name="approve" Type="bit" />
-    <Property Name="cancle" Type="bit" />
-    <Property Name="approved_by" Type="int" />
-    <Property Name="approved_datetime" Type="datetime" />
-    <Property Name="bluk_through" Type="bit" />
-    <Property Name="verfication_no" Type="varchar(max)" />
-    <Property Name="main_chat_id" Type="int" />
-    <Property Name="second_chart_id" Type="int" />
-  </EntityType>
-  <EntityType Name="master_touch">
-    <Key>
-      <PropertyRef Name="master_touch_id" />
-    </Key>
-    <Property Name="master_touch_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="master_touch_number" Type="varchar" MaxLength="50" />
-    <Property Name="master_touch_type" Type="varchar" MaxLength="50" />
-    <Property Name="master_touch_date" Type="date" />
-    <Property Name="master_touch_status" Type="bit" />
-  </EntityType>
   <EntityType Name="Module_info">
     <Key>
       <PropertyRef Name="module_id" />
@@ -165,47 +171,6 @@
     <Property Name="module_nestted_list" Type="bit" />
     <Property Name="orderby" Type="decimal" Precision="18" Scale="0" />
   </EntityType>
-  <EntityType Name="notificatios">
-    <Key>
-      <PropertyRef Name="notification_id" />
-    </Key>
-    <Property Name="notification_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="data" Type="varchar(max)" />
-    <Property Name="email" Type="varchar(max)" />
-    <Property Name="status" Type="varchar(max)" />
-    <Property Name="datetime" Type="datetime" />
-  </EntityType>
-  <EntityType Name="number_tariff">
-    <Key>
-      <PropertyRef Name="number_tariff_id" />
-    </Key>
-    <Property Name="number_tariff_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="game_result_number" Type="varchar" MaxLength="50" />
-    <Property Name="game_id" Type="int" />
-  </EntityType>
-  <EntityType Name="opc_number">
-    <Key>
-      <PropertyRef Name="opc_number_id" />
-    </Key>
-    <Property Name="opc_number_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="opc_date" Type="date" />
-    <Property Name="op_number" Type="varchar" MaxLength="50" />
-    <Property Name="op_time" Type="datetime" />
-    <Property Name="cn_number" Type="varchar" MaxLength="50" />
-    <Property Name="cn_time" Type="datetime" />
-    <Property Name="numeber_status" Type="bit" />
-    <Property Name="entrydatetime" Type="datetime" />
-    <Property Name="open_total" Type="varchar" MaxLength="50" />
-    <Property Name="close_total" Type="varchar" MaxLength="50" />
-    <Property Name="create_by" Type="int" />
-    <Property Name="created_date" Type="datetime" />
-    <Property Name="modify_by" Type="int" />
-    <Property Name="modify_date" Type="datetime" />
-    <Property Name="m_entrydatetime" Type="datetime" />
-    <Property Name="game_status" Type="varchar" MaxLength="50" />
-    <Property Name="holiday_status" Type="bit" />
-    <Property Name="game_id" Type="int" />
-  </EntityType>
   <EntityType Name="page_info">
     <Key>
       <PropertyRef Name="page_id" />
@@ -216,97 +181,6 @@
     <Property Name="page_url" Type="varchar(max)" />
     <Property Name="module_id" Type="int" Nullable="false" />
     <Property Name="orderby" Type="decimal" Precision="18" Scale="0" />
-  </EntityType>
-  <EntityType Name="result_main">
-    <Key>
-      <PropertyRef Name="result_main_id" />
-    </Key>
-    <Property Name="result_main_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="result_main_date" Type="date" />
-    <Property Name="sub_total" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="commision" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="grand_total" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="total_withdraw" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="total_net" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="result_main_description" Type="varchar(max)" />
-    <Property Name="entrydatetime" Type="datetime" />
-    <Property Name="create_by" Type="int" />
-    <Property Name="created_date" Type="datetime" />
-    <Property Name="modify_by" Type="int" />
-    <Property Name="modify_date" Type="datetime" />
-    <Property Name="m_entrydatetime" Type="datetime" />
-    <Property Name="result_main_status" Type="varchar(max)" />
-    <Property Name="result_type" Type="varchar(max)" />
-    <Property Name="commision_percentage" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="extra_commision" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="customer_id" Type="int" />
-    <Property Name="game_id" Type="int" />
-    <Property Name="cancel_by" Type="int" />
-    <Property Name="cancel_date" Type="datetime" />
-    <Property Name="approved_by" Type="int" />
-    <Property Name="approved_date" Type="datetime" />
-    <Property Name="credit_added_status" Type="bit" />
-    <Property Name="extra_detection" Type="decimal" Precision="18" Scale="0" />
-  </EntityType>
-  <EntityType Name="result_sub">
-    <Key>
-      <PropertyRef Name="result_sub_id" />
-    </Key>
-    <Property Name="result_sub_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="result_main_id" Type="int" Nullable="false" />
-    <Property Name="game_result_number" Type="varchar" MaxLength="50" />
-    <Property Name="result_sub_game_amount" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="result_sub_single" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="result_sub_poker" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="result_sub_joker" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="special_status" Type="bit" />
-    <Property Name="game_name" Type="varchar" MaxLength="50" />
-    <Property Name="final_amount" Type="decimal" Precision="18" Scale="4" />
-    <Property Name="final_type" Type="varchar" MaxLength="50" />
-  </EntityType>
-  <EntityType Name="setup">
-    <Key>
-      <PropertyRef Name="setup_id" />
-    </Key>
-    <Property Name="setup_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="tip_number" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="Golden_Ank" Type="varchar" MaxLength="50" />
-  </EntityType>
-  <EntityType Name="tip_number">
-    <Key>
-      <PropertyRef Name="tip_number_id" />
-    </Key>
-    <Property Name="tip_number_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="tip_total" Type="varchar(max)" />
-    <Property Name="tip_panel" Type="varchar(max)" />
-    <Property Name="tip_jodi" Type="varchar(max)" />
-    <Property Name="tip_status" Type="bit" />
-    <Property Name="entrydatetime" Type="datetime" />
-    <Property Name="game_id" Type="int" />
-    <Property Name="tip_position" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="Final_Ankra" Type="varchar(max)" />
-    <Property Name="Final_Ankra_Position" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="Final_Ankra_status" Type="bit" />
-  </EntityType>
-  <EntityType Name="translation">
-    <Key>
-      <PropertyRef Name="translation_id" />
-    </Key>
-    <Property Name="class_name" Type="varchar(max)" />
-    <Property Name="eng" Type="varchar(max)" />
-    <Property Name="swidish" Type="varchar(max)" />
-    <Property Name="translation_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-  </EntityType>
-  <EntityType Name="user_comments">
-    <Key>
-      <PropertyRef Name="comment_id" />
-    </Key>
-    <Property Name="comment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="comment_text" Type="varchar(max)" />
-    <Property Name="game_id" Type="int" Nullable="false" />
-    <Property Name="date" Type="date" />
-    <Property Name="datetime" Type="datetime" />
-    <Property Name="comment_status" Type="bit" />
   </EntityType>
   <EntityType Name="user_permission">
     <Key>
@@ -326,31 +200,6 @@
     <Property Name="role_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="role_name" Type="varchar(max)" />
     <Property Name="date" Type="date" />
-  </EntityType>
-  <EntityType Name="voucher_type">
-    <Key>
-      <PropertyRef Name="voucher_type_id" />
-    </Key>
-    <Property Name="voucher_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="type_name" Type="varchar(max)" />
-    <Property Name="abbreviation" Type="varchar(max)" />
-    <Property Name="status" Type="varchar(max)" />
-    <Property Name="autotime" Type="datetime" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'db_a96c28_umairadminnew.dbo.View_GetCreditForCustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="View_GetCreditForCustomer">
-    <Key>
-      <PropertyRef Name="customer_id" />
-    </Key>
-    <Property Name="customer_orderby" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="customer_name" Type="varchar(max)" />
-    <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Last_Date" Type="date" />
-    <Property Name="credit_type" Type="varchar" MaxLength="50" />
-    <Property Name="Last_Amount" Type="float" />
-    <Property Name="Current_Balance" Type="float" />
-    <Property Name="Pending_Game_Amount" Type="float" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'db_a96c28_umairadminnew.dbo.View_GetPages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -392,96 +241,219 @@ warning 6002: The table/view 'db_a96c28_umairadminnew.dbo.View_GetUserPermission
     <Property Name="status" Type="bit" />
     <Property Name="role_id" Type="int" />
   </EntityType>
+  <Association Name="FK_BangkokDrawGame_BangkokDraw">
+    <End Role="BangkokDraw" Type="Self.BangkokDraw" Multiplicity="1" />
+    <End Role="BangkokDrawGame" Type="Self.BangkokDrawGame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDraw">
+        <PropertyRef Name="DrawID" />
+      </Principal>
+      <Dependent Role="BangkokDrawGame">
+        <PropertyRef Name="DrawID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawPauseHistory_Draw">
+    <End Role="BangkokDraw" Type="Self.BangkokDraw" Multiplicity="1" />
+    <End Role="BangkokDrawPauseHistory" Type="Self.BangkokDrawPauseHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDraw">
+        <PropertyRef Name="DrawID" />
+      </Principal>
+      <Dependent Role="BangkokDrawPauseHistory">
+        <PropertyRef Name="DrawID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawPauseHistory_Game">
+    <End Role="BangkokDrawGame" Type="Self.BangkokDrawGame" Multiplicity="0..1" />
+    <End Role="BangkokDrawPauseHistory" Type="Self.BangkokDrawPauseHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDrawGame">
+        <PropertyRef Name="DrawGameID" />
+      </Principal>
+      <Dependent Role="BangkokDrawPauseHistory">
+        <PropertyRef Name="DrawGameID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawResult_BangkokDrawGame">
+    <End Role="BangkokDrawGame" Type="Self.BangkokDrawGame" Multiplicity="1" />
+    <End Role="BangkokDrawResult" Type="Self.BangkokDrawResult" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDrawGame">
+        <PropertyRef Name="DrawGameID" />
+      </Principal>
+      <Dependent Role="BangkokDrawResult">
+        <PropertyRef Name="DrawGameID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawResultHistory_Game">
+    <End Role="BangkokDrawGame" Type="Self.BangkokDrawGame" Multiplicity="1" />
+    <End Role="BangkokDrawResultHistory" Type="Self.BangkokDrawResultHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDrawGame">
+        <PropertyRef Name="DrawGameID" />
+      </Principal>
+      <Dependent Role="BangkokDrawResultHistory">
+        <PropertyRef Name="DrawGameID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawResultHistory_Result">
+    <End Role="BangkokDrawResult" Type="Self.BangkokDrawResult" Multiplicity="1" />
+    <End Role="BangkokDrawResultHistory" Type="Self.BangkokDrawResultHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDrawResult">
+        <PropertyRef Name="ResultID" />
+      </Principal>
+      <Dependent Role="BangkokDrawResultHistory">
+        <PropertyRef Name="ResultID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Function Name="FindTotalNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
     <Parameter Name="numberlength" Type="int" Mode="In" />
     <Parameter Name="number" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="GetNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="from_date" Type="date" Mode="In" />
-    <Parameter Name="to_date" Type="date" Mode="In" />
+  <Function Name="fn_PubPanelGetNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="game_id" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="opc_date" Type="date" />
+          <Property Name="op_number" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cn_number" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="total_number" Type="varchar" MaxLength="100" Nullable="false" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
   </Function>
-  <Function Name="GetSearchNumberHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="from_date" Type="date" Mode="In" />
-    <Parameter Name="to_date" Type="date" Mode="In" />
-    <Parameter Name="searchnumber" Type="varchar(max)" Mode="In" />
-    <Parameter Name="game_id" Type="int" Mode="In" />
+  <Function Name="fn_ShortWeekDay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="char">
+    <Parameter Name="dt" Type="date" Mode="In" />
   </Function>
-  <Function Name="Rpt_GetAssignGamesToUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="login_id" Type="int" Mode="In" />
+  <Function Name="fn_SplitString" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="string" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="delimiter" Type="char" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="item" Type="nvarchar" MaxLength="200" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
   </Function>
-  <Function Name="Rpt_GetDayWiseResultNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="from_date" Type="date" Mode="In" />
-    <Parameter Name="to_date" Type="date" Mode="In" />
-    <Parameter Name="login_id" Type="int" Mode="In" />
-    <Parameter Name="game_id" Type="int" Mode="In" />
+  <Function Name="sproc_BangkokDraw_AutoProcess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sproc_BangkokDraw_Cancel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="CancellationReason" Type="nvarchar" Mode="In" />
+    <Parameter Name="CancelledBy" Type="nvarchar" Mode="In" />
   </Function>
-  <Function Name="Rpt_GetDayWiseSumaryReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="from_date" Type="date" Mode="In" />
-    <Parameter Name="to_date" Type="date" Mode="In" />
-    <Parameter Name="login_id" Type="int" Mode="In" />
-    <Parameter Name="game_id" Type="int" Mode="In" />
+  <Function Name="sproc_BangkokDraw_Complete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="CompletedBy" Type="nvarchar" Mode="In" />
   </Function>
-  <Function Name="Rpt_GetResultNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="from_date" Type="date" Mode="In" />
-    <Parameter Name="to_date" Type="date" Mode="In" />
-    <Parameter Name="result_main_status" Type="varchar(max)" Mode="In" />
-    <Parameter Name="login_id" Type="int" Mode="In" />
-    <Parameter Name="game_id" Type="int" Mode="In" />
+  <Function Name="sproc_BangkokDraw_ConfirmResult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ResultID" Type="int" Mode="In" />
+    <Parameter Name="ConfirmedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="IPAddress" Type="varchar" Mode="In" />
+    <Parameter Name="UserAgent" Type="nvarchar" Mode="In" />
   </Function>
-  <Function Name="Rpt_GetSingleDateResultDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="from_date" Type="date" Mode="In" />
-    <Parameter Name="login_id" Type="int" Mode="In" />
+  <Function Name="sproc_BangkokDraw_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawCode" Type="varchar" Mode="In" />
+    <Parameter Name="DrawName" Type="nvarchar" Mode="In" />
+    <Parameter Name="DrawDate" Type="date" Mode="In" />
+    <Parameter Name="ScheduledStartUTC" Type="datetime2" Mode="In" />
+    <Parameter Name="TimeZoneID" Type="varchar" Mode="In" />
+    <Parameter Name="CountdownMinutes" Type="smallint" Mode="In" />
+    <Parameter Name="RepeatEveryDays" Type="smallint" Mode="In" />
+    <Parameter Name="DownStartOffsetSeconds" Type="int" Mode="In" />
+    <Parameter Name="FirstStartOffsetSeconds" Type="int" Mode="In" />
+    <Parameter Name="DigitRevealIntervalSeconds" Type="smallint" Mode="In" />
+    <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
+    <Parameter Name="NewDrawID" Type="int" Mode="InOut" />
   </Function>
-  <Function Name="Rpt_PubGetNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="from_date" Type="date" Mode="In" />
-    <Parameter Name="to_date" Type="date" Mode="In" />
-    <Parameter Name="game_id" Type="int" Mode="In" />
+  <Function Name="sproc_BangkokDraw_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="DeletedBy" Type="nvarchar" Mode="In" />
   </Function>
-  <Function Name="Rpt_PubJodiGetNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="game_id" Type="int" Mode="In" />
+  <Function Name="sproc_BangkokDraw_EnterResult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawGameID" Type="int" Mode="In" />
+    <Parameter Name="ResultNumber" Type="varchar" Mode="In" />
+    <Parameter Name="EnteredBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="ResultSource" Type="varchar" Mode="In" />
+    <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
+    <Parameter Name="IPAddress" Type="varchar" Mode="In" />
+    <Parameter Name="UserAgent" Type="nvarchar" Mode="In" />
   </Function>
-  <Function Name="Rpt_PubPanelGetNumberInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="game_id" Type="int" Mode="In" />
+  <Function Name="sproc_BangkokDraw_GetAdminControl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="DrawCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sproc_BangkokDraw_GetList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawStatus" Type="varchar" Mode="In" />
+    <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+    <Parameter Name="PageNumber" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sproc_BangkokDraw_GetLiveStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="DrawCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sproc_BangkokDraw_MarkReady" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="ModifiedBy" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sproc_BangkokDraw_Pause" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="DrawGameID" Type="int" Mode="In" />
+    <Parameter Name="PauseReason" Type="nvarchar" Mode="In" />
+    <Parameter Name="PausedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sproc_BangkokDraw_Publish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="PublishedBy" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sproc_BangkokDraw_Resume" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PauseHistoryID" Type="int" Mode="In" />
+    <Parameter Name="ResumeReason" Type="nvarchar" Mode="In" />
+    <Parameter Name="ResumedBy" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sproc_BangkokDraw_RevealNextDigit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="RevealedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="IPAddress" Type="varchar" Mode="In" />
+    <Parameter Name="UserAgent" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sproc_BangkokDraw_SaveResult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="GameCode" Type="varchar" Mode="In" />
+    <Parameter Name="ResultNumber" Type="varchar" Mode="In" />
+    <Parameter Name="EnteredBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="ResultSource" Type="varchar" Mode="In" />
+    <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
+    <Parameter Name="IPAddress" Type="varchar" Mode="In" />
+    <Parameter Name="UserAgent" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sproc_BangkokDraw_StartBroadcast" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DrawID" Type="int" Mode="In" />
+    <Parameter Name="StartedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="AllowScheduleOverride" Type="bit" Mode="In" />
   </Function>
   <EntityContainer Name="return_orderModelStoreContainer">
-    <EntitySet Name="account_type" EntityType="Self.account_type" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="addcustomer" EntityType="Self.addcustomer" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="addgames" EntityType="Self.addgames" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AssignGamesToUser" EntityType="Self.AssignGamesToUser" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="cat1" EntityType="Self.cat1" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="chart_of_account" EntityType="Self.chart_of_account" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="credit_entires" EntityType="Self.credit_entires" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BangkokDraw" EntityType="Self.BangkokDraw" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BangkokDrawGame" EntityType="Self.BangkokDrawGame" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BangkokDrawPauseHistory" EntityType="Self.BangkokDrawPauseHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BangkokDrawResult" EntityType="Self.BangkokDrawResult" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BangkokDrawResultHistory" EntityType="Self.BangkokDrawResultHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="manaual_journal_entry" EntityType="Self.manaual_journal_entry" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="manaual_journal_info" EntityType="Self.manaual_journal_info" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="master_touch" EntityType="Self.master_touch" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Module_info" EntityType="Self.Module_info" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="notificatios" EntityType="Self.notificatios" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="number_tariff" EntityType="Self.number_tariff" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="opc_number" EntityType="Self.opc_number" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="page_info" EntityType="Self.page_info" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="result_main" EntityType="Self.result_main" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="result_sub" EntityType="Self.result_sub" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="setup" EntityType="Self.setup" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tip_number" EntityType="Self.tip_number" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="translation" EntityType="Self.translation" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="user_comments" EntityType="Self.user_comments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="user_permission" EntityType="Self.user_permission" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="userroles" EntityType="Self.userroles" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="voucher_type" EntityType="Self.voucher_type" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="View_GetCreditForCustomer" EntityType="Self.View_GetCreditForCustomer" store:Type="Views" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [View_GetCreditForCustomer].[customer_orderby] AS [customer_orderby], 
-    [View_GetCreditForCustomer].[customer_name] AS [customer_name], 
-    [View_GetCreditForCustomer].[customer_id] AS [customer_id], 
-    [View_GetCreditForCustomer].[Last_Date] AS [Last_Date], 
-    [View_GetCreditForCustomer].[credit_type] AS [credit_type], 
-    [View_GetCreditForCustomer].[Last_Amount] AS [Last_Amount], 
-    [View_GetCreditForCustomer].[Current_Balance] AS [Current_Balance], 
-    [View_GetCreditForCustomer].[Pending_Game_Amount] AS [Pending_Game_Amount]
-    FROM [dbo].[View_GetCreditForCustomer] AS [View_GetCreditForCustomer]</DefiningQuery>
-    </EntitySet>
     <EntitySet Name="View_GetPages" EntityType="Self.View_GetPages" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [View_GetPages].[module_id] AS [module_id], 
@@ -511,5 +483,29 @@ warning 6002: The table/view 'db_a96c28_umairadminnew.dbo.View_GetUserPermission
     [View_GetUserPermissions].[role_id] AS [role_id]
     FROM [dbo].[View_GetUserPermissions] AS [View_GetUserPermissions]</DefiningQuery>
     </EntitySet>
+    <AssociationSet Name="FK_BangkokDrawGame_BangkokDraw" Association="Self.FK_BangkokDrawGame_BangkokDraw">
+      <End Role="BangkokDraw" EntitySet="BangkokDraw" />
+      <End Role="BangkokDrawGame" EntitySet="BangkokDrawGame" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawPauseHistory_Draw" Association="Self.FK_BangkokDrawPauseHistory_Draw">
+      <End Role="BangkokDraw" EntitySet="BangkokDraw" />
+      <End Role="BangkokDrawPauseHistory" EntitySet="BangkokDrawPauseHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawPauseHistory_Game" Association="Self.FK_BangkokDrawPauseHistory_Game">
+      <End Role="BangkokDrawGame" EntitySet="BangkokDrawGame" />
+      <End Role="BangkokDrawPauseHistory" EntitySet="BangkokDrawPauseHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawResult_BangkokDrawGame" Association="Self.FK_BangkokDrawResult_BangkokDrawGame">
+      <End Role="BangkokDrawGame" EntitySet="BangkokDrawGame" />
+      <End Role="BangkokDrawResult" EntitySet="BangkokDrawResult" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawResultHistory_Game" Association="Self.FK_BangkokDrawResultHistory_Game">
+      <End Role="BangkokDrawGame" EntitySet="BangkokDrawGame" />
+      <End Role="BangkokDrawResultHistory" EntitySet="BangkokDrawResultHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawResultHistory_Result" Association="Self.FK_BangkokDrawResultHistory_Result">
+      <End Role="BangkokDrawResult" EntitySet="BangkokDrawResult" />
+      <End Role="BangkokDrawResultHistory" EntitySet="BangkokDrawResultHistory" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

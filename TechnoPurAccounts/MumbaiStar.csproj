@@ -272,6 +272,13 @@
     <Compile Include="Controllers\BangkokDrawController.cs" />
     <Compile Include="Controllers\LoggedUserInfoController.cs" />
     <Compile Include="Controllers\UserRolePermissionsController.cs" />
+    <Compile Include="Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
     <Compile Include="index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -333,6 +340,7 @@
     <Content Include="assets\css\sweetalert.min.css" />
     <Content Include="assets\css\toastr.min.css" />
     <Content Include="assets\custom.css" />
+    <Content Include="assets\dashboard-modern.css" />
     <Content Include="assets\fonts\fa-brands-400.svg" />
     <Content Include="assets\fonts\fa-regular-400.svg" />
     <Content Include="assets\fonts\fa-solid-900.svg" />
@@ -880,6 +888,7 @@
     <Content Include="css\responsive.css" />
     <Content Include="css\style2.css" />
     <Content Include="css\StyleSheet1.css" />
+    <Content Include="Dashboard.aspx" />
     <Content Include="img\GLO logo.jpeg" />
     <Content Include="img\glo-logo.jpeg" />
     <Content Include="index.aspx" />
@@ -897,6 +906,7 @@
     <Content Include="PasswordCheck\passwordstrength.jpg" />
     <Content Include="permission_denied.html" />
     <Content Include="Profile.aspx" />
+    <Content Include="README.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

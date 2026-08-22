@@ -101,37 +101,151 @@
       <Parameter Name="login_id" Mode="In" Type="Int32" />
       <Parameter Name="game_id" Mode="In" Type="Int32" />
     </FunctionImport>
-    <EntitySet Name="account_type" EntityType="return_orderModel.account_type" />
-    <EntitySet Name="addcustomers" EntityType="return_orderModel.addcustomer" />
-    <EntitySet Name="addgames" EntityType="return_orderModel.addgame" />
-    <EntitySet Name="cat1" EntityType="return_orderModel.cat1" />
-    <EntitySet Name="chart_of_account" EntityType="return_orderModel.chart_of_account" />
-    <EntitySet Name="credit_entires" EntityType="return_orderModel.credit_entires" />
+    <FunctionImport Name="Rpt_GetAssignGamesToUser" ReturnType="Collection(return_orderModel.Rpt_GetAssignGamesToUser_Result)">
+      <Parameter Name="login_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="BangkokDraws" EntityType="return_orderModel.BangkokDraw" />
+    <EntitySet Name="BangkokDrawGames" EntityType="return_orderModel.BangkokDrawGame" />
+    <EntitySet Name="BangkokDrawPauseHistories" EntityType="return_orderModel.BangkokDrawPauseHistory" />
+    <EntitySet Name="BangkokDrawResults" EntityType="return_orderModel.BangkokDrawResult" />
+    <EntitySet Name="BangkokDrawResultHistories" EntityType="return_orderModel.BangkokDrawResultHistory" />
     <EntitySet Name="logins" EntityType="return_orderModel.login" />
-    <EntitySet Name="manaual_journal_entry" EntityType="return_orderModel.manaual_journal_entry" />
-    <EntitySet Name="manaual_journal_info" EntityType="return_orderModel.manaual_journal_info" />
-    <EntitySet Name="master_touch" EntityType="return_orderModel.master_touch" />
     <EntitySet Name="Module_info" EntityType="return_orderModel.Module_info" />
-    <EntitySet Name="notificatios" EntityType="return_orderModel.notificatio" />
-    <EntitySet Name="number_tariff" EntityType="return_orderModel.number_tariff" />
-    <EntitySet Name="opc_number" EntityType="return_orderModel.opc_number" />
     <EntitySet Name="page_info" EntityType="return_orderModel.page_info" />
-    <EntitySet Name="result_main" EntityType="return_orderModel.result_main" />
-    <EntitySet Name="result_sub" EntityType="return_orderModel.result_sub" />
-    <EntitySet Name="setups" EntityType="return_orderModel.setup" />
-    <EntitySet Name="tip_number" EntityType="return_orderModel.tip_number" />
-    <EntitySet Name="translations" EntityType="return_orderModel.translation" />
-    <EntitySet Name="user_comments" EntityType="return_orderModel.user_comments" />
     <EntitySet Name="user_permission" EntityType="return_orderModel.user_permission" />
     <EntitySet Name="userroles" EntityType="return_orderModel.userrole" />
-    <EntitySet Name="voucher_type" EntityType="return_orderModel.voucher_type" />
-    <EntitySet Name="View_GetCreditForCustomer" EntityType="return_orderModel.View_GetCreditForCustomer" />
     <EntitySet Name="View_GetPages" EntityType="return_orderModel.View_GetPages" />
     <EntitySet Name="View_GetUserPermissionModule" EntityType="return_orderModel.View_GetUserPermissionModule" />
     <EntitySet Name="View_GetUserPermissions" EntityType="return_orderModel.View_GetUserPermissions" />
-    <EntitySet Name="AssignGamesToUsers" EntityType="return_orderModel.AssignGamesToUser" />
-    <FunctionImport Name="Rpt_GetAssignGamesToUser" ReturnType="Collection(return_orderModel.Rpt_GetAssignGamesToUser_Result)">
-      <Parameter Name="login_id" Mode="In" Type="Int32" />
+    <AssociationSet Name="FK_BangkokDrawGame_BangkokDraw" Association="return_orderModel.FK_BangkokDrawGame_BangkokDraw">
+      <End Role="BangkokDraw" EntitySet="BangkokDraws" />
+      <End Role="BangkokDrawGame" EntitySet="BangkokDrawGames" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawPauseHistory_Draw" Association="return_orderModel.FK_BangkokDrawPauseHistory_Draw">
+      <End Role="BangkokDraw" EntitySet="BangkokDraws" />
+      <End Role="BangkokDrawPauseHistory" EntitySet="BangkokDrawPauseHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawPauseHistory_Game" Association="return_orderModel.FK_BangkokDrawPauseHistory_Game">
+      <End Role="BangkokDrawGame" EntitySet="BangkokDrawGames" />
+      <End Role="BangkokDrawPauseHistory" EntitySet="BangkokDrawPauseHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawResult_BangkokDrawGame" Association="return_orderModel.FK_BangkokDrawResult_BangkokDrawGame">
+      <End Role="BangkokDrawGame" EntitySet="BangkokDrawGames" />
+      <End Role="BangkokDrawResult" EntitySet="BangkokDrawResults" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawResultHistory_Game" Association="return_orderModel.FK_BangkokDrawResultHistory_Game">
+      <End Role="BangkokDrawGame" EntitySet="BangkokDrawGames" />
+      <End Role="BangkokDrawResultHistory" EntitySet="BangkokDrawResultHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BangkokDrawResultHistory_Result" Association="return_orderModel.FK_BangkokDrawResultHistory_Result">
+      <End Role="BangkokDrawResult" EntitySet="BangkokDrawResults" />
+      <End Role="BangkokDrawResultHistory" EntitySet="BangkokDrawResultHistories" />
+    </AssociationSet>
+    <FunctionImport Name="fn_PubPanelGetNumberInfo" IsComposable="true" ReturnType="Collection(return_orderModel.fn_PubPanelGetNumberInfo_Result)">
+      <Parameter Name="game_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="fn_SplitString" IsComposable="true" ReturnType="Collection(String)">
+      <Parameter Name="string" Mode="In" Type="String" />
+      <Parameter Name="delimiter" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_AutoProcess" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_AutoProcess_Result)" />
+    <FunctionImport Name="sproc_BangkokDraw_Cancel" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_Cancel_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="CancellationReason" Mode="In" Type="String" />
+      <Parameter Name="CancelledBy" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_Complete" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_Complete_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="CompletedBy" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_ConfirmResult" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_ConfirmResult_Result)">
+      <Parameter Name="ResultID" Mode="In" Type="Int32" />
+      <Parameter Name="ConfirmedBy" Mode="In" Type="String" />
+      <Parameter Name="IPAddress" Mode="In" Type="String" />
+      <Parameter Name="UserAgent" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_Create" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_Create_Result)">
+      <Parameter Name="DrawCode" Mode="In" Type="String" />
+      <Parameter Name="DrawName" Mode="In" Type="String" />
+      <Parameter Name="DrawDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ScheduledStartUTC" Mode="In" Type="DateTime" />
+      <Parameter Name="TimeZoneID" Mode="In" Type="String" />
+      <Parameter Name="CountdownMinutes" Mode="In" Type="Int16" />
+      <Parameter Name="RepeatEveryDays" Mode="In" Type="Int16" />
+      <Parameter Name="DownStartOffsetSeconds" Mode="In" Type="Int32" />
+      <Parameter Name="FirstStartOffsetSeconds" Mode="In" Type="Int32" />
+      <Parameter Name="DigitRevealIntervalSeconds" Mode="In" Type="Int16" />
+      <Parameter Name="CreatedBy" Mode="In" Type="String" />
+      <Parameter Name="Remarks" Mode="In" Type="String" />
+      <Parameter Name="NewDrawID" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_Delete" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_Delete_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="DeletedBy" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_EnterResult" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_EnterResult_Result)">
+      <Parameter Name="DrawGameID" Mode="In" Type="Int32" />
+      <Parameter Name="ResultNumber" Mode="In" Type="String" />
+      <Parameter Name="EnteredBy" Mode="In" Type="String" />
+      <Parameter Name="ResultSource" Mode="In" Type="String" />
+      <Parameter Name="Remarks" Mode="In" Type="String" />
+      <Parameter Name="IPAddress" Mode="In" Type="String" />
+      <Parameter Name="UserAgent" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_GetAdminControl" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_GetAdminControl_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="DrawCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_GetList" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_GetList_Result)">
+      <Parameter Name="DrawStatus" Mode="In" Type="String" />
+      <Parameter Name="SearchText" Mode="In" Type="String" />
+      <Parameter Name="PageNumber" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_GetLiveStatus" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_GetLiveStatus_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="DrawCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_MarkReady" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_MarkReady_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="ModifiedBy" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_Pause" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_Pause_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="DrawGameID" Mode="In" Type="Int32" />
+      <Parameter Name="PauseReason" Mode="In" Type="String" />
+      <Parameter Name="PausedBy" Mode="In" Type="String" />
+      <Parameter Name="Remarks" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_Publish" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_Publish_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="PublishedBy" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_Resume" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_Resume_Result)">
+      <Parameter Name="PauseHistoryID" Mode="In" Type="Int32" />
+      <Parameter Name="ResumeReason" Mode="In" Type="String" />
+      <Parameter Name="ResumedBy" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_RevealNextDigit" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_RevealNextDigit_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="RevealedBy" Mode="In" Type="String" />
+      <Parameter Name="IPAddress" Mode="In" Type="String" />
+      <Parameter Name="UserAgent" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_SaveResult" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_SaveResult_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="GameCode" Mode="In" Type="String" />
+      <Parameter Name="ResultNumber" Mode="In" Type="String" />
+      <Parameter Name="EnteredBy" Mode="In" Type="String" />
+      <Parameter Name="ResultSource" Mode="In" Type="String" />
+      <Parameter Name="Remarks" Mode="In" Type="String" />
+      <Parameter Name="IPAddress" Mode="In" Type="String" />
+      <Parameter Name="UserAgent" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sproc_BangkokDraw_StartBroadcast" ReturnType="Collection(return_orderModel.sproc_BangkokDraw_StartBroadcast_Result)">
+      <Parameter Name="DrawID" Mode="In" Type="Int32" />
+      <Parameter Name="StartedBy" Mode="In" Type="String" />
+      <Parameter Name="AllowScheduleOverride" Mode="In" Type="Boolean" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="gettrialbalance_Result">
@@ -270,86 +384,167 @@
     <Property Type="Double" Name="Total_D" Nullable="true" />
     <Property Type="String" Name="game_name" Nullable="true" />
   </ComplexType>
-  <EntityType Name="account_type">
+  <ComplexType Name="Rpt_GetAssignGamesToUser_Result">
+    <Property Type="Int32" Name="game_id" Nullable="false" />
+    <Property Type="String" Name="game_name" Nullable="true" />
+    <Property Type="Boolean" Name="staus" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="BangkokDraw">
     <Key>
-      <PropertyRef Name="account_type_id" />
+      <PropertyRef Name="DrawID" />
     </Key>
-    <Property Name="account_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="account_type_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="account_type_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="DrawID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DrawCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="DrawDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ScheduledStartUTC" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="TimeZoneID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CountdownMinutes" Type="Int16" Nullable="false" />
+    <Property Name="RepeatEveryDays" Type="Int16" Nullable="false" />
+    <Property Name="NextDrawDate" Type="DateTime" Precision="0" />
+    <Property Name="DrawStatus" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="IsPublished" Type="Boolean" Nullable="false" />
+    <Property Name="PublishedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="PublishedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="OriginalScheduledStartUTC" Type="DateTime" Precision="0" />
+    <Property Name="PostponedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="PostponedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PostponementReason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CancelledDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="CancelledBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CancellationReason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CompletedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="CompletedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Remarks" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDateUTC" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="DeletedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DeletedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="ActiveDrawKey" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="ActualStartUTC" Type="DateTime" Precision="0" />
+    <Property Name="ActualEndUTC" Type="DateTime" Precision="0" />
+    <Property Name="DrawName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BangkokDrawGames" Relationship="return_orderModel.FK_BangkokDrawGame_BangkokDraw" FromRole="BangkokDraw" ToRole="BangkokDrawGame" />
+    <NavigationProperty Name="BangkokDrawPauseHistories" Relationship="return_orderModel.FK_BangkokDrawPauseHistory_Draw" FromRole="BangkokDraw" ToRole="BangkokDrawPauseHistory" />
   </EntityType>
-  <EntityType Name="addcustomer">
+  <EntityType Name="BangkokDrawGame">
     <Key>
-      <PropertyRef Name="customer_id" />
+      <PropertyRef Name="DrawGameID" />
     </Key>
-    <Property Name="customer_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="customer_orderby" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="create_by" Type="Int32" />
-    <Property Name="created_date" Type="DateTime" Precision="3" />
-    <Property Name="modify_by" Type="Int32" />
-    <Property Name="modify_date" Type="DateTime" Precision="3" />
-    <Property Name="active_status" Type="Boolean" />
+    <Property Name="DrawGameID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DrawID" Type="Int32" Nullable="false" />
+    <Property Name="GameCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="GameName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="GameNameThai" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="DisplayOrder" Type="Byte" Nullable="false" />
+    <Property Name="DigitCount" Type="Byte" Nullable="false" />
+    <Property Name="StartOffsetSeconds" Type="Int32" Nullable="false" />
+    <Property Name="DigitRevealIntervalSeconds" Type="Int16" Nullable="false" />
+    <Property Name="HostPickupSeconds" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+    <Property Name="BallFlightSeconds" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+    <Property Name="MachineRunSeconds" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+    <Property Name="GameStatus" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="ActualStartUTC" Type="DateTime" Precision="0" />
+    <Property Name="RevealStartedUTC" Type="DateTime" Precision="0" />
+    <Property Name="RevealCompletedUTC" Type="DateTime" Precision="0" />
+    <Property Name="CompletedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDateUTC" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="ActualEndUTC" Type="DateTime" Precision="0" />
+    <Property Name="ScheduledStartUTC" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="BangkokDraw" Relationship="return_orderModel.FK_BangkokDrawGame_BangkokDraw" FromRole="BangkokDrawGame" ToRole="BangkokDraw" />
+    <NavigationProperty Name="BangkokDrawPauseHistories" Relationship="return_orderModel.FK_BangkokDrawPauseHistory_Game" FromRole="BangkokDrawGame" ToRole="BangkokDrawPauseHistory" />
+    <NavigationProperty Name="BangkokDrawResults" Relationship="return_orderModel.FK_BangkokDrawResult_BangkokDrawGame" FromRole="BangkokDrawGame" ToRole="BangkokDrawResult" />
+    <NavigationProperty Name="BangkokDrawResultHistories" Relationship="return_orderModel.FK_BangkokDrawResultHistory_Game" FromRole="BangkokDrawGame" ToRole="BangkokDrawResultHistory" />
   </EntityType>
-  <EntityType Name="addgame">
+  <EntityType Name="BangkokDrawPauseHistory">
     <Key>
-      <PropertyRef Name="game_id" />
+      <PropertyRef Name="PauseHistoryID" />
     </Key>
-    <Property Name="game_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="game_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="game_enter_date" Type="DateTime" Precision="0" />
-    <Property Name="game_status" Type="Boolean" />
-    <Property Name="game_orderby" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="game_color" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="game_text_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="game_open_time" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="game_close_time" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="game_run_days" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PauseHistoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DrawID" Type="Int32" Nullable="false" />
+    <Property Name="DrawGameID" Type="Int32" />
+    <Property Name="PauseStartedUTC" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="PauseReason" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PausedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ResumeDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="ResumeReason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ResumedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PauseDurationSeconds" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="IsResumed" Type="Boolean" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDateUTC" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="OpenPauseKey" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="BangkokDraw" Relationship="return_orderModel.FK_BangkokDrawPauseHistory_Draw" FromRole="BangkokDrawPauseHistory" ToRole="BangkokDraw" />
+    <NavigationProperty Name="BangkokDrawGame" Relationship="return_orderModel.FK_BangkokDrawPauseHistory_Game" FromRole="BangkokDrawPauseHistory" ToRole="BangkokDrawGame" />
   </EntityType>
-  <EntityType Name="cat1">
+  <EntityType Name="BangkokDrawResult">
     <Key>
-      <PropertyRef Name="cat1_id" />
+      <PropertyRef Name="ResultID" />
     </Key>
-    <Property Name="cat1_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="cat1_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="cat1_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="account_type_id" Type="Int32" Nullable="false" />
+    <Property Name="ResultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DrawGameID" Type="Int32" Nullable="false" />
+    <Property Name="ResultNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="ResultStatus" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="ResultSource" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="EnteredDateUTC" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EnteredBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="ConfirmedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="ConfirmedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IsLateEntry" Type="Boolean" Nullable="false" />
+    <Property Name="ScheduledGameStartUTC" Type="DateTime" Precision="0" />
+    <Property Name="EntryDelaySeconds" Type="Int32" />
+    <Property Name="RevealStartedUTC" Type="DateTime" Precision="0" />
+    <Property Name="RevealCompletedUTC" Type="DateTime" Precision="0" />
+    <Property Name="RevealedDigitCount" Type="Byte" Nullable="false" />
+    <Property Name="IsLocked" Type="Boolean" Nullable="false" />
+    <Property Name="LockedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="LockedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ResultVersion" Type="Int32" Nullable="false" />
+    <Property Name="IsCorrected" Type="Boolean" Nullable="false" />
+    <Property Name="CorrectedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="CorrectedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CorrectionReason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDateUTC" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDateUTC" Type="DateTime" Precision="0" />
+    <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="BangkokDrawGame" Relationship="return_orderModel.FK_BangkokDrawResult_BangkokDrawGame" FromRole="BangkokDrawResult" ToRole="BangkokDrawGame" />
+    <NavigationProperty Name="BangkokDrawResultHistories" Relationship="return_orderModel.FK_BangkokDrawResultHistory_Result" FromRole="BangkokDrawResult" ToRole="BangkokDrawResultHistory" />
   </EntityType>
-  <EntityType Name="chart_of_account">
+  <EntityType Name="BangkokDrawResultHistory">
     <Key>
-      <PropertyRef Name="chart_id" />
+      <PropertyRef Name="ResultHistoryID" />
     </Key>
-    <Property Name="chart_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="account_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="account_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="account_type_id" Type="Int32" Nullable="false" />
-    <Property Name="cat1_id" Type="Int32" />
-    <Property Name="opening_balance_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="opening_balance_amount" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="create_by" Type="Int32" />
-    <Property Name="created_date" Type="DateTime" Precision="3" />
-    <Property Name="modify_by" Type="Int32" />
-    <Property Name="modify_date" Type="DateTime" Precision="3" />
-    <Property Name="account_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="add_club_id" Type="Int32" Nullable="false" />
-  </EntityType>
-  <EntityType Name="credit_entires">
-    <Key>
-      <PropertyRef Name="credit_entires_id" />
-    </Key>
-    <Property Name="credit_entires_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="customer_id" Type="Int32" Nullable="false" />
-    <Property Name="trans_date" Type="DateTime" Precision="0" />
-    <Property Name="debit" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="credit" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="create_by" Type="Int32" />
-    <Property Name="created_date" Type="DateTime" Precision="3" />
-    <Property Name="credit_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="entire_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="total_game_amount" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="total_pay_amount" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="before_current_balance" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="entry_define_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResultHistoryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ResultID" Type="Int32" Nullable="false" />
+    <Property Name="DrawGameID" Type="Int32" Nullable="false" />
+    <Property Name="ResultNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="ResultVersion" Type="Int32" Nullable="false" />
+    <Property Name="ActionType" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="PreviousResultNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="PreviousResultStatus" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="NewResultStatus" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="PreviousRevealedDigitCount" Type="Byte" />
+    <Property Name="NewRevealedDigitCount" Type="Byte" Nullable="false" />
+    <Property Name="ActionReason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ActionBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ActionDateUTC" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="IPAddress" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="UserAgent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BangkokDrawGame" Relationship="return_orderModel.FK_BangkokDrawResultHistory_Game" FromRole="BangkokDrawResultHistory" ToRole="BangkokDrawGame" />
+    <NavigationProperty Name="BangkokDrawResult" Relationship="return_orderModel.FK_BangkokDrawResultHistory_Result" FromRole="BangkokDrawResultHistory" ToRole="BangkokDrawResult" />
   </EntityType>
   <EntityType Name="login">
     <Key>
@@ -366,55 +561,6 @@
     <Property Name="withouthashpassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="add_club_id" Type="Int32" Nullable="false" />
   </EntityType>
-  <EntityType Name="manaual_journal_entry">
-    <Key>
-      <PropertyRef Name="manaual_journal_entry_id" />
-    </Key>
-    <Property Name="manaual_journal_entry_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="chart_id" Type="Int32" Nullable="false" />
-    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="debit" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="credit" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="manaual_journal_info_id" Type="Int32" Nullable="false" />
-    <Property Name="entrydatetime" Type="DateTime" Precision="3" />
-  </EntityType>
-  <EntityType Name="manaual_journal_info">
-    <Key>
-      <PropertyRef Name="manaual_journal_info_id" />
-    </Key>
-    <Property Name="manaual_journal_info_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="voucher_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="trans_date" Type="DateTime" Precision="0" />
-    <Property Name="add_club_id" Type="Int32" Nullable="false" />
-    <Property Name="digital_receipt_id" Type="Int32" />
-    <Property Name="remarkes_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="create_by" Type="Int32" />
-    <Property Name="created_date" Type="DateTime" Precision="3" />
-    <Property Name="modify_by" Type="Int32" />
-    <Property Name="modify_date" Type="DateTime" Precision="3" />
-    <Property Name="m_entrydatetime" Type="DateTime" Precision="3" />
-    <Property Name="trade_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="voucher_type_id" Type="Int32" />
-    <Property Name="attachment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="approve" Type="Boolean" />
-    <Property Name="cancle" Type="Boolean" />
-    <Property Name="approved_by" Type="Int32" />
-    <Property Name="approved_datetime" Type="DateTime" Precision="3" />
-    <Property Name="bluk_through" Type="Boolean" />
-    <Property Name="verfication_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="main_chat_id" Type="Int32" />
-    <Property Name="second_chart_id" Type="Int32" />
-  </EntityType>
-  <EntityType Name="master_touch">
-    <Key>
-      <PropertyRef Name="master_touch_id" />
-    </Key>
-    <Property Name="master_touch_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="master_touch_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="master_touch_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="master_touch_date" Type="DateTime" Precision="0" />
-    <Property Name="master_touch_status" Type="Boolean" />
-  </EntityType>
   <EntityType Name="Module_info">
     <Key>
       <PropertyRef Name="module_id" />
@@ -426,47 +572,6 @@
     <Property Name="module_nestted_list" Type="Boolean" />
     <Property Name="orderby" Type="Decimal" Precision="18" Scale="0" />
   </EntityType>
-  <EntityType Name="notificatio">
-    <Key>
-      <PropertyRef Name="notification_id" />
-    </Key>
-    <Property Name="notification_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="data" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="datetime" Type="DateTime" Precision="3" />
-  </EntityType>
-  <EntityType Name="number_tariff">
-    <Key>
-      <PropertyRef Name="number_tariff_id" />
-    </Key>
-    <Property Name="number_tariff_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="game_result_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="game_id" Type="Int32" />
-  </EntityType>
-  <EntityType Name="opc_number">
-    <Key>
-      <PropertyRef Name="opc_number_id" />
-    </Key>
-    <Property Name="opc_number_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="opc_date" Type="DateTime" Precision="0" />
-    <Property Name="op_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="op_time" Type="DateTime" Precision="3" />
-    <Property Name="cn_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="cn_time" Type="DateTime" Precision="3" />
-    <Property Name="numeber_status" Type="Boolean" />
-    <Property Name="entrydatetime" Type="DateTime" Precision="3" />
-    <Property Name="open_total" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="close_total" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="create_by" Type="Int32" />
-    <Property Name="created_date" Type="DateTime" Precision="3" />
-    <Property Name="modify_by" Type="Int32" />
-    <Property Name="modify_date" Type="DateTime" Precision="3" />
-    <Property Name="m_entrydatetime" Type="DateTime" Precision="3" />
-    <Property Name="game_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="holiday_status" Type="Boolean" />
-    <Property Name="game_id" Type="Int32" />
-  </EntityType>
   <EntityType Name="page_info">
     <Key>
       <PropertyRef Name="page_id" />
@@ -477,97 +582,6 @@
     <Property Name="page_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="module_id" Type="Int32" Nullable="false" />
     <Property Name="orderby" Type="Decimal" Precision="18" Scale="0" />
-  </EntityType>
-  <EntityType Name="result_main">
-    <Key>
-      <PropertyRef Name="result_main_id" />
-    </Key>
-    <Property Name="result_main_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="result_main_date" Type="DateTime" Precision="0" />
-    <Property Name="sub_total" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="commision" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="grand_total" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="total_withdraw" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="total_net" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="result_main_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="entrydatetime" Type="DateTime" Precision="3" />
-    <Property Name="create_by" Type="Int32" />
-    <Property Name="created_date" Type="DateTime" Precision="3" />
-    <Property Name="modify_by" Type="Int32" />
-    <Property Name="modify_date" Type="DateTime" Precision="3" />
-    <Property Name="m_entrydatetime" Type="DateTime" Precision="3" />
-    <Property Name="result_main_status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="result_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="commision_percentage" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="extra_commision" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="customer_id" Type="Int32" />
-    <Property Name="game_id" Type="Int32" />
-    <Property Name="cancel_by" Type="Int32" />
-    <Property Name="cancel_date" Type="DateTime" Precision="3" />
-    <Property Name="approved_by" Type="Int32" />
-    <Property Name="approved_date" Type="DateTime" Precision="3" />
-    <Property Name="credit_added_status" Type="Boolean" />
-    <Property Name="extra_detection" Type="Decimal" Precision="18" Scale="0" />
-  </EntityType>
-  <EntityType Name="result_sub">
-    <Key>
-      <PropertyRef Name="result_sub_id" />
-    </Key>
-    <Property Name="result_sub_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="result_main_id" Type="Int32" Nullable="false" />
-    <Property Name="game_result_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="result_sub_game_amount" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="result_sub_single" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="result_sub_poker" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="result_sub_joker" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="special_status" Type="Boolean" />
-    <Property Name="game_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="final_amount" Type="Decimal" Precision="18" Scale="4" />
-    <Property Name="final_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="setup">
-    <Key>
-      <PropertyRef Name="setup_id" />
-    </Key>
-    <Property Name="setup_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="tip_number" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="Golden_Ank" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="tip_number">
-    <Key>
-      <PropertyRef Name="tip_number_id" />
-    </Key>
-    <Property Name="tip_number_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="tip_total" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="tip_panel" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="tip_jodi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="tip_status" Type="Boolean" />
-    <Property Name="entrydatetime" Type="DateTime" Precision="3" />
-    <Property Name="game_id" Type="Int32" />
-    <Property Name="tip_position" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="Final_Ankra" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="Final_Ankra_Position" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="Final_Ankra_status" Type="Boolean" />
-  </EntityType>
-  <EntityType Name="translation">
-    <Key>
-      <PropertyRef Name="translation_id" />
-    </Key>
-    <Property Name="class_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="eng" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="swidish" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="translation_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-  </EntityType>
-  <EntityType Name="user_comments">
-    <Key>
-      <PropertyRef Name="comment_id" />
-    </Key>
-    <Property Name="comment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="comment_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="game_id" Type="Int32" Nullable="false" />
-    <Property Name="date" Type="DateTime" Precision="0" />
-    <Property Name="datetime" Type="DateTime" Precision="3" />
-    <Property Name="comment_status" Type="Boolean" />
   </EntityType>
   <EntityType Name="user_permission">
     <Key>
@@ -587,29 +601,6 @@
     <Property Name="role_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="role_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="date" Type="DateTime" Precision="0" />
-  </EntityType>
-  <EntityType Name="voucher_type">
-    <Key>
-      <PropertyRef Name="voucher_type_id" />
-    </Key>
-    <Property Name="voucher_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="type_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="abbreviation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="autotime" Type="DateTime" Precision="3" />
-  </EntityType>
-  <EntityType Name="View_GetCreditForCustomer">
-    <Key>
-      <PropertyRef Name="customer_id" />
-    </Key>
-    <Property Name="customer_orderby" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="customer_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Last_Date" Type="DateTime" Precision="0" />
-    <Property Name="credit_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Last_Amount" Type="Double" />
-    <Property Name="Current_Balance" Type="Double" />
-    <Property Name="Pending_Game_Amount" Type="Double" />
   </EntityType>
   <EntityType Name="View_GetPages">
     <Key>
@@ -645,18 +636,349 @@
     <Property Name="status" Type="Boolean" />
     <Property Name="role_id" Type="Int32" />
   </EntityType>
-  <EntityType Name="AssignGamesToUser">
-    <Key>
-      <PropertyRef Name="Assign_id" />
-    </Key>
-    <Property Name="Assign_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="game_id" Type="Int32" Nullable="false" />
-    <Property Name="login_id" Type="Int32" Nullable="false" />
-    <Property Name="staus" Type="Boolean" />
-  </EntityType>
-  <ComplexType Name="Rpt_GetAssignGamesToUser_Result">
-    <Property Type="Int32" Name="game_id" Nullable="false" />
-    <Property Type="String" Name="game_name" Nullable="true" />
-    <Property Type="Boolean" Name="staus" Nullable="true" />
+  <Association Name="FK_BangkokDrawGame_BangkokDraw">
+    <End Type="return_orderModel.BangkokDraw" Role="BangkokDraw" Multiplicity="1" />
+    <End Type="return_orderModel.BangkokDrawGame" Role="BangkokDrawGame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDraw">
+        <PropertyRef Name="DrawID" />
+      </Principal>
+      <Dependent Role="BangkokDrawGame">
+        <PropertyRef Name="DrawID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawPauseHistory_Draw">
+    <End Type="return_orderModel.BangkokDraw" Role="BangkokDraw" Multiplicity="1" />
+    <End Type="return_orderModel.BangkokDrawPauseHistory" Role="BangkokDrawPauseHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDraw">
+        <PropertyRef Name="DrawID" />
+      </Principal>
+      <Dependent Role="BangkokDrawPauseHistory">
+        <PropertyRef Name="DrawID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawPauseHistory_Game">
+    <End Type="return_orderModel.BangkokDrawGame" Role="BangkokDrawGame" Multiplicity="0..1" />
+    <End Type="return_orderModel.BangkokDrawPauseHistory" Role="BangkokDrawPauseHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDrawGame">
+        <PropertyRef Name="DrawGameID" />
+      </Principal>
+      <Dependent Role="BangkokDrawPauseHistory">
+        <PropertyRef Name="DrawGameID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawResult_BangkokDrawGame">
+    <End Type="return_orderModel.BangkokDrawGame" Role="BangkokDrawGame" Multiplicity="1" />
+    <End Type="return_orderModel.BangkokDrawResult" Role="BangkokDrawResult" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDrawGame">
+        <PropertyRef Name="DrawGameID" />
+      </Principal>
+      <Dependent Role="BangkokDrawResult">
+        <PropertyRef Name="DrawGameID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawResultHistory_Game">
+    <End Type="return_orderModel.BangkokDrawGame" Role="BangkokDrawGame" Multiplicity="1" />
+    <End Type="return_orderModel.BangkokDrawResultHistory" Role="BangkokDrawResultHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDrawGame">
+        <PropertyRef Name="DrawGameID" />
+      </Principal>
+      <Dependent Role="BangkokDrawResultHistory">
+        <PropertyRef Name="DrawGameID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BangkokDrawResultHistory_Result">
+    <End Type="return_orderModel.BangkokDrawResult" Role="BangkokDrawResult" Multiplicity="1" />
+    <End Type="return_orderModel.BangkokDrawResultHistory" Role="BangkokDrawResultHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BangkokDrawResult">
+        <PropertyRef Name="ResultID" />
+      </Principal>
+      <Dependent Role="BangkokDrawResultHistory">
+        <PropertyRef Name="ResultID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="fn_PubPanelGetNumberInfo_Result">
+    <Property Type="DateTime" Name="opc_date" Nullable="true" Precision="10" />
+    <Property Type="String" Name="op_number" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="cn_number" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="total_number" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_AutoProcess_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="ActiveDrawKey" Nullable="true" />
+    <Property Type="Boolean" Name="IsPublished" Nullable="false" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="DateTime" Name="ActualStartUTC" Nullable="true" />
+    <Property Type="String" Name="TimeZoneID" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="ModifiedBy" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="ModifiedDateUTC" Nullable="true" />
+    <Property Type="DateTime" Name="ServerDateUTC" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_Cancel_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="DateTime" Name="ActualStartUTC" Nullable="true" />
+    <Property Type="DateTime" Name="ActualEndUTC" Nullable="true" />
+    <Property Type="DateTime" Name="CancelledDateUTC" Nullable="true" />
+    <Property Type="String" Name="CancelledBy" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CancellationReason" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="TotalActiveGames" Nullable="true" />
+    <Property Type="Int32" Name="CancelledGames" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_Complete_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="DateTime" Name="ActualStartUTC" Nullable="true" />
+    <Property Type="DateTime" Name="ActualEndUTC" Nullable="true" />
+    <Property Type="String" Name="CompletedBy" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="CompletedDateUTC" Nullable="true" />
+    <Property Type="Int32" Name="TotalActiveGames" Nullable="true" />
+    <Property Type="Int32" Name="CompletedGames" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_ConfirmResult_Result">
+    <Property Type="Int32" Name="ResultID" Nullable="false" />
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="DrawGameID" Nullable="false" />
+    <Property Type="String" Name="GameCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="GameName" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="GameStatus" Nullable="false" MaxLength="30" />
+    <Property Type="Byte" Name="DigitCount" Nullable="false" />
+    <Property Type="String" Name="ResultNumber" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="ResultStatus" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="ResultSource" Nullable="false" MaxLength="30" />
+    <Property Type="Boolean" Name="IsConfirmed" Nullable="false" />
+    <Property Type="DateTime" Name="ConfirmedDateUTC" Nullable="true" />
+    <Property Type="String" Name="ConfirmedBy" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsLateEntry" Nullable="false" />
+    <Property Type="Int32" Name="EntryDelaySeconds" Nullable="true" />
+    <Property Type="Byte" Name="RevealedDigitCount" Nullable="false" />
+    <Property Type="Boolean" Name="IsLocked" Nullable="false" />
+    <Property Type="Int32" Name="ResultVersion" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_Create_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawName" Nullable="true" MaxLength="200" />
+    <Property Type="DateTime" Name="DrawDate" Nullable="false" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="String" Name="TimeZoneID" Nullable="false" MaxLength="100" />
+    <Property Type="Int16" Name="CountdownMinutes" Nullable="false" />
+    <Property Type="Int16" Name="RepeatEveryDays" Nullable="false" />
+    <Property Type="DateTime" Name="NextDrawDate" Nullable="true" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="CreatedDateUTC" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_Delete_Result">
+    <Property Type="Boolean" Name="Success" Nullable="true" />
+    <Property Type="Int32" Name="DrawID" Nullable="true" />
+    <Property Type="String" Name="DrawCode" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="PreviousDrawStatus" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="DeletedBy" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="DeletedHistoryCount" Nullable="true" />
+    <Property Type="Int32" Name="DeletedPauseCount" Nullable="true" />
+    <Property Type="Int32" Name="DeletedResultCount" Nullable="true" />
+    <Property Type="Int32" Name="DeletedGameCount" Nullable="true" />
+    <Property Type="String" Name="Message" Nullable="false" MaxLength="53" />
+    <Property Type="DateTime" Name="DeletedDateUTC" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_EnterResult_Result">
+    <Property Type="Int32" Name="ResultID" Nullable="false" />
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="DrawGameID" Nullable="false" />
+    <Property Type="String" Name="GameCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="GameName" Nullable="false" MaxLength="150" />
+    <Property Type="Byte" Name="DigitCount" Nullable="false" />
+    <Property Type="String" Name="GameStatus" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="ResultNumber" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="ResultStatus" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="ResultSource" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="EnteredDateUTC" Nullable="false" />
+    <Property Type="String" Name="EnteredBy" Nullable="false" MaxLength="100" />
+    <Property Type="Boolean" Name="IsConfirmed" Nullable="false" />
+    <Property Type="Boolean" Name="IsLateEntry" Nullable="false" />
+    <Property Type="DateTime" Name="ScheduledGameStartUTC" Nullable="true" />
+    <Property Type="Int32" Name="EntryDelaySeconds" Nullable="true" />
+    <Property Type="Byte" Name="RevealedDigitCount" Nullable="false" />
+    <Property Type="Boolean" Name="IsLocked" Nullable="false" />
+    <Property Type="Int32" Name="ResultVersion" Nullable="false" />
+    <Property Type="String" Name="Remarks" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_GetAdminControl_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="DateTime" Name="ActualStartUTC" Nullable="true" />
+    <Property Type="DateTime" Name="ActualEndUTC" Nullable="true" />
+    <Property Type="DateTime" Name="CompletedDateUTC" Nullable="true" />
+    <Property Type="String" Name="CompletedBy" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsPaused" Nullable="true" />
+    <Property Type="Int32" Name="TotalGames" Nullable="true" />
+    <Property Type="Int32" Name="CompletedGames" Nullable="true" />
+    <Property Type="Boolean" Name="CanPauseDraw" Nullable="true" />
+    <Property Type="Boolean" Name="CanResumeDraw" Nullable="true" />
+    <Property Type="Boolean" Name="CanCompleteDraw" Nullable="true" />
+    <Property Type="DateTime" Name="ServerDateUTC" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_GetList_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="DateTime" Name="ActualStartUTC" Nullable="true" />
+    <Property Type="DateTime" Name="ActualEndUTC" Nullable="true" />
+    <Property Type="DateTime" Name="CompletedDateUTC" Nullable="true" />
+    <Property Type="String" Name="CompletedBy" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="TotalGames" Nullable="false" />
+    <Property Type="Int32" Name="CompletedGames" Nullable="false" />
+    <Property Type="Int32" Name="CompletionPercentage" Nullable="true" />
+    <Property Type="Boolean" Name="IsPaused" Nullable="true" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="CreatedDateUTC" Nullable="false" />
+    <Property Type="String" Name="ModifiedBy" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="ModifiedDateUTC" Nullable="true" />
+    <Property Type="Int32" Name="TotalRecords" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_GetLiveStatus_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="DateTime" Name="ActualStartUTC" Nullable="true" />
+    <Property Type="DateTime" Name="ActualEndUTC" Nullable="true" />
+    <Property Type="Boolean" Name="IsPaused" Nullable="true" />
+    <Property Type="Int32" Name="TotalGames" Nullable="true" />
+    <Property Type="Int32" Name="CompletedGames" Nullable="true" />
+    <Property Type="DateTime" Name="ServerDateUTC" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_MarkReady_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawName" Nullable="true" MaxLength="200" />
+    <Property Type="DateTime" Name="DrawDate" Nullable="false" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="Boolean" Name="IsPublished" Nullable="false" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="DateTime" Name="CountdownStartUTC" Nullable="true" />
+    <Property Type="Int16" Name="CountdownMinutes" Nullable="false" />
+    <Property Type="String" Name="ModifiedBy" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="ModifiedDateUTC" Nullable="true" />
+    <Property Type="DateTime" Name="ServerDateUTC" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_Pause_Result">
+    <Property Type="Int32" Name="PauseHistoryID" Nullable="false" />
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="DrawGameID" Nullable="true" />
+    <Property Type="String" Name="GameCode" Nullable="true" MaxLength="30" />
+    <Property Type="DateTime" Name="PauseStartedUTC" Nullable="false" />
+    <Property Type="String" Name="PauseReason" Nullable="false" MaxLength="500" />
+    <Property Type="String" Name="PausedBy" Nullable="false" MaxLength="100" />
+    <Property Type="Boolean" Name="IsResumed" Nullable="true" />
+    <Property Type="String" Name="Remarks" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_Publish_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawName" Nullable="true" MaxLength="200" />
+    <Property Type="DateTime" Name="DrawDate" Nullable="false" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="Boolean" Name="IsPublished" Nullable="false" />
+    <Property Type="DateTime" Name="PublishedDateUTC" Nullable="true" />
+    <Property Type="String" Name="PublishedBy" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="DateTime" Name="CountdownStartUTC" Nullable="true" />
+    <Property Type="String" Name="TimeZoneID" Nullable="false" MaxLength="100" />
+    <Property Type="Int16" Name="CountdownMinutes" Nullable="false" />
+    <Property Type="DateTime" Name="NextDrawDate" Nullable="true" />
+    <Property Type="DateTime" Name="ServerDateUTC" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_Resume_Result">
+    <Property Type="Int32" Name="PauseHistoryID" Nullable="false" />
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="DrawGameID" Nullable="true" />
+    <Property Type="String" Name="GameCode" Nullable="true" MaxLength="30" />
+    <Property Type="DateTime" Name="PauseStartedUTC" Nullable="false" />
+    <Property Type="String" Name="PauseReason" Nullable="false" MaxLength="500" />
+    <Property Type="String" Name="PausedBy" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="ResumeDateUTC" Nullable="true" />
+    <Property Type="String" Name="ResumeReason" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="ResumedBy" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="PauseDurationSeconds" Nullable="true" />
+    <Property Type="Boolean" Name="IsResumed" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_RevealNextDigit_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="true" />
+    <Property Type="String" Name="DrawCode" Nullable="true" MaxLength="30" />
+    <Property Type="Int32" Name="DrawGameID" Nullable="true" />
+    <Property Type="String" Name="GameCode" Nullable="true" MaxLength="30" />
+    <Property Type="Int32" Name="ResultID" Nullable="true" />
+    <Property Type="String" Name="RevealedDigit" Nullable="true" MaxLength="1" />
+    <Property Type="Byte" Name="RevealedDigitPosition" Nullable="true" />
+    <Property Type="Byte" Name="TotalDigitCount" Nullable="true" />
+    <Property Type="String" Name="RevealedNumber" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="ResultStatus" Nullable="true" MaxLength="30" />
+    <Property Type="Boolean" Name="IsGameRevealCompleted" Nullable="true" />
+    <Property Type="DateTime" Name="RevealedDateUTC" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_SaveResult_Result">
+    <Property Type="Int32" Name="ResultID" Nullable="false" />
+    <Property Type="Int32" Name="DrawGameID" Nullable="false" />
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="GameCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="GameName" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="ResultNumber" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="ResultStatus" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="ResultSource" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="EnteredDateUTC" Nullable="false" />
+    <Property Type="String" Name="EnteredBy" Nullable="false" MaxLength="100" />
+    <Property Type="Boolean" Name="IsLateEntry" Nullable="false" />
+    <Property Type="Int32" Name="EntryDelaySeconds" Nullable="true" />
+    <Property Type="DateTime" Name="ScheduledGameStartUTC" Nullable="true" />
+    <Property Type="Boolean" Name="IsConfirmed" Nullable="false" />
+    <Property Type="Boolean" Name="IsLocked" Nullable="false" />
+    <Property Type="Int32" Name="ResultVersion" Nullable="false" />
+    <Property Type="String" Name="ActionPerformed" Nullable="true" MaxLength="30" />
+  </ComplexType>
+  <ComplexType Name="sproc_BangkokDraw_StartBroadcast_Result">
+    <Property Type="Int32" Name="DrawID" Nullable="false" />
+    <Property Type="String" Name="DrawCode" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="DrawName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DrawStatus" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="ActiveDrawKey" Nullable="true" />
+    <Property Type="Boolean" Name="IsPublished" Nullable="false" />
+    <Property Type="DateTime" Name="ScheduledStartUTC" Nullable="false" />
+    <Property Type="DateTime" Name="ActualStartUTC" Nullable="true" />
+    <Property Type="String" Name="TimeZoneID" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="ModifiedBy" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="ModifiedDateUTC" Nullable="true" />
+    <Property Type="DateTime" Name="ServerDateUTC" Nullable="false" />
   </ComplexType>
 </Schema>
