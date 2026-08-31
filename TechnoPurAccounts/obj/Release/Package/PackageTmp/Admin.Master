@@ -183,8 +183,8 @@
                 <div class="dash-clock admin-global-clock">
                     <span class="clock-dot"></span>
                     <div>
-                        <small>KSA TIME (UTC+3)</small>
-                        <strong id="adminKsaClock">--:--:--</strong>
+                        <small>THAILAND TIME (UTC+7)</small>
+                        <strong id="adminThailandClock">--:--:--</strong>
                     </div>
                 </div>
             </li>
@@ -233,24 +233,24 @@
 
     <script>
         (function () {
-            function updateAdminKsaClock() {
+            function updateAdminThailandClock() {
                 try {
                     var now = new Date();
                     var value = new Intl.DateTimeFormat('en-US', {
-                        timeZone: 'Asia/Riyadh',
+                        timeZone: 'Asia/Bangkok',
                         hour: '2-digit',
                         minute: '2-digit',
                         second: '2-digit',
                         hour12: true
                     }).format(now);
 
-                    var el = document.getElementById('adminKsaClock');
+                    var el = document.getElementById('adminThailandClock');
                     if (el) el.textContent = value;
                 } catch (e) { }
             }
 
-            updateAdminKsaClock();
-            window.setInterval(updateAdminKsaClock, 1000);
+            updateAdminThailandClock();
+            window.setInterval(updateAdminThailandClock, 1000);
         })();
     </script>
 

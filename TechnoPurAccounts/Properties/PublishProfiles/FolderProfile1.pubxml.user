@@ -5,6 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Publish Projects\bangkoklottery</_PublishTargetUrl>
+    <History>True|2026-08-25T08:56:57.2183081Z;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="AddUser/AddUser.aspx">
@@ -14,7 +15,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2025 21:01:00</publishTime>
     </File>
     <File Include="Admin.Master">
-      <publishTime>08/19/2026 21:48:56</publishTime>
+      <publishTime>08/30/2026 20:51:57</publishTime>
     </File>
     <File Include="ApplicationInsights.config">
       <publishTime>03/14/2025 21:01:00</publishTime>
@@ -852,6 +853,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="assets/myJquery.js">
       <publishTime>08/19/2026 11:42:41</publishTime>
+    </File>
+    <File Include="assets/pdf/glo-logo.jpg">
+      <publishTime>08/30/2026 22:58:34</publishTime>
     </File>
     <File Include="assets/sample.css">
       <publishTime>03/14/2025 21:01:01</publishTime>
@@ -2306,10 +2310,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2025 21:01:00</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/20/2026 19:43:30</publishTime>
+      <publishTime>08/30/2026 22:59:09</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/20/2026 19:43:30</publishTime>
+      <publishTime>08/30/2026 22:59:09</publishTime>
     </File>
     <File Include="bin/DataAccessLayer.dll">
       <publishTime>08/20/2026 19:43:17</publishTime>
@@ -2340,6 +2344,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="bin/ExcelDataReader.pdb">
       <publishTime>03/14/2025 21:01:08</publishTime>
+    </File>
+    <File Include="bin/itextsharp.dll">
+      <publishTime>10/10/2016 09:51:26</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>03/14/2025 21:01:08</publishTime>
@@ -2531,10 +2538,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2025 21:01:08</publishTime>
     </File>
     <File Include="bin/TechnoPurAccounts.dll">
-      <publishTime>08/20/2026 19:43:20</publishTime>
+      <publishTime>08/30/2026 22:59:00</publishTime>
     </File>
     <File Include="bin/TechnoPurAccounts.pdb">
-      <publishTime>08/20/2026 19:43:20</publishTime>
+      <publishTime>08/30/2026 22:59:00</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>03/14/2025 21:01:09</publishTime>
@@ -2582,7 +2589,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2025 21:01:02</publishTime>
     </File>
     <File Include="Dashboard.aspx">
-      <publishTime>08/20/2026 12:00:53</publishTime>
+      <publishTime>08/30/2026 22:41:30</publishTime>
     </File>
     <File Include="fonts/fa-solid-900.woff2">
       <publishTime>03/14/2025 21:01:02</publishTime>
@@ -2606,7 +2613,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2025 21:01:02</publishTime>
     </File>
     <File Include="Game/BangkokDrawAdmin.aspx">
-      <publishTime>08/20/2026 13:11:31</publishTime>
+      <publishTime>08/30/2026 22:44:00</publishTime>
     </File>
     <File Include="img/GLO logo.jpeg">
       <publishTime>08/19/2026 19:06:46</publishTime>
@@ -2633,7 +2640,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2025 21:01:02</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>03/14/2025 21:01:07</publishTime>
+      <publishTime>08/30/2026 22:27:29</publishTime>
     </File>
     <File Include="PasswordCheck/example.png">
       <publishTime>03/14/2025 21:01:00</publishTime>
@@ -2651,7 +2658,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/19/2026 11:42:41</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/20/2026 19:43:24</publishTime>
+      <publishTime>08/30/2026 22:59:03</publishTime>
     </File>
     <File Include="Profile.aspx">
       <publishTime>03/14/2025 21:01:00</publishTime>
@@ -3959,7 +3966,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2025 21:01:01</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/20/2026 19:43:21</publishTime>
+      <publishTime>08/30/2026 22:59:01</publishTime>
     </File>
     <File Include="webfonts/fa-brands-400.eot">
       <publishTime>03/14/2025 21:01:07</publishTime>

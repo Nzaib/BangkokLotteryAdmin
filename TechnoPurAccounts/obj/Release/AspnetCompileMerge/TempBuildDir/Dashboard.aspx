@@ -14,7 +14,7 @@
                         <p>Live administration overview for Bangkok Lottery.</p>
                     </div>
                     <div class="dash-clock"><span class="clock-dot"></span>
-                        <div><small>KSA TIME (UTC+3)</small><strong id="dashServerClock">--:--:--</strong></div>
+                        <div><small>THAILAND TIME (UTC+7)</small><strong id="dashServerClock">--:--:--</strong></div>
                     </div>
                 </div>
 
@@ -90,6 +90,7 @@
                             <div><span><i class="mdi mdi-clock-outline"></i>Server Time</span><em id="serverTimeRow">--</em></div>
                         </div>
                         <button class="outline-action" type="button" id="btnRefreshDashboard"><i class="mdi mdi-refresh"></i>Refresh Dashboard</button>
+<button id="btnDownloadHistoryChart" type="button" class="btn btn-primary ml-2" style="font-weight:600"><i class="fa fa-file-pdf-o"></i> Download Draw Chart</button>
                     </section>
                 </div>
 
@@ -159,7 +160,7 @@
                 return isNaN(d.getTime()) ? null : d;
             }
 
-            function fmtKsa(utc) { if (!utc) return "--"; var d = parseUtc(utc); if (!d) return "--"; return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric", timeZone: "Asia/Riyadh" }) + ", " + d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Riyadh" }) + " (KSA)"; }
+            function fmtThailand(utc) { if (!utc) return "--"; var d = parseUtc(utc); if (!d) return "--"; return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric", timeZone: "Asia/Bangkok" }) + ", " + d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Bangkok" }) + " (THAILAND)"; }
             function spaced(v, n) { v = String(v || "").replace(/\D/g, ""); return v ? v.split("").join(" ") : Array(n + 1).join("- "); }
             function startCountdown(utc) {
                 if (countdownTimer) clearInterval(countdownTimer);
@@ -208,9 +209,9 @@
                 $("#statCompletedNote").text((s.completedPercent || 0) + "% Completed"); $("#completedProgress").css("width", (s.completedPercent || 0) + "%");
                 $("#legendCompleted").text((s.completedDraws || 0) + " (" + (s.completedPercent || 0) + "%)"); $("#legendUpcoming").text((s.upcomingDraws || 0) + " (" + (s.upcomingPercent || 0) + "%)"); $("#legendOther").text((s.otherDraws || 0) + " (" + (s.otherPercent || 0) + "%)");
                 var cp = s.completedPercent || 0, up = s.upcomingPercent || 0; $("#drawDonut").css("background", "conic-gradient(#2eaf52 0 " + cp + "%,#ff8a16 " + cp + "% " + (cp + up) + "%,#2f7dd8 " + (cp + up) + "% 100%)");
-                if (next) { $("#nextDrawName").text(next.DrawName || "Next Scheduled Draw"); $("#nextDrawCode").text(next.DrawCode || ""); $("#nextStatus").text(next.DrawStatus || "READY"); $("#nextDrawDate").text(fmtKsa(next.ScheduledStartUTC)); $("#statNextNote").text("Next: " + fmtKsa(next.ScheduledStartUTC)); $("#startBroadcastLink").attr("href", "Game/BangkokDrawAdmin.aspx?drawId=" + next.DrawID); startCountdown(next.ScheduledStartUTC); }
-                var html = ""; $.each(data.upcomingDraws || [], function (_, x) { html += "<tr><td>" + x.DrawCode + "</td><td>" + x.DrawName + "</td><td>" + fmtKsa(x.ScheduledStartUTC) + "</td><td>" + x.GameCount + "</td><td><span class='table-status'>" + x.DrawStatus.toUpperCase() + "</span></td></tr>"; }); $("#upcomingDrawRows").html(html || "<tr><td colspan='5' class='loading-cell'>No upcoming draws.</td></tr>");
-                if (last) $("#lastDrawDate").text((last.DrawCode || "") + " • " + fmtKsa(last.ActualEndUTC || last.ScheduledStartUTC));
+                if (next) { $("#nextDrawName").text(next.DrawName || "Next Scheduled Draw"); $("#nextDrawCode").text(next.DrawCode || ""); $("#nextStatus").text(next.DrawStatus || "READY"); $("#nextDrawDate").text(fmtThailand(next.ScheduledStartUTC)); $("#statNextNote").text("Next: " + fmtThailand(next.ScheduledStartUTC)); $("#startBroadcastLink").attr("href", "Game/BangkokDrawAdmin.aspx?drawId=" + next.DrawID); startCountdown(next.ScheduledStartUTC); }
+                var html = ""; $.each(data.upcomingDraws || [], function (_, x) { html += "<tr><td>" + x.DrawCode + "</td><td>" + x.DrawName + "</td><td>" + fmtThailand(x.ScheduledStartUTC) + "</td><td>" + x.GameCount + "</td><td><span class='table-status'>" + x.DrawStatus.toUpperCase() + "</span></td></tr>"; }); $("#upcomingDrawRows").html(html || "<tr><td colspan='5' class='loading-cell'>No upcoming draws.</td></tr>");
+                if (last) $("#lastDrawDate").text((last.DrawCode || "") + " • " + fmtThailand(last.ActualEndUTC || last.ScheduledStartUTC));
                 var first = "", down = ""; $.each(results, function (_, r) { if (r.GameCode === "FIRST") first = r.ResultNumber; if (r.GameCode === "DOWN") down = r.ResultNumber; });
                 $("#resultFirst").text(spaced(first, 6)); $("#result2Down").text(spaced(down, 2)); $("#result3Straight").text(spaced(calc.threeUpStraight, 3)); $("#resultOpenPair").text(spaced(calc.threeUpOpenPair, 2)); $("#resultClosePair").text(spaced(calc.threeUpClosePair, 2));
                 $("#statusDb").text(status.database || "Online"); $("#statusApi").text(status.apiService || "Online"); $("#statusBroadcast").text(status.broadcastService || "Ready"); $("#liveStatusText").text((status.broadcastService || "Ready") + " System");
@@ -264,11 +265,11 @@
                     load(false);
                 });
 
-                // The visible KSA/server clock still updates locally every second.
+                // The visible Thailand/server clock still updates locally every second.
                 setInterval(function () {
                     var d = new Date(Date.now() + serverOffset);
-                    $("#dashServerClock").text(d.toLocaleTimeString("en-US", { timeZone: "Asia/Riyadh" }));
-                    $("#serverTimeRow").text(d.toLocaleString("en-GB", { timeZone: "Asia/Riyadh" }));
+                    $("#dashServerClock").text(d.toLocaleTimeString("en-US", { timeZone: "Asia/Bangkok" }));
+                    $("#serverTimeRow").text(d.toLocaleString("en-GB", { timeZone: "Asia/Bangkok" }));
                 }, 1000);
 
                 // When the admin returns to the browser tab, refresh immediately.
@@ -283,5 +284,31 @@
                 });
             });
         })();
-    </script>
+    
+        $('#btnDownloadHistoryChart').on('click', function () {
+            var $btn = $(this), oldHtml = $btn.html();
+            $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Generating PDF...');
+            $.ajax({
+                url: '<%= ResolveUrl("~/api/bangkok-draw/history-chart/pdf") %>',
+                method: 'GET',
+                cache: false,
+                xhrFields: { responseType: 'blob' }
+            }).done(function (blob, status, xhr) {
+                var fileName = 'Bangkok-Lottery-History-Chart.pdf';
+                var disposition = xhr.getResponseHeader('Content-Disposition') || '';
+                var match = /filename="?([^"]+)"?/i.exec(disposition);
+                if (match && match[1]) fileName = match[1];
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url; a.download = fileName;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                window.setTimeout(function () { window.URL.revokeObjectURL(url); }, 1000);
+            }).fail(function () {
+                if (window.toastr) toastr.error('Unable to generate the history draw chart PDF.');
+                else alert('Unable to generate the history draw chart PDF.');
+            }).always(function () {
+                $btn.prop('disabled', false).html(oldHtml);
+            });
+        });
+</script>
 </asp:Content>

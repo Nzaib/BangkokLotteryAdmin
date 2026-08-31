@@ -119,3 +119,5 @@ C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\obj\Release\
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\obj\Release\MumbaiStar.csproj.CopyComplete
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\obj\Release\TechnoPurAccounts.dll
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\obj\Release\TechnoPurAccounts.pdb
+C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\itextsharp.dll
+C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\itextsharp.xml

@@ -35,6 +35,7 @@ C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\EntityFr
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\EntityFramework.SqlServer.dll
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\ExcelDataReader.DataSet.dll
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\ExcelDataReader.dll
+C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\itextsharp.dll
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\Microsoft.AI.Agent.Intercept.dll
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\Microsoft.AI.DependencyCollector.dll
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\Microsoft.AI.PerfCounterCollector.dll
@@ -82,6 +83,7 @@ C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\ExcelDat
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\ExcelDataReader.xml
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\ExcelDataReader.DataSet.pdb
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\ExcelDataReader.DataSet.xml
+C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\itextsharp.xml
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\Microsoft.AI.DependencyCollector.xml
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\Microsoft.AI.PerfCounterCollector.xml
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\TechnoPurAccounts\bin\Microsoft.AI.ServerTelemetryChannel.xml
