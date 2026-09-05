@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.EntityClient;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.IO;
@@ -22,6 +26,7 @@ namespace TechnoPurAccounts.Controllers
     public class BangkokDrawController : ApiController
     {
         private readonly return_orderEntities1 db = new return_orderEntities1();
+        private static readonly object LiveStateCacheLock = new object();
 
         [HttpGet, Route("next-broadcast")]
         public HttpResponseMessage NextBroadcast()
@@ -29,19 +34,69 @@ namespace TechnoPurAccounts.Controllers
             try
             {
                 var data = db.Database.SqlQuery<NextBroadcastDto>(@"
-SELECT TOP (1) D.DrawID,D.DrawCode,D.DrawStatus,D.CountdownMinutes,
+SELECT TOP (1) D.DrawID,D.DrawCode,D.DrawStatus,CAST(D.CountdownMinutes AS int) CountdownMinutes,
        MIN(G.ScheduledStartUTC) ScheduledStartUTC,
        CAST(COUNT(*) AS int) GameCount
 FROM dbo.BangkokDraw D
 JOIN dbo.BangkokDrawGame G ON G.DrawID=D.DrawID AND G.IsActive=1
 WHERE D.IsDeleted=0 AND D.IsPublished=1
-  AND D.DrawStatus IN ('Scheduled','Ready','Live')
+  AND D.DrawStatus IN ('Scheduled','Ready','Live','Paused')
 GROUP BY D.DrawID,D.DrawCode,D.DrawStatus,D.CountdownMinutes
-ORDER BY CASE WHEN D.DrawStatus='Live' THEN 0 ELSE 1 END,
+ORDER BY CASE WHEN D.DrawStatus IN ('Live','Paused') THEN 0 ELSE 1 END,
          MIN(G.ScheduledStartUTC);").FirstOrDefault();
                 if (data == null) return ApiError(HttpStatusCode.NotFound, "No upcoming broadcast was found.");
                 data.ScheduledStartUTC = AsUtc(data.ScheduledStartUTC);
-                return OkResponse(data);
+                return OkResponse(data, 1);
+            }
+            catch (Exception ex) { return ExceptionResponse(ex); }
+        }
+
+        [HttpGet, Route("broadcast-schedule")]
+        public HttpResponseMessage BroadcastSchedule()
+        {
+            try
+            {
+                var rows = db.Database.SqlQuery<BroadcastScheduleRowDto>(@"
+SELECT TOP (2)
+       D.DrawID,D.DrawCode,D.DrawDate,D.DrawStatus,D.ScheduledStartUTC,
+       CAST(D.CountdownMinutes AS int) CountdownMinutes
+FROM dbo.BangkokDraw D
+WHERE D.IsDeleted=0 AND D.IsPublished=1
+  AND D.DrawStatus IN ('Scheduled','Ready','Live','Paused')
+ORDER BY CASE WHEN D.DrawStatus IN ('Live','Paused') THEN 0 ELSE 1 END,
+         D.ScheduledStartUTC,D.DrawID;").ToList();
+
+                foreach (var row in rows)
+                    row.ScheduledStartUTC = AsUtc(row.ScheduledStartUTC);
+
+                var last = db.Database.SqlQuery<BroadcastScheduleRowDto>(@"
+SELECT TOP (1)
+       D.DrawID,D.DrawCode,D.DrawDate,D.DrawStatus,D.ScheduledStartUTC,
+       CAST(D.CountdownMinutes AS int) CountdownMinutes
+FROM dbo.BangkokDraw D
+WHERE D.IsDeleted=0
+ORDER BY D.DrawDate DESC,D.DrawID DESC;").FirstOrDefault();
+
+                if (last != null)
+                    last.ScheduledStartUTC = AsUtc(last.ScheduledStartUTC);
+
+                var nextDrawDate = rows.Count > 0
+                    ? rows[0].DrawDate.Date
+                    : NextLotteryDate(last == null ? ThailandToday() : last.DrawDate.Date);
+
+                DateTime? nextScheduledStartUtc = rows.Count > 0
+                    ? rows[0].ScheduledStartUTC
+                    : CalculateNextScheduledStartUtc(last, nextDrawDate);
+
+                return OkResponse(new
+                {
+                    timeZoneId = "SE Asia Standard Time",
+                    timeZone = "Asia/Bangkok",
+                    recurrence = "Monthly on the 1st and 16th",
+                    nextDrawDate,
+                    nextScheduledStartUtc,
+                    draws = rows
+                }, 30);
             }
             catch (Exception ex) { return ExceptionResponse(ex); }
         }
@@ -52,30 +107,25 @@ ORDER BY CASE WHEN D.DrawStatus='Live' THEN 0 ELSE 1 END,
             if (drawId <= 0) return ApiError(HttpStatusCode.BadRequest, "A valid drawId is required.");
             try
             {
-                var draw = db.Database.SqlQuery<DrawDto>(@"
-SELECT TOP (1) DrawID,DrawCode,DrawDate,ScheduledStartUTC,CountdownMinutes,
-       DrawStatus,ActualStartUTC,ActualEndUTC
-FROM dbo.BangkokDraw
-WHERE DrawID=@p0 AND IsDeleted=0 AND IsPublished=1;", drawId).FirstOrDefault();
-                if (draw == null) return ApiError(HttpStatusCode.NotFound, "Draw was not found.");
+                var cacheKey = "BangkokDraw.LiveState.v3." + drawId;
+                var snapshot = HttpRuntime.Cache[cacheKey] as LiveStateSnapshot;
+                if (snapshot == null)
+                {
+                    lock (LiveStateCacheLock)
+                    {
+                        snapshot = HttpRuntime.Cache[cacheKey] as LiveStateSnapshot;
+                        if (snapshot == null)
+                        {
+                            snapshot = LoadLiveStateSnapshot(drawId, DateTime.UtcNow);
+                            if (snapshot != null)
+                                HttpRuntime.Cache.Insert(cacheKey, snapshot, null,
+                                    DateTime.UtcNow.AddSeconds(1), System.Web.Caching.Cache.NoSlidingExpiration);
+                        }
+                    }
+                }
 
-                var games = db.Database.SqlQuery<GameStateDto>(@"
-SELECT G.DrawGameID,G.GameCode,G.GameName,CAST(G.DisplayOrder AS int) DisplayOrder,G.DigitCount,
-       G.GameStatus,G.ScheduledStartUTC,G.ActualStartUTC,G.ActualEndUTC,
-       R.ResultID,
-       CASE WHEN R.IsConfirmed=1 THEN LEFT(R.ResultNumber,R.RevealedDigitCount) ELSE '' END RevealedNumber,
-       ISNULL(R.ResultStatus,'') ResultStatus,
-       CONVERT(bit,ISNULL(R.IsConfirmed,0)) IsConfirmed,
-       CONVERT(tinyint,CASE WHEN R.IsConfirmed=1 THEN ISNULL(R.RevealedDigitCount,0) ELSE 0 END) RevealedDigitCount
-FROM dbo.BangkokDrawGame G
-OUTER APPLY (SELECT TOP (1) R1.* FROM dbo.BangkokDrawResult R1
-             WHERE R1.DrawGameID=G.DrawGameID
-             ORDER BY R1.ResultVersion DESC,R1.ResultID DESC) R
-WHERE G.DrawID=@p0 AND G.IsActive=1
-ORDER BY G.DisplayOrder,G.DrawGameID;", drawId).ToList();
-                NormalizeUtc(draw);
-                foreach (var game in games) NormalizeUtc(game);
-                return OkResponse(new { draw, games });
+                if (snapshot == null) return ApiError(HttpStatusCode.NotFound, "Draw was not found.");
+                return OkResponse(new { draw = snapshot.Draw, games = snapshot.Games }, 1);
             }
             catch (Exception ex) { return ExceptionResponse(ex); }
         }
@@ -86,7 +136,7 @@ ORDER BY G.DisplayOrder,G.DrawGameID;", drawId).ToList();
             try
             {
                 var draw = db.Database.SqlQuery<DrawDto>(@"
-SELECT TOP (1) DrawID,DrawCode,DrawDate,ScheduledStartUTC,CountdownMinutes,
+SELECT TOP (1) DrawID,DrawCode,DrawDate,ScheduledStartUTC,CAST(CountdownMinutes AS int) CountdownMinutes,
        DrawStatus,ActualStartUTC,ActualEndUTC
 FROM dbo.BangkokDraw
 WHERE IsDeleted=0 AND IsPublished=1 AND DrawStatus='Completed'
@@ -118,41 +168,40 @@ ORDER BY G.DisplayOrder;", draw.DrawID).ToList();
                         threeUpOpenPair = n.Substring(3, 2),
                         threeUpClosePair = n.Substring(n.Length - 2, 2)
                     };
-                return OkResponse(new { draw, results, calculated });
+                return OkResponse(new { draw, results, calculated }, 30);
             }
             catch (Exception ex) { return ExceptionResponse(ex); }
         }
 
         [HttpGet, Route("results-history")]
-        public HttpResponseMessage ResultsHistory(int page = 1, int pageSize = 20)
+        public HttpResponseMessage ResultsHistory(int page = 1, int pageSize = 10)
         {
             if (page < 1) page = 1;
-            if (pageSize < 1) pageSize = 20;
+            if (pageSize < 1) pageSize = 10;
             if (pageSize > 50) pageSize = 50;
 
             try
             {
-                var totalRecords = db.Database.SqlQuery<int>(@"
-SELECT CAST(COUNT(*) AS int)
-FROM dbo.BangkokDraw
-WHERE IsDeleted=0 AND IsPublished=1 AND DrawStatus='Completed';").FirstOrDefault();
-
-                var firstRow = ((page - 1) * pageSize) + 1;
-                var lastRow = page * pageSize;
+                var offset = (page - 1) * pageSize;
                 var rows = db.Database.SqlQuery<HistoryResultRowDto>(@"
-WITH RankedDraws AS
+WITH FilteredDraws AS
 (
     SELECT D.DrawID,D.DrawCode,D.DrawDate,D.ScheduledStartUTC,D.ActualEndUTC,
-           ROW_NUMBER() OVER
-           (
-               ORDER BY ISNULL(D.ActualEndUTC,D.ScheduledStartUTC) DESC,D.DrawID DESC
-           ) AS RowNumber
+           ISNULL(D.ActualEndUTC,D.ScheduledStartUTC) AS SortUTC,
+           CAST(COUNT(*) OVER() AS int) AS TotalRecords
     FROM dbo.BangkokDraw D
     WHERE D.IsDeleted=0 AND D.IsPublished=1 AND D.DrawStatus='Completed'
+),
+PagedDraws AS
+(
+    SELECT DrawID,DrawCode,DrawDate,ScheduledStartUTC,ActualEndUTC,SortUTC,TotalRecords
+    FROM FilteredDraws
+    ORDER BY SortUTC DESC,DrawID DESC
+    OFFSET @p0 ROWS FETCH NEXT @p1 ROWS ONLY
 )
 SELECT D.DrawID,D.DrawCode,D.DrawDate,D.ScheduledStartUTC,D.ActualEndUTC,
-       G.GameCode,G.GameName,R.ResultNumber,R.RevealCompletedUTC
-FROM RankedDraws D
+       D.TotalRecords,G.GameCode,G.GameName,R.ResultNumber,R.RevealCompletedUTC
+FROM PagedDraws D
 JOIN dbo.BangkokDrawGame G
   ON G.DrawID=D.DrawID AND G.IsActive=1
 OUTER APPLY
@@ -164,8 +213,9 @@ OUTER APPLY
       AND R1.ResultStatus='Revealed'
     ORDER BY R1.ResultVersion DESC,R1.ResultID DESC
 ) R
-WHERE D.RowNumber BETWEEN @p0 AND @p1
-ORDER BY D.RowNumber,G.DisplayOrder,G.DrawGameID;", firstRow, lastRow).ToList();
+ORDER BY D.SortUTC DESC,D.DrawID DESC,G.DisplayOrder,G.DrawGameID;", offset, pageSize).ToList();
+
+                var totalRecords = rows.Count == 0 ? 0 : rows[0].TotalRecords;
 
                 foreach (var row in rows)
                 {
@@ -224,95 +274,96 @@ ORDER BY D.RowNumber,G.DisplayOrder,G.DrawGameID;", firstRow, lastRow).ToList();
                     totalRecords,
                     totalPages,
                     records
-                });
+                }, 60);
             }
             catch (Exception ex) { return ExceptionResponse(ex); }
         }
 
 
-        // Public single-page historical chart PDF.
-        // Example: GET /api/bangkok-draw/history-chart/pdf
+        // FIRST historical chart PDF.
+        // The 58-year window always ends at the current Thailand year.
         [HttpGet, Route("history-chart/pdf")]
         public HttpResponseMessage HistoryChartPdf()
         {
             try
             {
-                var latestYear = db.Database.SqlQuery<int?>(@"
-SELECT MAX(YEAR(D.DrawDate))
-FROM dbo.BangkokDraw D
-WHERE D.IsDeleted=0
-  AND D.IsPublished=1
-  AND D.DrawStatus='Completed'
-  AND EXISTS
-  (
-      SELECT 1
-      FROM dbo.BangkokDrawGame G
-      JOIN dbo.BangkokDrawResult R ON R.DrawGameID=G.DrawGameID
-      WHERE G.DrawID=D.DrawID
-        AND G.IsActive=1
-        AND G.GameCode='FIRST'
-        AND R.IsConfirmed=1
-  );").FirstOrDefault();
-
-                if (!latestYear.HasValue)
-                    return ApiError(HttpStatusCode.NotFound, "No completed FIRST results were found.");
-
-                // Fixed 58-year rolling window:
-                // 2026 => 1969-2026, 2027 => 1970-2027, etc.
-                var endYear = latestYear.Value;
+                var thailandTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+                var nowThailand = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, thailandTimeZone);
+                var endYear = nowThailand.Year;
                 var startYear = endYear - 57;
 
-                var rows = db.Database.SqlQuery<HistoryChartPdfRowDto>(@"
+                var rows = LoadHistoryChartRows("FIRST", startYear, endYear);
+                var pdfBytes = BuildHistoryChartPdf(rows, startYear, endYear, false);
+
+                return CreatePdfResponse(pdfBytes,
+                    String.Format("Bangkok-Lottery-FIRST-History-Chart-{0}-{1}.pdf", startYear, endYear));
+            }
+            catch (Exception ex) { return ExceptionResponse(ex); }
+        }
+
+        // DOWN historical chart PDF.
+        // Starts at 1977 and always ends at the current Thailand year.
+        [HttpGet, Route("history-chart/down/pdf")]
+        public HttpResponseMessage DownHistoryChartPdf()
+        {
+            try
+            {
+                var thailandTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+                var nowThailand = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, thailandTimeZone);
+                const int startYear = 1977;
+                var endYear = nowThailand.Year;
+
+                var rows = LoadHistoryChartRows("DOWN", startYear, endYear);
+                var pdfBytes = BuildHistoryChartPdf(rows, startYear, endYear, true);
+
+                return CreatePdfResponse(pdfBytes,
+                    String.Format("Bangkok-Lottery-DOWN-History-Chart-{0}-{1}.pdf", startYear, endYear));
+            }
+            catch (Exception ex) { return ExceptionResponse(ex); }
+        }
+
+        private List<HistoryChartPdfRowDto> LoadHistoryChartRows(string gameCode, int startYear, int endYear)
+        {
+            return db.Database.SqlQuery<HistoryChartPdfRowDto>(@"
 SELECT D.DrawDate,R.ResultNumber
 FROM dbo.BangkokDraw D
 JOIN dbo.BangkokDrawGame G
   ON G.DrawID=D.DrawID
  AND G.IsActive=1
- AND G.GameCode='FIRST'
+ AND G.GameCode=@p0
 OUTER APPLY
 (
     SELECT TOP (1) R1.ResultNumber
     FROM dbo.BangkokDrawResult R1
     WHERE R1.DrawGameID=G.DrawGameID
       AND R1.IsConfirmed=1
+      AND R1.ResultStatus='Revealed'
     ORDER BY R1.ResultVersion DESC,R1.ResultID DESC
 ) R
 WHERE D.IsDeleted=0
   AND D.IsPublished=1
   AND D.DrawStatus='Completed'
-  AND YEAR(D.DrawDate) BETWEEN @p0 AND @p1
+  AND YEAR(D.DrawDate) BETWEEN @p1 AND @p2
   AND R.ResultNumber IS NOT NULL
-ORDER BY D.DrawDate;", startYear, endYear).ToList();
-
-                if (rows.Count == 0)
-                    return ApiError(HttpStatusCode.NotFound, "No history data was found for the PDF.");
-
-                var pdfBytes = BuildHistoryChartPdf(rows, startYear, endYear);
-
-                var response = new HttpResponseMessage(HttpStatusCode.OK);
-                response.Content = new ByteArrayContent(pdfBytes);
-                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = String.Format("Bangkok-Lottery-History-Chart-{0}-{1}.pdf", startYear, endYear)
-                };
-                response.Headers.CacheControl = new CacheControlHeaderValue
-                {
-                    NoCache = true,
-                    NoStore = true
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                return ExceptionResponse(ex);
-            }
+ORDER BY D.DrawDate;", gameCode, startYear, endYear).ToList();
         }
 
-        private byte[] BuildHistoryChartPdf(List<HistoryChartPdfRowDto> rows, int startYear, int endYear)
+        private HttpResponseMessage CreatePdfResponse(byte[] pdfBytes, string fileName)
         {
-            // Wide single-page format, matching the supplied historical chart concept.
-            var pageSize = PageSize.A3.Rotate(); // Exact A3 landscape: 420 x 297 mm
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new ByteArrayContent(pdfBytes);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = fileName
+            };
+            response.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true, NoStore = true };
+            return response;
+        }
+
+        private byte[] BuildHistoryChartPdf(List<HistoryChartPdfRowDto> rows, int startYear, int endYear, bool downOnly)
+        {
+            var pageSize = PageSize.A3.Rotate();
             using (var ms = new MemoryStream())
             {
                 var document = new Document(pageSize, 8f, 8f, 8f, 8f);
@@ -324,10 +375,11 @@ ORDER BY D.DrawDate;", startYear, endYear).ToList();
                 var normal = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 7.6f, Font.BOLD, BaseColor.BLACK);
                 var bold = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 8.5f, Font.BOLD, BaseColor.BLACK);
                 var tinyBold = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 7.3f, Font.BOLD, BaseColor.BLACK);
+                var downFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9.2f, Font.BOLD, BaseColor.BLACK);
 
                 var years = Enumerable.Range(startYear, endYear - startYear + 1).ToList();
 
-                // Source/reference row order. 2-May is intentionally preserved.
+                // Same date rows as the existing historical chart.
                 var slots = new[]
                 {
                     new HistoryChartSlot(1,16,"16-Jan"),
@@ -357,13 +409,23 @@ ORDER BY D.DrawDate;", startYear, endYear).ToList();
                 };
 
                 var lookup = rows
-                    .GroupBy(x => String.Format("{0:0000}-{1:00}-{2:00}", x.DrawDate.Year, x.DrawDate.Month, x.DrawDate.Day))
+                    .GroupBy(x => String.Format("{0:0000}-{1:00}-{2:00}",
+                        x.DrawDate.Year, x.DrawDate.Month, x.DrawDate.Day))
                     .ToDictionary(g => g.Key, g => g.Last().ResultNumber);
+
+                // Official holiday / no-draw dates.
+                // Both FIRST and DOWN charts display only * for these cells.
+                var holidayDates = new HashSet<DateTime>
+                {
+                    new DateTime(2020, 4, 1),
+                    new DateTime(2020, 4, 16),
+                    new DateTime(2020, 5, 2)
+                };
 
                 var table = new PdfPTable(years.Count + 1);
                 table.WidthPercentage = 100f;
                 var widths = Enumerable.Repeat(1f, years.Count + 1).ToArray();
-                widths[0] = 2.15f; // Wider date-label column on A3.
+                widths[0] = 2.15f;
                 table.SetWidths(widths);
                 table.HeaderRows = 1;
 
@@ -377,19 +439,39 @@ ORDER BY D.DrawDate;", startYear, endYear).ToList();
 
                     foreach (var year in years)
                     {
+                        var cellDate = new DateTime(year, slot.Month, slot.Day);
+
+                        if (holidayDates.Contains(cellDate))
+                        {
+                            AddChartCell(table, "*", bold, 32.2f, Element.ALIGN_CENTER, false);
+                            continue;
+                        }
+
                         var key = String.Format("{0:0000}-{1:00}-{2:00}", year, slot.Month, slot.Day);
-                        string first;
-                        if (!lookup.TryGetValue(key, out first) || String.IsNullOrWhiteSpace(first) || first.Length < 3)
+                        string result;
+                        if (!lookup.TryGetValue(key, out result) || String.IsNullOrWhiteSpace(result))
                         {
                             AddChartCell(table, "", normal, 32.2f, Element.ALIGN_CENTER, false);
                             continue;
                         }
 
-                        var last3 = first.Substring(first.Length - 3, 3);
+                        if (downOnly)
+                        {
+                            // Exact DOWN result only. Leading zero is preserved, e.g. "03".
+                            AddChartCell(table, result, downFont, 32.2f, Element.ALIGN_CENTER, false);
+                            continue;
+                        }
+
+                        if (result.Length < 3)
+                        {
+                            AddChartCell(table, "", normal, 32.2f, Element.ALIGN_CENTER, false);
+                            continue;
+                        }
+
+                        var last3 = result.Substring(result.Length - 3, 3);
                         var sum = last3.Sum(ch => ch - '0');
                         var topDigit = (sum % 10).ToString();
 
-                        // Exactly like the reference: one digit above, 3 digits below.
                         var phrase = new Phrase();
                         phrase.Add(new Chunk(topDigit + "\n", bold));
                         phrase.Add(new Chunk(last3, normal));
@@ -431,7 +513,7 @@ ORDER BY D.DrawDate;", startYear, endYear).ToList();
                 FixedHeight = height,
                 Padding = 0.35f,
                 BorderWidth = 0.45f,
-                BackgroundColor = shaded ? new BaseColor(245,245,245) : null
+                BackgroundColor = shaded ? new BaseColor(245, 245, 245) : null
             };
             table.AddCell(cell);
         }
@@ -469,6 +551,235 @@ ORDER BY D.DrawDate;", startYear, endYear).ToList();
             public string Label { get; private set; }
         }
 
+        private LiveStateSnapshot LoadLiveStateSnapshot(int drawId, DateTime nowUtc)
+        {
+            var draw = db.Database.SqlQuery<DrawDto>(@"
+SELECT TOP (1) DrawID,DrawCode,DrawDate,ScheduledStartUTC,
+       CAST(CountdownMinutes AS int) CountdownMinutes,
+       DrawStatus,ActualStartUTC,ActualEndUTC
+FROM dbo.BangkokDraw
+WHERE DrawID=@p0 AND IsDeleted=0 AND IsPublished=1;", drawId).FirstOrDefault();
+
+            if (draw == null) return null;
+            draw.PersistedDrawStatus = draw.DrawStatus;
+            NormalizeUtc(draw);
+
+            var rawGames = db.Database.SqlQuery<GameStateRawDto>(@"
+SELECT G.DrawGameID,G.GameCode,G.GameName,
+       CAST(G.DisplayOrder AS int) DisplayOrder,
+       CAST(G.DigitCount AS int) DigitCount,
+       CAST(G.DigitRevealIntervalSeconds AS int) DigitRevealIntervalSeconds,
+       CAST(G.HostPickupSeconds AS decimal(9,2)) HostPickupSeconds,
+       CAST(G.BallFlightSeconds AS decimal(9,2)) BallFlightSeconds,
+       CAST(G.MachineRunSeconds AS decimal(9,2)) MachineRunSeconds,
+       G.GameStatus,G.ScheduledStartUTC,G.ActualStartUTC,G.RevealStartedUTC,G.ActualEndUTC,
+       R.ResultID,R.ResultNumber SecuredResultNumber,R.ConfirmedDateUTC,
+       ISNULL(R.ResultStatus,'') ResultStatus,
+       CONVERT(bit,ISNULL(R.IsConfirmed,0)) IsConfirmed,
+       CONVERT(bit,ISNULL(R.IsLocked,0)) IsLocked,
+       CONVERT(int,CASE WHEN R.IsConfirmed=1 THEN ISNULL(R.RevealedDigitCount,0) ELSE 0 END) RevealedDigitCount
+FROM dbo.BangkokDrawGame G
+OUTER APPLY
+(
+    SELECT TOP (1) R1.*
+    FROM dbo.BangkokDrawResult R1
+    WHERE R1.DrawGameID=G.DrawGameID
+    ORDER BY R1.ResultVersion DESC,R1.ResultID DESC
+) R
+WHERE G.DrawID=@p0 AND G.IsActive=1
+ORDER BY G.DisplayOrder,G.DrawGameID;", drawId).ToList();
+
+            var pauses = db.Database.SqlQuery<PauseStateDto>(@"
+SELECT PauseHistoryID,DrawGameID,PauseStartedUTC,ResumeDateUTC
+FROM dbo.BangkokDrawPauseHistory
+WHERE DrawID=@p0
+  AND PauseStartedUTC<=@p1
+ORDER BY PauseStartedUTC,PauseHistoryID;", drawId, nowUtc).ToList();
+
+            foreach (var pause in pauses)
+            {
+                pause.PauseStartedUTC = DateTime.SpecifyKind(pause.PauseStartedUTC, DateTimeKind.Utc);
+                pause.ResumeDateUTC = AsUtc(pause.ResumeDateUTC);
+            }
+
+            var games = new List<GameStateDto>();
+            var downCompleted = false;
+            var timelineMayAdvance = draw.PersistedDrawStatus == "Scheduled" ||
+                                     draw.PersistedDrawStatus == "Ready" ||
+                                     draw.PersistedDrawStatus == "Live" ||
+                                     draw.PersistedDrawStatus == "Paused" ||
+                                     draw.PersistedDrawStatus == "Completed";
+            foreach (var raw in rawGames.OrderBy(x => x.DisplayOrder).ThenBy(x => x.DrawGameID))
+            {
+                raw.ScheduledStartUTC = AsUtc(raw.ScheduledStartUTC);
+                raw.ActualStartUTC = AsUtc(raw.ActualStartUTC);
+                raw.RevealStartedUTC = AsUtc(raw.RevealStartedUTC);
+                raw.ConfirmedDateUTC = AsUtc(raw.ConfirmedDateUTC);
+                raw.ActualEndUTC = AsUtc(raw.ActualEndUTC);
+
+                var scheduledStart = raw.ScheduledStartUTC ?? draw.ScheduledStartUTC ?? nowUtc;
+                var preparationSeconds = (int)Math.Ceiling((double)
+                    (raw.MachineRunSeconds + raw.HostPickupSeconds + raw.BallFlightSeconds));
+                var plannedRevealAnchor = scheduledStart.AddSeconds(preparationSeconds);
+                var safeRevealAnchor = raw.ConfirmedDateUTC.HasValue && raw.ConfirmedDateUTC.Value > plannedRevealAnchor
+                    ? raw.ConfirmedDateUTC.Value
+                    : plannedRevealAnchor;
+                var revealAnchor = raw.RevealStartedUTC ?? safeRevealAnchor;
+                var pauseReferenceUtc = raw.ConfirmedDateUTC.HasValue && raw.ConfirmedDateUTC.Value > plannedRevealAnchor
+                    ? raw.ConfirmedDateUTC.Value
+                    : (draw.ScheduledStartUTC ?? scheduledStart);
+                var pausedSeconds = CalculatePausedSeconds(pauses, pauseReferenceUtc, nowUtc);
+                var effectiveRevealAnchor = revealAnchor.AddSeconds(pausedSeconds);
+                var isPaused = pauses.Any(x => !x.ResumeDateUTC.HasValue);
+
+                var revealedCount = Math.Max(0, Math.Min(raw.DigitCount, raw.RevealedDigitCount));
+                if (timelineMayAdvance && raw.IsConfirmed && !raw.IsLocked && nowUtc >= revealAnchor)
+                {
+                    var elapsedSeconds = Math.Max(0,
+                        (int)Math.Floor((nowUtc - revealAnchor).TotalSeconds) - pausedSeconds);
+                    var interval = Math.Max(1, raw.DigitRevealIntervalSeconds);
+                    var calculatedCount = Math.Min(raw.DigitCount, (elapsedSeconds / interval) + 1);
+
+                    if (!String.Equals(raw.GameCode, "FIRST", StringComparison.OrdinalIgnoreCase) || downCompleted)
+                        revealedCount = Math.Max(revealedCount, calculatedCount);
+                }
+
+                if (String.Equals(raw.GameCode, "FIRST", StringComparison.OrdinalIgnoreCase) && !downCompleted)
+                    revealedCount = Math.Min(revealedCount, raw.RevealedDigitCount);
+
+                var revealedNumber = raw.IsConfirmed && !String.IsNullOrEmpty(raw.SecuredResultNumber)
+                    ? raw.SecuredResultNumber.Substring(0, Math.Min(revealedCount, raw.SecuredResultNumber.Length))
+                    : "";
+
+                var effectiveGameStatus = raw.GameStatus;
+                var effectiveResultStatus = raw.ResultStatus;
+                if (isPaused)
+                {
+                    effectiveGameStatus = "Paused";
+                }
+                else if (raw.IsConfirmed && revealedCount >= raw.DigitCount)
+                {
+                    effectiveGameStatus = "Completed";
+                    effectiveResultStatus = "Revealed";
+                }
+                else if (timelineMayAdvance && raw.IsConfirmed && nowUtc >= effectiveRevealAnchor &&
+                         (!String.Equals(raw.GameCode, "FIRST", StringComparison.OrdinalIgnoreCase) || downCompleted))
+                {
+                    effectiveGameStatus = "Revealing";
+                    effectiveResultStatus = revealedCount > 0 ? "Revealing" : "Confirmed";
+                }
+                else if (timelineMayAdvance && raw.IsConfirmed && nowUtc >= scheduledStart)
+                {
+                    effectiveGameStatus = "Live";
+                }
+
+                DateTime? nextTransitionUtc = null;
+                if (timelineMayAdvance && raw.IsConfirmed && !raw.IsLocked && !isPaused && revealedCount < raw.DigitCount &&
+                    (!String.Equals(raw.GameCode, "FIRST", StringComparison.OrdinalIgnoreCase) || downCompleted))
+                {
+                    nextTransitionUtc = effectiveRevealAnchor.AddSeconds(
+                        Math.Max(1, raw.DigitRevealIntervalSeconds) * revealedCount);
+                }
+
+                var game = new GameStateDto
+                {
+                    DrawGameID = raw.DrawGameID,
+                    GameCode = raw.GameCode,
+                    GameName = raw.GameName,
+                    DisplayOrder = raw.DisplayOrder,
+                    DigitCount = raw.DigitCount,
+                    GameStatus = effectiveGameStatus,
+                    PersistedGameStatus = raw.GameStatus,
+                    ScheduledStartUTC = raw.ScheduledStartUTC,
+                    ActualStartUTC = raw.ActualStartUTC,
+                    ActualEndUTC = raw.ActualEndUTC,
+                    ResultID = raw.ResultID,
+                    RevealedNumber = revealedNumber,
+                    ResultStatus = effectiveResultStatus,
+                    IsConfirmed = raw.IsConfirmed,
+                    RevealedDigitCount = revealedCount,
+                    RevealAnchorUTC = effectiveRevealAnchor,
+                    NextTransitionUTC = nextTransitionUtc,
+                    IsPaused = isPaused
+                };
+
+                games.Add(game);
+                if (String.Equals(raw.GameCode, "DOWN", StringComparison.OrdinalIgnoreCase))
+                    downCompleted = revealedCount >= raw.DigitCount;
+            }
+
+            var hasActivePause = games.Any(x => x.IsPaused);
+            var allGamesCompleted = games.Count > 0 && games.All(x => x.RevealedDigitCount >= x.DigitCount);
+            if (hasActivePause && draw.DrawStatus != "Completed" && draw.DrawStatus != "Cancelled")
+                draw.DrawStatus = "Paused";
+            else if (allGamesCompleted)
+                draw.DrawStatus = "Completed";
+            else if (draw.ScheduledStartUTC.HasValue && nowUtc >= draw.ScheduledStartUTC.Value &&
+                     (draw.DrawStatus == "Ready" || draw.DrawStatus == "Scheduled" || draw.DrawStatus == "Live"))
+                draw.DrawStatus = "Live";
+
+            return new LiveStateSnapshot { Draw = draw, Games = games };
+        }
+
+        private static int CalculatePausedSeconds(IEnumerable<PauseStateDto> pauses,
+            DateTime fromUtc, DateTime toUtc)
+        {
+            var windows = pauses
+                .Select(x => new
+                {
+                    Start = x.PauseStartedUTC > fromUtc ? x.PauseStartedUTC : fromUtc,
+                    End = (x.ResumeDateUTC ?? toUtc) < toUtc ? (x.ResumeDateUTC ?? toUtc) : toUtc
+                })
+                .Where(x => x.End > x.Start)
+                .OrderBy(x => x.Start)
+                .ToList();
+
+            if (windows.Count == 0) return 0;
+            var total = TimeSpan.Zero;
+            var currentStart = windows[0].Start;
+            var currentEnd = windows[0].End;
+            for (var i = 1; i < windows.Count; i++)
+            {
+                if (windows[i].Start <= currentEnd)
+                {
+                    if (windows[i].End > currentEnd) currentEnd = windows[i].End;
+                }
+                else
+                {
+                    total += currentEnd - currentStart;
+                    currentStart = windows[i].Start;
+                    currentEnd = windows[i].End;
+                }
+            }
+            total += currentEnd - currentStart;
+            return Math.Max(0, (int)Math.Floor(total.TotalSeconds));
+        }
+
+        private static DateTime ThailandToday()
+        {
+            var zone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, zone).Date;
+        }
+
+        private static DateTime NextLotteryDate(DateTime afterDate)
+        {
+            var date = afterDate.Date;
+            if (date.Day < 16) return new DateTime(date.Year, date.Month, 16);
+            var nextMonth = new DateTime(date.Year, date.Month, 1).AddMonths(1);
+            return nextMonth;
+        }
+
+        private static DateTime? CalculateNextScheduledStartUtc(BroadcastScheduleRowDto last, DateTime nextDrawDate)
+        {
+            if (last == null || !last.ScheduledStartUTC.HasValue) return null;
+            var zone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            var lastUtc = DateTime.SpecifyKind(last.ScheduledStartUTC.Value, DateTimeKind.Utc);
+            var lastThailand = TimeZoneInfo.ConvertTimeFromUtc(lastUtc, zone);
+            var nextThailand = DateTime.SpecifyKind(nextDrawDate.Date.Add(lastThailand.TimeOfDay),
+                DateTimeKind.Unspecified);
+            return DateTime.SpecifyKind(TimeZoneInfo.ConvertTimeToUtc(nextThailand, zone), DateTimeKind.Utc);
+        }
+
         private static DateTime? AsUtc(DateTime? value)
         {
             return value.HasValue
@@ -492,10 +803,21 @@ ORDER BY D.DrawDate;", startYear, endYear).ToList();
             item.ActualEndUTC = AsUtc(item.ActualEndUTC);
         }
 
-        private HttpResponseMessage OkResponse(object data)
+        private HttpResponseMessage OkResponse(object data, int publicMaxAgeSeconds = 0)
         {
-            return Request.CreateResponse(HttpStatusCode.OK,
+            var response = Request.CreateResponse(HttpStatusCode.OK,
                 new { success = true, serverUtc = DateTime.UtcNow, data });
+            if (publicMaxAgeSeconds > 0)
+            {
+                response.Headers.CacheControl = new CacheControlHeaderValue
+                {
+                    Public = true,
+                    MaxAge = TimeSpan.FromSeconds(publicMaxAgeSeconds),
+                    MustRevalidate = true
+                };
+                response.Headers.TryAddWithoutValidation("Vary", "Accept-Encoding");
+            }
+            return response;
         }
         private HttpResponseMessage ApiError(HttpStatusCode status, string message)
         {
@@ -503,14 +825,16 @@ ORDER BY D.DrawDate;", startYear, endYear).ToList();
         }
         private HttpResponseMessage ExceptionResponse(Exception ex)
         {
+            var errorId = Guid.NewGuid().ToString("N");
+            Trace.TraceError("Bangkok draw API error {0}: {1}", errorId, ex);
             return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                new { success = false, message = "Bangkok draw request failed.", detail = ex.GetBaseException().Message });
+                new { success = false, message = "Bangkok draw request failed.", errorId });
         }
         protected override void Dispose(bool disposing) { if (disposing) db.Dispose(); base.Dispose(disposing); }
 
         public class NextBroadcastDto { public int DrawID { get; set; } public string DrawCode { get; set; } public string DrawStatus { get; set; } public DateTime? ScheduledStartUTC { get; set; } public int CountdownMinutes { get; set; } public int GameCount { get; set; } }
-        public class DrawDto { public int DrawID { get; set; } public string DrawCode { get; set; } public DateTime DrawDate { get; set; } public DateTime? ScheduledStartUTC { get; set; } public int CountdownMinutes { get; set; } public string DrawStatus { get; set; } public DateTime? ActualStartUTC { get; set; } public DateTime? ActualEndUTC { get; set; } }
-        public class GameStateDto { public int DrawGameID { get; set; } public string GameCode { get; set; } public string GameName { get; set; } public int DisplayOrder { get; set; } public byte DigitCount { get; set; } public string GameStatus { get; set; } public DateTime? ScheduledStartUTC { get; set; } public DateTime? ActualStartUTC { get; set; } public DateTime? ActualEndUTC { get; set; } public int? ResultID { get; set; } public string RevealedNumber { get; set; } public string ResultStatus { get; set; } public bool IsConfirmed { get; set; } public byte RevealedDigitCount { get; set; } }
+        public class DrawDto { public int DrawID { get; set; } public string DrawCode { get; set; } public DateTime DrawDate { get; set; } public DateTime? ScheduledStartUTC { get; set; } public int CountdownMinutes { get; set; } public string DrawStatus { get; set; } public string PersistedDrawStatus { get; set; } public DateTime? ActualStartUTC { get; set; } public DateTime? ActualEndUTC { get; set; } }
+        public class GameStateDto { public int DrawGameID { get; set; } public string GameCode { get; set; } public string GameName { get; set; } public int DisplayOrder { get; set; } public int DigitCount { get; set; } public string GameStatus { get; set; } public string PersistedGameStatus { get; set; } public DateTime? ScheduledStartUTC { get; set; } public DateTime? ActualStartUTC { get; set; } public DateTime? ActualEndUTC { get; set; } public int? ResultID { get; set; } public string RevealedNumber { get; set; } public string ResultStatus { get; set; } public bool IsConfirmed { get; set; } public int RevealedDigitCount { get; set; } public DateTime? RevealAnchorUTC { get; set; } public DateTime? NextTransitionUTC { get; set; } public bool IsPaused { get; set; } }
         public class ResultDto { public string GameCode { get; set; } public string GameName { get; set; } public int DisplayOrder { get; set; } public string ResultNumber { get; set; } public DateTime? RevealCompletedUTC { get; set; } }
         public class HistoryResultRowDto
         {
@@ -519,10 +843,139 @@ ORDER BY D.DrawDate;", startYear, endYear).ToList();
             public DateTime DrawDate { get; set; }
             public DateTime? ScheduledStartUTC { get; set; }
             public DateTime? ActualEndUTC { get; set; }
+            public int TotalRecords { get; set; }
             public string GameCode { get; set; }
             public string GameName { get; set; }
             public string ResultNumber { get; set; }
             public DateTime? RevealCompletedUTC { get; set; }
+        }
+        public class BroadcastScheduleRowDto { public int DrawID { get; set; } public string DrawCode { get; set; } public DateTime DrawDate { get; set; } public string DrawStatus { get; set; } public DateTime? ScheduledStartUTC { get; set; } public int CountdownMinutes { get; set; } }
+        private class LiveStateSnapshot { public DrawDto Draw { get; set; } public List<GameStateDto> Games { get; set; } }
+        private class PauseStateDto { public int PauseHistoryID { get; set; } public int? DrawGameID { get; set; } public DateTime PauseStartedUTC { get; set; } public DateTime? ResumeDateUTC { get; set; } }
+        private class GameStateRawDto
+        {
+            public int DrawGameID { get; set; }
+            public string GameCode { get; set; }
+            public string GameName { get; set; }
+            public int DisplayOrder { get; set; }
+            public int DigitCount { get; set; }
+            public int DigitRevealIntervalSeconds { get; set; }
+            public decimal HostPickupSeconds { get; set; }
+            public decimal BallFlightSeconds { get; set; }
+            public decimal MachineRunSeconds { get; set; }
+            public string GameStatus { get; set; }
+            public DateTime? ScheduledStartUTC { get; set; }
+            public DateTime? ActualStartUTC { get; set; }
+            public DateTime? RevealStartedUTC { get; set; }
+            public DateTime? ConfirmedDateUTC { get; set; }
+            public DateTime? ActualEndUTC { get; set; }
+            public int? ResultID { get; set; }
+            public string SecuredResultNumber { get; set; }
+            public string ResultStatus { get; set; }
+            public bool IsConfirmed { get; set; }
+            public bool IsLocked { get; set; }
+            public int RevealedDigitCount { get; set; }
+        }
+    }
+
+    [AllowAnonymous]
+    [RoutePrefix("api/scheduled-tasks/bangkok-draw")]
+    public class BangkokDrawScheduledTaskController : ApiController
+    {
+        private readonly return_orderEntities1 db = new return_orderEntities1();
+
+        // SmarterASP basic Scheduled Tasks issue an HTTP GET and cannot attach a custom
+        // authorization header. The header is preferred; the query-string fallback is
+        // provided only for that hosting constraint and must always be called over HTTPS.
+        [HttpGet, HttpPost, Route("tick")]
+        public HttpResponseMessage Tick(string key = null)
+        {
+            var configuredKey = ConfigurationManager.AppSettings["BangkokDrawSchedulerKey"];
+            if (String.IsNullOrWhiteSpace(configuredKey))
+                return SchedulerResponse(HttpStatusCode.ServiceUnavailable,
+                    new { success = false, message = "The Bangkok scheduler key is not configured." });
+
+            var presentedKey = GetHeader("X-Bangkok-Scheduler-Key");
+            if (String.IsNullOrWhiteSpace(presentedKey)) presentedKey = key;
+            if (!FixedTimeEquals(configuredKey, presentedKey))
+                return SchedulerResponse(HttpStatusCode.Unauthorized,
+                    new { success = false, message = "Scheduler authorization failed." });
+
+            try
+            {
+                var entityConnection = db.Database.Connection as EntityConnection;
+                var connection = entityConnection == null
+                    ? db.Database.Connection as SqlConnection
+                    : entityConnection.StoreConnection as SqlConnection;
+                if (connection == null)
+                    return SchedulerResponse(HttpStatusCode.InternalServerError,
+                        new { success = false, message = "Database connection is unavailable." });
+
+                using (var command = new SqlCommand("dbo.sproc_BangkokDraw_SchedulerTick", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 90;
+                    command.Parameters.AddWithValue("@TriggeredBy", "SmarterASP Scheduled Task");
+                    if (connection.State != ConnectionState.Open) connection.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        var rows = new List<Dictionary<string, object>>();
+                        while (reader.Read())
+                        {
+                            var row = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                            for (var i = 0; i < reader.FieldCount; i++)
+                                row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader.GetValue(i);
+                            rows.Add(row);
+                        }
+                        return SchedulerResponse(HttpStatusCode.OK,
+                            new { success = true, serverUtc = DateTime.UtcNow, data = rows });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorId = Guid.NewGuid().ToString("N");
+                Trace.TraceError("Bangkok scheduler error {0}: {1}", errorId, ex);
+                return SchedulerResponse(HttpStatusCode.InternalServerError,
+                    new { success = false, message = "Bangkok scheduler execution failed.", errorId });
+            }
+            finally
+            {
+                if (db.Database.Connection.State == ConnectionState.Open)
+                    db.Database.Connection.Close();
+            }
+        }
+
+        private string GetHeader(string name)
+        {
+            IEnumerable<string> values;
+            return Request.Headers.TryGetValues(name, out values) ? values.FirstOrDefault() : null;
+        }
+
+        private static bool FixedTimeEquals(string expected, string presented)
+        {
+            if (expected == null || presented == null) return false;
+            using (var sha = SHA256.Create())
+            {
+                var left = sha.ComputeHash(Encoding.UTF8.GetBytes(expected));
+                var right = sha.ComputeHash(Encoding.UTF8.GetBytes(presented));
+                var difference = 0;
+                for (var i = 0; i < left.Length; i++) difference |= left[i] ^ right[i];
+                return difference == 0;
+            }
+        }
+
+        private HttpResponseMessage SchedulerResponse(HttpStatusCode status, object payload)
+        {
+            var response = Request.CreateResponse(status, payload);
+            response.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true, NoStore = true };
+            return response;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) db.Dispose();
+            base.Dispose(disposing);
         }
     }
 
@@ -728,10 +1181,11 @@ ORDER BY D.DrawDate DESC,D.DrawID DESC;").ToList();
                 return Error(HttpStatusCode.BadRequest, "DrawCode must contain 4-30 letters, numbers or hyphens.");
             if (model.DrawName.Trim().Length > 200)
                 return Error(HttpStatusCode.BadRequest, "DrawName cannot exceed 200 characters.");
+            //if (model.DrawDate.Day != 1 && model.DrawDate.Day != 16)
+            //    return Error(HttpStatusCode.BadRequest, "Bangkok Lottery draws can only be scheduled for the 1st or 16th of a month.");
             if (model.CountdownMinutes < 1 || model.CountdownMinutes > 1440 ||
-                model.RepeatEveryDays < 1 || model.RepeatEveryDays > 365 ||
                 model.DownStartOffsetSeconds < 0 ||
-                model.FirstStartOffsetSeconds <= model.DownStartOffsetSeconds ||
+                model.FirstStartOffsetSeconds < 60 || model.FirstStartOffsetSeconds > 3600 ||
                 model.DigitRevealIntervalSeconds < 1 || model.DigitRevealIntervalSeconds > 300)
                 return Error(HttpStatusCode.BadRequest, "One or more schedule values are outside the allowed range.");
 
@@ -740,6 +1194,8 @@ ORDER BY D.DrawDate DESC,D.DrawID DESC;").ToList();
             {
                 var thailandTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
                 var thailandScheduledTime = DateTime.SpecifyKind(model.ScheduledStartUTC, DateTimeKind.Unspecified);
+                if (thailandScheduledTime.Date != model.DrawDate.Date)
+                    return Error(HttpStatusCode.BadRequest, "The Thailand scheduled date must match the draw date.");
                 scheduledStartUtc = TimeZoneInfo.ConvertTimeToUtc(thailandScheduledTime, thailandTimeZone);
             }
             catch (Exception ex)
@@ -755,7 +1211,7 @@ ORDER BY D.DrawDate DESC,D.DrawID DESC;").ToList();
                 c.Parameters.AddWithValue("@ScheduledStartUTC", scheduledStartUtc);
                 c.Parameters.AddWithValue("@TimeZoneID", "SE Asia Standard Time");
                 c.Parameters.AddWithValue("@CountdownMinutes", model.CountdownMinutes <= 0 ? 45 : model.CountdownMinutes);
-                c.Parameters.AddWithValue("@RepeatEveryDays", model.RepeatEveryDays <= 0 ? 15 : model.RepeatEveryDays);
+                c.Parameters.AddWithValue("@RepeatEveryDays", 15); // Legacy column; recurrence is fixed to the 1st/16th.
                 c.Parameters.AddWithValue("@DownStartOffsetSeconds", Math.Max(0, model.DownStartOffsetSeconds));
                 c.Parameters.AddWithValue("@FirstStartOffsetSeconds", model.FirstStartOffsetSeconds <= 0 ? 300 : model.FirstStartOffsetSeconds);
                 c.Parameters.AddWithValue("@DigitRevealIntervalSeconds", model.DigitRevealIntervalSeconds <= 0 ? 10 : model.DigitRevealIntervalSeconds);
@@ -779,7 +1235,33 @@ ORDER BY D.DrawDate DESC,D.DrawID DESC;").ToList();
         [HttpPost, Route("auto-process")]
         public HttpResponseMessage AutoProcess()
         {
-            return Execute("dbo.sproc_BangkokDraw_AutoProcess", c => { });
+            return Execute("dbo.sproc_BangkokDraw_SchedulerTick", c =>
+                c.Parameters.AddWithValue("@TriggeredBy", CurrentUser() + " (manual recovery)"));
+        }
+
+        [HttpGet, Route("scheduler-health")]
+        public HttpResponseMessage SchedulerHealth()
+        {
+            try
+            {
+                var row = db.Database.SqlQuery<SchedulerHealthDto>(@"
+SELECT TOP (1) SchedulerRunID,StartedUTC,CompletedUTC,RunStatus,
+       StateChangeCount,TriggeredBy,Message
+FROM dbo.BangkokDrawSchedulerRun
+ORDER BY SchedulerRunID DESC;").FirstOrDefault();
+                if (row != null)
+                {
+                    row.StartedUTC = DateTime.SpecifyKind(row.StartedUTC, DateTimeKind.Utc);
+                    row.CompletedUTC = AsUtcAdmin(row.CompletedUTC);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    new { success = true, serverUtc = DateTime.UtcNow, data = row });
+            }
+            catch (Exception ex)
+            {
+                return Error(HttpStatusCode.InternalServerError,
+                    "Scheduler health request failed: " + ex.GetBaseException().Message);
+            }
         }
 
         [HttpDelete, Route("{drawId:int}/delete")]
@@ -865,9 +1347,40 @@ WHERE DrawGameID=@p0 AND DrawID=@p1 AND IsActive=1;", model.DrawGameID, drawId).
         [HttpPost, Route("{drawId:int}/reveal-next")]
         public HttpResponseMessage Reveal(int drawId) { return DrawAction("dbo.sproc_BangkokDraw_RevealNextDigit", drawId, "@RevealedBy", true); }
         [HttpPost, Route("{drawId:int}/pause")]
-        public HttpResponseMessage Pause(int drawId) { return DrawAction("dbo.sproc_BangkokDraw_Pause", drawId, "@PausedBy", false); }
+        public HttpResponseMessage Pause(int drawId, PauseDrawRequest model)
+        {
+            if (drawId <= 0 || model == null || String.IsNullOrWhiteSpace(model.Reason))
+                return Error(HttpStatusCode.BadRequest, "A valid drawId and pause reason are required.");
+            return Execute("dbo.sproc_BangkokDraw_Pause", c =>
+            {
+                c.Parameters.AddWithValue("@DrawID", drawId);
+                c.Parameters.AddWithValue("@DrawGameID", model.DrawGameID.HasValue ? (object)model.DrawGameID.Value : DBNull.Value);
+                c.Parameters.AddWithValue("@PauseReason", model.Reason.Trim());
+                c.Parameters.AddWithValue("@PausedBy", CurrentUser());
+                c.Parameters.AddWithValue("@Remarks", DbValue(model.Remarks));
+            });
+        }
         [HttpPost, Route("{drawId:int}/resume")]
-        public HttpResponseMessage Resume(int drawId) { return DrawAction("dbo.sproc_BangkokDraw_Resume", drawId, "@ResumedBy", false); }
+        public HttpResponseMessage Resume(int drawId, ResumeDrawRequest model)
+        {
+            if (drawId <= 0 || model == null || String.IsNullOrWhiteSpace(model.Reason))
+                return Error(HttpStatusCode.BadRequest, "A valid drawId and resume reason are required.");
+            var pauseId = model.PauseHistoryID;
+            if (pauseId <= 0)
+                pauseId = db.Database.SqlQuery<int>(@"
+SELECT TOP (1) PauseHistoryID
+FROM dbo.BangkokDrawPauseHistory
+WHERE DrawID=@p0 AND ResumeDateUTC IS NULL
+ORDER BY PauseStartedUTC DESC,PauseHistoryID DESC;", drawId).FirstOrDefault();
+            if (pauseId <= 0)
+                return Error(HttpStatusCode.BadRequest, "No active pause was found for this draw.");
+            return Execute("dbo.sproc_BangkokDraw_Resume", c =>
+            {
+                c.Parameters.AddWithValue("@PauseHistoryID", pauseId);
+                c.Parameters.AddWithValue("@ResumeReason", model.Reason.Trim());
+                c.Parameters.AddWithValue("@ResumedBy", CurrentUser());
+            });
+        }
         [HttpPost, Route("{drawId:int}/complete")]
         public HttpResponseMessage Complete(int drawId) { return DrawAction("dbo.sproc_BangkokDraw_Complete", drawId, "@CompletedBy", false); }
 
@@ -917,6 +1430,8 @@ WHERE DrawGameID=@p0 AND DrawID=@p1 AND IsActive=1;", model.DrawGameID, drawId).
         private HttpResponseMessage Error(HttpStatusCode status, string message) { return Request.CreateResponse(status, new { success = false, message }); }
         protected override void Dispose(bool disposing) { if (disposing) db.Dispose(); base.Dispose(disposing); }
         public class EnterResultRequest { public int DrawGameID { get; set; } public string ResultNumber { get; set; } public string ResultSource { get; set; } public string Remarks { get; set; } }
+        public class PauseDrawRequest { public int? DrawGameID { get; set; } public string Reason { get; set; } public string Remarks { get; set; } }
+        public class ResumeDrawRequest { public int PauseHistoryID { get; set; } public string Reason { get; set; } }
         private class GameValidationDto { public int DrawGameID { get; set; } public byte DigitCount { get; set; } }
         public class CreateDrawRequest
         {
@@ -931,6 +1446,11 @@ WHERE DrawGameID=@p0 AND DrawID=@p1 AND IsActive=1;", model.DrawGameID, drawId).
             public int FirstStartOffsetSeconds { get; set; }
             public int DigitRevealIntervalSeconds { get; set; }
             public string Remarks { get; set; }
+        }
+
+        private static DateTime? AsUtcAdmin(DateTime? value)
+        {
+            return value.HasValue ? DateTime.SpecifyKind(value.Value, DateTimeKind.Utc) : value;
         }
 
         private static void NormalizeDashboardUtc(DashboardDrawDto item)
@@ -977,6 +1497,17 @@ WHERE DrawGameID=@p0 AND DrawID=@p1 AND IsActive=1;", model.DrawGameID, drawId).
             public int DisplayOrder { get; set; }
             public string ResultNumber { get; set; }
             public DateTime? RevealCompletedUTC { get; set; }
+        }
+
+        public class SchedulerHealthDto
+        {
+            public long SchedulerRunID { get; set; }
+            public DateTime StartedUTC { get; set; }
+            public DateTime? CompletedUTC { get; set; }
+            public string RunStatus { get; set; }
+            public int StateChangeCount { get; set; }
+            public string TriggeredBy { get; set; }
+            public string Message { get; set; }
         }
 
         public class AdminDrawListDto

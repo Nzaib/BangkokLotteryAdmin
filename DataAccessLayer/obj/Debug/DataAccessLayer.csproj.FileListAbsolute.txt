@@ -408,6 +408,7 @@ C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\DataAccessLayer\bin\Debug\Micr
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\DataAccessLayer\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\DataAccessLayer\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\DataAccessLayer\bin\Debug\System.Web.Http.xml
+C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.AssemblyReference.cache
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CoreCompileInputs.cache
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CopyComplete
 C:\Users\Naqash\Documents\git\BangkokLotteryAdmin\DataAccessLayer\obj\Debug\DataAccessLayer.dll

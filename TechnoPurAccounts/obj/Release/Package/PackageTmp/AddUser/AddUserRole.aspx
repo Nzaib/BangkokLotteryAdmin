@@ -1,7 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin.Master" AutoEventWireup="true" CodeBehind="AddUserRole.aspx.cs" Inherits="TechnoPurAccounts.AddUser.AddUserRole" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-     <script>
-        var id=0;
+    <script>
+        var id = 0;
         $(document).ready(function () {
 
 
@@ -55,7 +56,7 @@
             //Update Teacher info
             //Delete Teacher info
             $(document).on('click', '.delstdinfo', function () {
-                 id = ($(this).attr("id"));
+                id = ($(this).attr("id"));
                 if (confirm("Are you really want to delete this User info?") == true) {
                     Save("delete")
                     return true;
@@ -73,7 +74,7 @@
 
         function clearallbox() {
             $('#txtRoleName').val("");
-        
+
         }
 
 
@@ -171,7 +172,7 @@
                             $('#myModal').modal('toggle');
                         }
                     }
-                  
+
                 },
                 error: function (jqXHR, exception) {
                     if (jqXHR.status == 302) {
@@ -188,12 +189,337 @@
 
 
 
-     </script>
+    </script>
+
+
+    <style>
+        :root {
+            --bl-navy: #101828;
+            --bl-ink: #344054;
+            --bl-muted: #667085;
+            --bl-line: #e4e7ec;
+            --bl-soft: #f8fafc;
+            --bl-accent: #f58f7c;
+            --bl-accent-dark: #e97965;
+        }
+
+        .content-page {
+            background: #f6f8fb;
+            min-height: 100vh;
+        }
+
+        .page-title-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 24px 0 14px;
+            margin: 0 !important;
+        }
+
+            .page-title-box .page-title {
+                font-size: 25px;
+                font-weight: 700;
+                color: var(--bl-navy);
+                margin: 0 !important;
+                line-height: 1.25;
+            }
+
+                .page-title-box .page-title:after {
+                    content: 'Manage access securely and efficiently';
+                    display: block;
+                    font-size: 13px;
+                    font-weight: 400;
+                    color: var(--bl-muted);
+                    margin-top: 5px;
+                }
+
+        #btnAddstd {
+            float: none !important;
+            margin: 0 !important;
+            background: var(--bl-navy) !important;
+            color: #fff !important;
+            border: 1px solid var(--bl-navy) !important;
+            border-radius: 9px !important;
+            padding: 10px 17px !important;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(16,24,40,.12);
+        }
+
+            #btnAddstd:hover {
+                background: #1d2939 !important;
+                transform: translateY(-1px);
+            }
+
+        #divtablestart {
+            margin-top: 10px !important;
+        }
+
+            #divtablestart .card {
+                border: 1px solid var(--bl-line);
+                border-radius: 14px;
+                box-shadow: 0 3px 14px rgba(16,24,40,.05);
+                overflow: hidden;
+                background: #fff;
+            }
+
+            #divtablestart .card-body {
+                padding: 22px !important;
+            }
+
+        #datatable_wrapper > .col-md-2 {
+            margin-bottom: 16px !important;
+        }
+
+        #datatable_wrapper b {
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            color: var(--bl-ink);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        #datatable_wrapper .form-control, #datatable_wrapper .custom-select {
+            height: 40px !important;
+            border: 1px solid #d0d5dd;
+            border-radius: 8px !important;
+            box-shadow: none;
+            background: #fff;
+        }
+
+            #datatable_wrapper .form-control:focus {
+                border-color: #98a2b3;
+                box-shadow: 0 0 0 3px rgba(152,162,179,.14);
+            }
+
+        #datatable {
+            border-collapse: separate !important;
+            border-spacing: 0;
+            font-family: inherit !important;
+            margin-top: 8px;
+        }
+
+            #datatable thead {
+                background: var(--bl-navy) !important;
+            }
+
+                #datatable thead th {
+                    background: var(--bl-navy) !important;
+                    color: #fff;
+                    border: 0 !important;
+                    padding: 13px 12px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    letter-spacing: .02em;
+                    vertical-align: middle;
+                }
+
+                    #datatable thead th:first-child {
+                        border-radius: 9px 0 0 9px;
+                    }
+
+                    #datatable thead th:last-child {
+                        border-radius: 0 9px 9px 0;
+                    }
+
+            #datatable tbody td {
+                padding: 13px 12px;
+                border-top: 0;
+                border-bottom: 1px solid #eef2f6;
+                color: var(--bl-ink);
+                vertical-align: middle;
+                font-size: 13px;
+            }
+
+            #datatable tbody tr:hover {
+                background: #fafbfc;
+            }
+
+            #datatable .btn {
+                width: 35px;
+                height: 35px;
+                padding: 0 !important;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px !important;
+                border: 0;
+                box-shadow: none;
+            }
+
+            #datatable .btn-info {
+                background: #eef4ff;
+                color: #3538cd;
+            }
+
+            #datatable .btn-danger {
+                background: #fff1f3;
+                color: #c01048;
+            }
+
+        #datatable_info {
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            color: var(--bl-muted) !important;
+        }
+
+        .pagination .page-link {
+            border-radius: 7px !important;
+            margin: 0 2px;
+            border: 1px solid var(--bl-line);
+            color: var(--bl-ink);
+        }
+
+        .modal-dialog {
+            max-width: 650px;
+            margin-top: 7vh;
+        }
+
+        .modal-content {
+            border: 0 !important;
+            border-radius: 15px !important;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(16,24,40,.22);
+        }
+
+        .modal-header {
+            background: var(--bl-navy) !important;
+            border: 0;
+            padding: 20px 24px;
+        }
+
+        .modal-title {
+            font-size: 18px !important;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .modal-body {
+            padding: 25px 24px !important;
+            background: #fff;
+        }
+
+            .modal-body form {
+                float: none !important;
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                margin: 0 -6px;
+            }
+
+            .modal-body .form-group {
+                padding: 0 6px;
+                margin-bottom: 18px;
+            }
+
+            .modal-body label {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--bl-ink);
+                margin-bottom: 7px;
+            }
+
+            .modal-body .form-control, .modal-body .select2-container .select2-selection {
+                height: 43px !important;
+                border: 1px solid #d0d5dd !important;
+                border-radius: 8px !important;
+                box-shadow: none;
+            }
+
+            .modal-body input.form-control {
+                padding: 9px 12px;
+            }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--bl-line);
+            background: #fbfcfd;
+        }
+
+            .modal-footer .btn {
+                border-radius: 8px !important;
+                padding: 9px 17px;
+                font-weight: 600;
+                border: 1px solid transparent;
+            }
+
+            .modal-footer .btn-secondary {
+                background: #fff;
+                color: var(--bl-ink);
+                border-color: #d0d5dd;
+            }
+
+        #btnsubmit, #btnupdate {
+            float: none !important;
+            background: var(--bl-accent) !important;
+            border-color: var(--bl-accent) !important;
+            color: #fff !important;
+        }
+
+            #btnsubmit:hover, #btnupdate:hover {
+                background: var(--bl-accent-dark) !important;
+            }
+
+        @media(max-width:767px) {
+            .page-title-box {
+                align-items: flex-start;
+                flex-direction: column;
+                padding-top: 18px
+            }
+
+                .page-title-box .page-title {
+                    font-size: 22px
+                }
+
+            #btnAddstd {
+                width: 100%
+            }
+
+            .card-body {
+                padding: 14px !important
+            }
+
+            #datatable_wrapper > .col-md-2 {
+                float: none !important;
+                width: 100% !important;
+                max-width: none !important;
+                padding: 0 !important
+            }
+
+                #datatable_wrapper > .col-md-2 br {
+                    display: none
+                }
+
+            .table-responsive {
+                border: 0
+            }
+
+            .modal-dialog {
+                margin: 12px
+            }
+
+            .modal-body .form-group {
+                width: 100%;
+                flex: 0 0 100%;
+                max-width: 100%
+            }
+
+            .modal-footer {
+                display: flex;
+                flex-wrap: wrap
+            }
+
+                .modal-footer .btn {
+                    flex: 1;
+                    min-width: 90px
+                }
+        }
+    </style>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
-     <!-- Begin page -->
+
+    <!-- Begin page -->
     <div id="wrapper">
         <div class="content-page">
             <div class="content">
@@ -205,8 +531,8 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box">
-                                <h4 class="page-title">Add Role</h4>
-                                <button type="button" style="background: #2c2b30; float: right; margin-top: 10px; color: #ffffff" class="btn" id="btnAddstd" data-toggle="modal" data-target="#myModal">Add New Role</button>
+                                <h4 class="page-title"><i class="fa fa-shield" style="margin-right: 9px"></i>User Roles</h4>
+                                <button type="button" style="background: #2c2b30; float: right; margin-top: 10px; color: #ffffff" class="btn" id="btnAddstd" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus" style="margin-right: 7px"></i>Add New Role</button>
 
                             </div>
                         </div>
@@ -285,8 +611,8 @@
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #4f4f51">
 
-                        <h4 class="modal-title" style="color: #ffffff" id="insertHead"><strong class="clstAddRole">Add Role Info</strong></h4>
-                        <h4 class="modal-title" style="color: #ffffff" id="updateHead"><strong class="clstEditRole">Edit Role Info</strong></h4>
+                        <h4 class="modal-title" style="color: #ffffff" id="insertHead"><strong class="clstAddRole"><i class="fa fa-plus-circle" style="margin-right: 8px"></i>Add Role</strong></h4>
+                        <h4 class="modal-title" style="color: #ffffff" id="updateHead"><strong class="clstEditRole"><i class="fa fa-pencil" style="margin-right: 8px"></i>Edit Role</strong></h4>
                     </div>
                     <div style="display: flex; flex-wrap: wrap;"
                         class="modal-body">

@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
-    <title>Add Asin</title>
+    <title>User Role Permissions</title>
     <script>
         var module_id = 0;
         var page_id = 0;
@@ -591,7 +591,7 @@
         //        dataType: 'json',
         //        success: function (data) {
         //            $('#ddlSelectUser').empty();
-        //            $('#ddlSelectUser').append('<option value="-1">Select User</option>')
+        //            $('#ddlSelectUser').append('<option value="-1">Choose a role...</option>')
         //            $(data).each(function (index, infostd) {
         //                $('#ddlSelectUser').append('<option value="' + removenullvalue(infostd.login_id) + '">' + removenullvalue(infostd.username) + '</option>')
         //            });
@@ -620,7 +620,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $('#ddlSelectRole').empty();
-                    $('#ddlSelectRole').append('<option value="-1">Select User</option>')
+                    $('#ddlSelectRole').append('<option value="-1">Choose a role...</option>')
                     $(data).each(function (index, infostd) {
                         $('#ddlSelectRole').append('<option value="' + removenullvalue(infostd.role_id) + '">' + removenullvalue(infostd.role_name) + '</option>')
                     });
@@ -637,7 +637,7 @@
                 }
             });
         }
-        
+
         //function GetUserRolePermissionIdWise() {
 
 
@@ -789,11 +789,582 @@
 
         }
 
-        
+
+
+        // User-friendly permission helpers
+        $(document).on('change', '#ddlSelectRole', function () {
+            var hasRole = $(this).val() && $(this).val() !== '-1';
+            $('#btnUpdateUserPermissions').prop('disabled', !hasRole);
+        });
+        $(document).on('click', '#btnUpdateUserPermissions', function () {
+            var btn = $(this);
+            if ($('#ddlSelectRole').val() === '-1') { toastr["error"]("Please choose a role first"); return false; }
+            btn.addClass('ux-saving').html('<i class="fa fa-spinner fa-spin"></i> Saving...');
+            setTimeout(function () { btn.removeClass('ux-saving').html('<i class="fa fa-save"></i> Save Permissions'); }, 1200);
+        });
     </script>
     <style>
-        .nav-tabs .nav-item {
-            width: 12% !important;
+        /* Bangkok Lottery - modern access control UI */
+        #wrapper {
+            background: #f4f7fb;
+            min-height: 100vh;
+        }
+
+        .content-page .content {
+            padding-bottom: 40px;
+        }
+
+        .container-fluid {
+            max-width: 1600px;
+        }
+
+        .page-title-box {
+            padding: 24px 0 14px;
+        }
+
+            .page-title-box .page-title {
+                margin: 0;
+                color: #16213e;
+                font-size: 25px;
+                font-weight: 800;
+                letter-spacing: -.3px;
+            }
+
+                .page-title-box .page-title:after {
+                    content: "Manage modules, pages, roles and access permissions";
+                    display: block;
+                    margin-top: 6px;
+                    color: #7b8798;
+                    font-size: 13px;
+                    font-weight: 500;
+                    letter-spacing: 0;
+                }
+
+        .card-box {
+            background: #fff;
+            border: 1px solid #e8edf4;
+            border-radius: 16px !important;
+            box-shadow: 0 8px 28px rgba(26,39,71,.06);
+            padding: 20px;
+        }
+
+        .card {
+            border: 1px solid #e8edf4 !important;
+            border-radius: 14px !important;
+            box-shadow: none !important;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 20px !important;
+        }
+
+        .nav-tabs {
+            border: 0 !important;
+            background: #f4f6fa;
+            padding: 5px;
+            border-radius: 12px;
+            display: flex;
+            gap: 5px;
+            margin-bottom: 22px;
+        }
+
+            .nav-tabs .nav-item {
+                width: auto !important;
+                flex: 1 1 0;
+                margin: 0 !important;
+            }
+
+            .nav-tabs .nav-link {
+                border: 0 !important;
+                border-radius: 9px !important;
+                color: #667085;
+                font-weight: 700;
+                text-align: center;
+                padding: 11px 12px;
+                transition: .2s ease;
+            }
+
+                .nav-tabs .nav-link:hover {
+                    color: #172554;
+                    background: #fff;
+                }
+
+                .nav-tabs .nav-link.active {
+                    color: #fff !important;
+                    background: #172554 !important;
+                    box-shadow: 0 4px 12px rgba(23,37,84,.18);
+                }
+
+        .tab-content {
+            padding-top: 2px;
+        }
+
+        .btn {
+            border-radius: 9px !important;
+            font-weight: 700;
+            box-shadow: none !important;
+        }
+
+        .clsHideEditAddForCompany {
+            background: #172554 !important;
+            border-color: #172554 !important;
+            color: #fff !important;
+            padding: 9px 16px;
+        }
+
+            .clsHideEditAddForCompany:hover {
+                background: #243b7a !important;
+            }
+
+        .btn-success {
+            background: #eef8f3 !important;
+            border: 1px solid #ccebdc !important;
+            color: #18794e !important;
+            padding: 6px 12px;
+        }
+
+        .btn-danger {
+            background: #fff1f2 !important;
+            border: 1px solid #ffd4d8 !important;
+            color: #c6283d !important;
+            padding: 6px 12px;
+        }
+
+        .btn-dark, #btnUpdateUserPermissions {
+            background: #172554 !important;
+            border-color: #172554 !important;
+            color: #fff !important;
+            padding: 9px 18px;
+        }
+
+        .btn-secondary {
+            background: #172554 !important;
+            border-color: #172554 !important;
+        }
+
+        .form-control, .custom-select, .select2-container .select2-selection--single {
+            border: 1px solid #dbe2ea !important;
+            border-radius: 9px !important;
+            min-height: 40px;
+            box-shadow: none !important;
+        }
+
+            .form-control:focus, .custom-select:focus {
+                border-color: #8294c4 !important;
+                box-shadow: 0 0 0 3px rgba(23,37,84,.08) !important;
+            }
+
+        label, .form-group label {
+            color: #344054;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .input-group .form-control {
+            border-radius: 9px 0 0 9px !important;
+        }
+
+        .input-group-append .btn {
+            border-radius: 0 9px 9px 0 !important;
+        }
+
+        .table-responsive {
+            border-radius: 11px;
+        }
+
+        table.table {
+            margin-bottom: 0;
+            color: #344054;
+        }
+
+            table.table thead, table.table thead.tableheading {
+                background: #172554 !important;
+            }
+
+                table.table thead th {
+                    background: #172554 !important;
+                    color: #fff !important;
+                    border: 0 !important;
+                    font-size: 12px;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: .35px;
+                    padding: 13px 12px !important;
+                    white-space: nowrap;
+                }
+
+            table.table tbody td {
+                border-top: 1px solid #edf1f5 !important;
+                padding: 12px !important;
+                vertical-align: middle !important;
+                font-size: 13px;
+            }
+
+            table.table tbody tr:hover {
+                background: #f8faff;
+            }
+
+        .dataTables_info {
+            color: #667085 !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+        }
+
+        .pagination {
+            gap: 4px;
+        }
+
+            .pagination .page-link {
+                border-radius: 7px !important;
+                border-color: #e1e7ef;
+                color: #344054;
+            }
+
+        .modal-content {
+            border: 0 !important;
+            border-radius: 16px !important;
+            box-shadow: 0 24px 70px rgba(15,23,42,.2);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: #172554;
+            color: #fff;
+            border: 0;
+            padding: 16px 20px;
+        }
+
+            .modal-header .modal-title, .modal-header h4, .modal-header h5 {
+                color: #fff !important;
+                font-weight: 800;
+            }
+
+            .modal-header .close {
+                color: #fff;
+                opacity: .85;
+                text-shadow: none;
+            }
+
+        .modal-body {
+            padding: 22px !important;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #edf1f5;
+            padding: 14px 20px;
+        }
+
+        #SetUserPermission .card-body {
+            overflow: visible !important;
+        }
+
+        #SetUserPermission .divhide {
+            background: #f8faff;
+            border: 1px solid #e7ecf4;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        #SetUserPermission .table-responsive {
+            background: #fff;
+            margin-top: 14px;
+        }
+
+        #SetUserPermission input[type=checkbox] {
+            width: 18px;
+            height: 18px;
+            accent-color: #172554;
+            cursor: pointer;
+        }
+
+        @media (max-width: 767.98px) {
+            .card-box {
+                padding: 12px;
+                border-radius: 12px !important;
+            }
+
+            .page-title-box {
+                padding-top: 16px;
+            }
+
+                .page-title-box .page-title {
+                    font-size: 21px;
+                }
+
+            .nav-tabs {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+                .nav-tabs .nav-item {
+                    width: 100% !important;
+                }
+
+                .nav-tabs .nav-link {
+                    min-height: 44px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                    .nav-tabs .nav-link .d-block.d-sm-none {
+                        display: block !important;
+                    }
+
+            .card-body {
+                padding: 14px !important;
+            }
+
+            .clsHideEditAddForCompany {
+                width: 100%;
+                margin-bottom: 12px;
+            }
+
+            .dataTables_wrapper > .col-md-2 {
+                float: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-bottom: 12px !important;
+            }
+
+            .dataTables_paginate {
+                float: none !important;
+                margin-top: 12px;
+                overflow-x: auto;
+            }
+
+            #SetUserPermission .col-lg-3, #SetUserPermission .col-lg-9 {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            #btnUpdateUserPermissions {
+                float: none !important;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* UX V2 - Roles & Permissions */
+        .ux-subtitle {
+            margin-top: 4px;
+            color: #667085;
+            font-size: 13px;
+            font-weight: 500
+        }
+
+        .page-title-box {
+            padding: 20px 4px 14px !important
+        }
+
+            .page-title-box .page-title {
+                margin: 0 !important
+            }
+
+        .nav-tabs {
+            display: flex !important;
+            gap: 6px !important;
+            flex-wrap: wrap !important;
+            border-bottom: 1px solid #eaecf0 !important;
+            padding: 0 4px 12px !important
+        }
+
+            .nav-tabs .nav-item {
+                margin: 0 !important
+            }
+
+            .nav-tabs .nav-link {
+                border: 1px solid #eaecf0 !important;
+                border-radius: 9px !important;
+                background: #fff !important;
+                color: #475467 !important;
+                padding: 9px 14px !important;
+                font-weight: 700 !important;
+                font-size: 13px !important
+            }
+
+                .nav-tabs .nav-link.active {
+                    background: #172554 !important;
+                    border-color: #172554 !important;
+                    color: #fff !important;
+                    box-shadow: 0 2px 5px rgba(16,24,40,.12) !important
+                }
+
+        .tab-content {
+            padding-top: 16px !important
+        }
+
+        .card {
+            border: 1px solid #e4e7ec !important;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 18px rgba(16,24,40,.05) !important
+        }
+
+        .card-body {
+            padding: 22px !important
+        }
+
+        .form-control, .custom-select {
+            min-height: 42px !important;
+            border: 1px solid #d0d5dd !important;
+            border-radius: 9px !important;
+            background: #fff !important
+        }
+
+        .form-group label {
+            color: #344054;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 6px
+        }
+
+        .ux-field-help {
+            display: block;
+            color: #98a2b3;
+            font-size: 11px;
+            margin: -2px 0 8px
+        }
+
+        .table thead th {
+            padding: 12px 13px !important;
+            font-size: 11px !important;
+            text-transform: uppercase;
+            letter-spacing: .035em;
+            white-space: nowrap;
+            background: #101828 !important;
+            color: #fff !important
+        }
+
+        .table tbody td {
+            padding: 13px !important;
+            vertical-align: middle !important;
+            color: #344054 !important
+        }
+
+        .table tbody tr:hover {
+            background: #f9fafb !important
+        }
+
+        .editStdInfoModule, .editStdInfoPage, .editStdInfoRole {
+            background: #eff8ff !important;
+            color: #175cd3 !important;
+            border: 1px solid #b2ddff !important;
+            border-radius: 8px !important
+        }
+
+        .delstdinfoModule, .delstdinfoPage, .delstdinfoRole {
+            background: #fff1f3 !important;
+            color: #c01048 !important;
+            border: 1px solid #fecdd6 !important;
+            border-radius: 8px !important
+        }
+
+        .clsHideEditAddForCompany {
+            background: #172554 !important;
+            border-color: #172554 !important;
+            border-radius: 9px !important;
+            font-weight: 700 !important;
+            padding: 9px 14px !important;
+            margin-bottom: 14px !important
+        }
+
+        .divhide {
+            border-left: 1px solid #eaecf0 !important;
+            padding-left: 22px !important
+        }
+
+        #btnUpdateUserPermissions {
+            background: #172554 !important;
+            border-color: #172554 !important;
+            border-radius: 9px !important;
+            min-height: 42px !important;
+            font-weight: 700 !important;
+            padding: 9px 16px !important;
+            margin-bottom: 12px !important
+        }
+
+            #btnUpdateUserPermissions:disabled {
+                opacity: .55;
+                cursor: not-allowed
+            }
+
+        .divhide .table-responsive {
+            height: auto !important;
+            max-height: 560px !important;
+            border: 1px solid #eaecf0 !important;
+            border-radius: 10px !important
+        }
+
+        .divhide .table {
+            margin-bottom: 0 !important
+        }
+
+            .divhide .table tbody tr td:last-child {
+                text-align: center
+            }
+
+        .divhide input[type=checkbox] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer
+        }
+
+        .modal-content {
+            border: 0 !important;
+            border-radius: 16px !important;
+            overflow: hidden !important;
+            box-shadow: 0 24px 48px rgba(16,24,40,.2) !important
+        }
+
+        .modal-header {
+            background: #101828 !important
+        }
+
+        .modal-footer .btn {
+            border-radius: 9px !important;
+            font-weight: 700 !important
+        }
+
+        .pagination .page-link {
+            border-radius: 7px !important;
+            margin: 0 2px !important
+        }
+
+        @media(max-width:767px) {
+            .nav-tabs {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important
+            }
+
+                .nav-tabs .nav-link {
+                    text-align: center !important
+                }
+
+            .card-body {
+                padding: 14px !important
+            }
+
+            .divhide {
+                border-left: 0 !important;
+                border-top: 1px solid #eaecf0 !important;
+                padding-left: 15px !important;
+                padding-top: 16px !important;
+                margin-top: 8px !important
+            }
+
+            #btnUpdateUserPermissions {
+                width: 100% !important;
+                float: none !important
+            }
+
+            .table {
+                min-width: 680px
+            }
+
+            .ux-subtitle {
+                font-size: 12px
+            }
         }
     </style>
 
@@ -814,7 +1385,10 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box">
-                                <h4 class="page-title">User Role Permissions </h4>
+                                <div>
+                                    <h4 class="page-title"><i class="fa fa-shield" style="margin-right: 9px"></i>Roles & Permissions</h4>
+                                    <div class="ux-subtitle">Manage roles, menu pages and access permissions in one place.</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -829,20 +1403,20 @@
                                     <li class="nav-item active">
                                         <a href="#AddModule" data-toggle="tab" aria-expanded="true" class="nav-link active">
                                             <span class="d-block d-sm-none"><i class="mdi mdi-account-outline font-18"></i></span>
-                                            <span class="d-none d-sm-block clstPending">Add Module</span>
+                                            <span class="d-none d-sm-block clstPending">Modules</span>
                                         </a>
                                     </li>
 
                                     <li class="nav-item">
                                         <a href="#AddPage" data-toggle="tab" aria-expanded="true" class="nav-link">
                                             <span class="d-block d-sm-none"><i class="mdi mdi-account-outline font-18"></i></span>
-                                            <span class="d-none d-sm-block clstVerified">Add Page</span>
+                                            <span class="d-none d-sm-block clstVerified">Pages</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#AddRole" data-toggle="tab" aria-expanded="true" class="nav-link">
                                             <span class="d-block d-sm-none"><i class="mdi mdi-account-outline font-18"></i></span>
-                                            <span class="d-none d-sm-block clsCancel">AddRole</span>
+                                            <span class="d-none d-sm-block clsCancel">Roles</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -861,7 +1435,7 @@
 
                                         <div id="divtablestart">
 
-                                            <button type="button" style="background: #fc9d74; color: #ffffff" class="btn clsHideEditAddForCompany" id="btnnewasinsubmitAddModule" data-toggle="modal" data-target="#myModalAddModule">Add Module</button>
+                                            <button type="button" style="background: #fc9d74; color: #ffffff" class="btn clsHideEditAddForCompany" id="btnnewasinsubmitAddModule" data-toggle="modal" data-target="#myModalAddModule">Modules</button>
                                             <div style="margin-top: 20px" class="row" id="divtablestart">
                                                 <div class="col-12">
                                                     <div class="card">
@@ -944,7 +1518,7 @@
 
                                         <div id="divtablestart">
 
-                                            <button type="button" style="background: #fc9d74; color: #ffffff" class="btn clsHideEditAddForCompany" id="btnnewasinsubmitAddPage" data-toggle="modal" data-target="#myModalAddPage">Add Page</button>
+                                            <button type="button" style="background: #fc9d74; color: #ffffff" class="btn clsHideEditAddForCompany" id="btnnewasinsubmitAddPage" data-toggle="modal" data-target="#myModalAddPage">Pages</button>
                                             <div style="margin-top: 20px" class="row" id="divtablestart">
                                                 <div class="col-12">
                                                     <div class="card">
@@ -1024,7 +1598,7 @@
 
                                         <div id="divtablestart">
 
-                                            <button type="button" style="background: #fc9d74; color: #ffffff" class="btn clsHideEditAddForCompany" id="btnnewasinsubmitAddRole" data-toggle="modal" data-target="#myModalAddRole">Add Role</button>
+                                            <button type="button" style="background: #fc9d74; color: #ffffff" class="btn clsHideEditAddForCompany" id="btnnewasinsubmitAddRole" data-toggle="modal" data-target="#myModalAddRole">Roles</button>
                                             <div style="margin-top: 20px" class="row" id="divtablestart">
                                                 <div class="col-12">
                                                     <div class="card">
@@ -1095,7 +1669,7 @@
                                         </div>
                                     </div>
 
-<%--                                    <div class="tab-pane" id="SetUserPermission">
+                                    <%--                                    <div class="tab-pane" id="SetUserPermission">
 
                                         <div id="divtablestart">
                                             <div class="col-12">
@@ -1110,7 +1684,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-9 col-md-9 col-sm-12 divhide">
-                                                                <button type="button" class="btn btn-dark" id="btnUpdateUserPermissions" style="float: right;">Update</button>
+                                                                <button type="button" class="btn btn-dark" id="btnUpdateUserPermissions" style="float: right;"><i class="fa fa-save"></i> Save Permissions</button>
 
 
                                                                 <div class="table-responsive" style="height: 500px; overflow: scroll;">
@@ -1139,7 +1713,7 @@
                                     </div>--%>
 
 
-                                    
+
                                     <div class="tab-pane" id="SetUserPermission">
 
                                         <div id="divtablestart">
@@ -1149,13 +1723,13 @@
                                                         <div class="row">
                                                             <div class="col-lg-3 col-md-3 col-sm-12">
                                                                 <div class="form-group  ">
-                                                                    <label for="fname">Select Role</label>
+                                                                    <label for="ddlSelectRole">Role to configure</label><small class="ux-field-help">Choose a role to view and update its page access.</small>
                                                                     <select class="form-control select2_single select2" id="ddlSelectRole" style="width: 100%;">
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-9 col-md-9 col-sm-12 divhide">
-                                                                <button type="button" class="btn btn-dark" id="btnUpdateUserPermissions" style="float: right;">Update</button>
+                                                                <button type="button" class="btn btn-dark" id="btnUpdateUserPermissions" style="float: right;"><i class="fa fa-save"></i>Save Permissions</button>
 
 
                                                                 <div class="table-responsive" style="height: 500px; overflow: scroll;">

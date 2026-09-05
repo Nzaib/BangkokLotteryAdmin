@@ -90,8 +90,21 @@
                             <div><span><i class="mdi mdi-clock-outline"></i>Server Time</span><em id="serverTimeRow">--</em></div>
                         </div>
                         <button class="outline-action" type="button" id="btnRefreshDashboard"><i class="mdi mdi-refresh"></i>Refresh Dashboard</button>
-<button id="btnDownloadHistoryChart" type="button" class="btn btn-primary ml-2" style="font-weight:600"><i class="fa fa-file-pdf-o"></i> Download Draw Chart</button>
-                    </section>
+<a href="/api/bangkok-draw/history-chart/pdf"
+   class="btn btn-primary"
+   target="_blank"
+   title="Download FIRST historical chart PDF">
+    <i class="fa fa-file-pdf-o"></i>
+    FIRST History PDF
+</a>
+
+<a href="/api/bangkok-draw/history-chart/down/pdf"
+   class="btn btn-primary"
+   target="_blank"
+   title="Download 2Down historical chart PDF">
+    <i class="fa fa-file-pdf-o"></i>
+    2Down History PDF
+</a>                    </section>
                 </div>
 
                 <div class="dashboard-bottom-grid">
@@ -162,6 +175,34 @@
 
             function fmtThailand(utc) { if (!utc) return "--"; var d = parseUtc(utc); if (!d) return "--"; return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric", timeZone: "Asia/Bangkok" }) + ", " + d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Bangkok" }) + " (THAILAND)"; }
             function spaced(v, n) { v = String(v || "").replace(/\D/g, ""); return v ? v.split("").join(" ") : Array(n + 1).join("- "); }
+            function calculateNextDrawFromLast(lastDraw) {
+                if (!lastDraw || !lastDraw.ScheduledStartUTC) return null;
+                var last = parseUtc(lastDraw.ScheduledStartUTC);
+                if (!last) return null;
+
+                var serverNow = new Date(Date.now() + serverOffset);
+                var nowTH = new Date(serverNow.getTime() + 7 * 3600000);
+                var lastTH = new Date(last.getTime() + 7 * 3600000);
+                var h = lastTH.getUTCHours(), min = lastTH.getUTCMinutes(), sec = lastTH.getUTCSeconds();
+
+                function target(y, m, day) {
+                    return new Date(Date.UTC(y, m, day, h - 7, min, sec));
+                }
+
+                var y = nowTH.getUTCFullYear(), m = nowTH.getUTCMonth();
+                var candidates = [target(y,m,1), target(y,m,16), target(m===11?y+1:y,(m+1)%12,1)];
+                for (var i=0;i<candidates.length;i++) {
+                    if (candidates[i] > serverNow && candidates[i] > last) {
+                        return {
+                            DrawID: 0, DrawCode: "", DrawName: "Next Bangkok Lottery Draw",
+                            DrawStatus: "Scheduled", ScheduledStartUTC: candidates[i].toISOString(),
+                            GameCount: 2, IsCalculated: true
+                        };
+                    }
+                }
+                return null;
+            }
+
             function startCountdown(utc) {
                 if (countdownTimer) clearInterval(countdownTimer);
 
@@ -184,6 +225,7 @@
                         $("#nextStatus").text("READY");
                         clearInterval(countdownTimer);
                         countdownTimer = null;
+                        window.setTimeout(function(){ load(true); }, 1500);
                         return;
                     }
 
@@ -203,13 +245,13 @@
                 countdownTimer = setInterval(tick, 1000);
             }
             function render(data) {
-                var s = data.summary || {}, next = data.nextBroadcast, last = data.lastDraw, results = data.latestResults || [], calc = data.calculated || {}, status = data.systemStatus || {};
+                var s = data.summary || {}, last = data.lastDraw, next = data.nextBroadcast || data.nextSchedule || calculateNextDrawFromLast(last), results = data.latestResults || [], calc = data.calculated || {}, status = data.systemStatus || {};
                 currentBroadcastStatus = next && next.DrawStatus ? String(next.DrawStatus) : "";
                 $("#statTotal,#donutTotal").text(s.totalDraws || 0); $("#statCompleted").text(s.completedDraws || 0); $("#statUpcoming").text(s.upcomingDraws || 0); $("#statLive").text(s.liveDraws || 0);
                 $("#statCompletedNote").text((s.completedPercent || 0) + "% Completed"); $("#completedProgress").css("width", (s.completedPercent || 0) + "%");
                 $("#legendCompleted").text((s.completedDraws || 0) + " (" + (s.completedPercent || 0) + "%)"); $("#legendUpcoming").text((s.upcomingDraws || 0) + " (" + (s.upcomingPercent || 0) + "%)"); $("#legendOther").text((s.otherDraws || 0) + " (" + (s.otherPercent || 0) + "%)");
                 var cp = s.completedPercent || 0, up = s.upcomingPercent || 0; $("#drawDonut").css("background", "conic-gradient(#2eaf52 0 " + cp + "%,#ff8a16 " + cp + "% " + (cp + up) + "%,#2f7dd8 " + (cp + up) + "% 100%)");
-                if (next) { $("#nextDrawName").text(next.DrawName || "Next Scheduled Draw"); $("#nextDrawCode").text(next.DrawCode || ""); $("#nextStatus").text(next.DrawStatus || "READY"); $("#nextDrawDate").text(fmtThailand(next.ScheduledStartUTC)); $("#statNextNote").text("Next: " + fmtThailand(next.ScheduledStartUTC)); $("#startBroadcastLink").attr("href", "Game/BangkokDrawAdmin.aspx?drawId=" + next.DrawID); startCountdown(next.ScheduledStartUTC); }
+                if (next) { $("#nextDrawName").text(next.DrawName || "Next Scheduled Draw"); $("#nextDrawCode").text(next.DrawCode || ""); $("#nextStatus").text(next.DrawStatus || "READY"); $("#nextDrawDate").text(fmtThailand(next.ScheduledStartUTC)); $("#statNextNote").text("Next: " + fmtThailand(next.ScheduledStartUTC)); if (next.DrawID > 0) $("#startBroadcastLink").attr("href", "Game/BangkokDrawAdmin.aspx?drawId=" + next.DrawID); else $("#startBroadcastLink").attr("href", "Game/BangkokDrawAdmin.aspx"); startCountdown(next.ScheduledStartUTC); }
                 var html = ""; $.each(data.upcomingDraws || [], function (_, x) { html += "<tr><td>" + x.DrawCode + "</td><td>" + x.DrawName + "</td><td>" + fmtThailand(x.ScheduledStartUTC) + "</td><td>" + x.GameCount + "</td><td><span class='table-status'>" + x.DrawStatus.toUpperCase() + "</span></td></tr>"; }); $("#upcomingDrawRows").html(html || "<tr><td colspan='5' class='loading-cell'>No upcoming draws.</td></tr>");
                 if (last) $("#lastDrawDate").text((last.DrawCode || "") + " • " + fmtThailand(last.ActualEndUTC || last.ScheduledStartUTC));
                 var first = "", down = ""; $.each(results, function (_, r) { if (r.GameCode === "FIRST") first = r.ResultNumber; if (r.GameCode === "DOWN") down = r.ResultNumber; });
